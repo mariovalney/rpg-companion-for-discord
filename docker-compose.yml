@@ -1,0 +1,76 @@
+version: '2'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./docker/certs:/etc/nginx/certs
+      - ./docker/development/proxy.nginx.conf:/etc/nginx/conf.d/custom.conf
+
+  database:
+    image: mariadb:10.3.24
+    restart: always
+    depends_on:
+      - nginx-proxy
+    environment:
+      MYSQL_USER: database
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: database_development
+    networks:
+      - default
+      - nginx-proxy
+    volumes:
+      - database:/var/lib/mysql
+
+  mailhog:
+    image: mailhog/mailhog
+    expose:
+      - 443
+      - 8025
+    environment:
+      VIRTUAL_HOST: mail.rpg-companion.localtest.me
+      VIRTUAL_PORT: 8025
+    logging:
+      driver: 'none'
+    networks:
+      - default
+      - nginx-proxy
+
+  web:
+    build: docker/development
+    depends_on:
+      - database
+      - mailhog
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: database
+      DB_DATABASE: database_development
+      DB_USERNAME: database
+      DB_PASSWORD: password
+      MAIL_HOST: mailhog
+      MAIL_PORT: 1025
+      MAIL_USERNAME: null
+      MAIL_PASSWORD: null
+      MAIL_ENCRYPTION: null
+      VIRTUAL_HOST: rpg-companion.localtest.me
+      VIRTUAL_PORT: 80
+    networks:
+      default:
+        aliases:
+          - rpg-companion.localtest.me
+      nginx-proxy:
+        aliases:
+          - rpg-companion.localtest.me
+    volumes:
+      - .:/var/www/html
+
+networks:
+  nginx-proxy:
+
+volumes:
+  database:
