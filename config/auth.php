@@ -37,8 +37,8 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+            'driver' => 'discord',
+            'provider' => 'discord-users',
         ],
 
         'api' => [
@@ -66,9 +66,9 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
+        'discord-users' => [
+            'driver' => 'discord',
+            'model' => App\Auth\Models\DiscordUser::class,
         ],
 
         // 'users' => [
