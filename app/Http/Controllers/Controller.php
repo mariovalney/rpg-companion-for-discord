@@ -11,6 +11,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    /**
+     * The Home
+     *
+     * @return view()
+     */
     public function index()
     {
         return view('screens.index');

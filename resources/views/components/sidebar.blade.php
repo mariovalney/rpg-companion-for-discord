@@ -2,18 +2,18 @@
     <div class="guild-selector-wrapper">
         <div class="guild-selector dropdown">
             <button id="guild-selector-menu" class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                @lang('sidebar.guild.choose')
+                {{ $current ? $current['name'] : __('sidebar.guild.choose') }}
             </button>
             <div class="dropdown-menu">
-                 <a class="dropdown-item" href="#">Server 1</a>
-                 <a class="dropdown-item" href="#">Server 2</a>
-                 <a class="dropdown-item" href="#">Server 3</a>
+                @foreach($guilds as $guild)
+                    <a class="dropdown-item" href="{{ route('guild.index', $guild['id']) }}">{{ $guild['name'] }}</a>
+                @endforeach
             </div>
         </div>
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('/') }}">
+            <a class="nav-link" href="{{ route('index') }}">
                 <span data-feather="home"></span>
                 <span>@lang('sidebar.home')</span>
             </a>

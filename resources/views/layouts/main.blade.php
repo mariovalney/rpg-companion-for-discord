@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>RPG Companion | @yield('title')</title>
+        <title>@yield('title') | RPG Companion</title>
 
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:700,400,300,100">
         <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
@@ -18,7 +18,7 @@
                     @include('components.sidebar')
                 </nav>
                 <main role="main" class="main-wrapper pt-3 px-4">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
                         @yield('content')
                     </div>
                 </main>

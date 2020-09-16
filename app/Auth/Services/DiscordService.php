@@ -80,8 +80,6 @@ class DiscordService
 
     /**
      * The Constructor
-     * You can extend this service setting protected variables before call
-     * parent constructor to comunicate with Keycloak smoothly.
      *
      * @return void
      */
@@ -205,6 +203,17 @@ class DiscordService
     }
 
     /**
+     * Retrieve Token and check for refresh
+     *
+     * @return void
+     */
+    public function retrieveValidToken()
+    {
+        $token = $this->retrieveToken();
+        return $this->refreshTokenIfNeeded($token);
+    }
+
+    /**
      * Retrieve Token from Session
      *
      * @return void
@@ -310,9 +319,9 @@ class DiscordService
     }
 
     /**
-     * Log a GuzzleException
+     * Log a error
      *
-     * @param  GuzzleException $e
+     * @param  Response $e
      * @return void
      */
     protected function log(Response $response)
