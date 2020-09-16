@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\Route;
 class DiscordService
 {
     /**
-     * The Session key for token
-     */
-    const DISCORD_SESSION = '_discord_token';
-
-    /**
      * The Session key for state
      */
     const DISCORD_SESSION_STATE = '_discord_state';
@@ -203,49 +198,6 @@ class DiscordService
     }
 
     /**
-     * Retrieve Token and check for refresh
-     *
-     * @return void
-     */
-    public function retrieveValidToken()
-    {
-        $token = $this->retrieveToken();
-        return $this->refreshTokenIfNeeded($token);
-    }
-
-    /**
-     * Retrieve Token from Session
-     *
-     * @return void
-     */
-    public function retrieveToken()
-    {
-        return session()->get(self::DISCORD_SESSION);
-    }
-
-    /**
-     * Save Token to Session
-     *
-     * @return void
-     */
-    public function saveToken($credentials)
-    {
-        session()->put(self::DISCORD_SESSION, $credentials);
-        session()->save();
-    }
-
-    /**
-     * Remove Token from Session
-     *
-     * @return void
-     */
-    public function forgetToken()
-    {
-        session()->forget(self::DISCORD_SESSION);
-        session()->save();
-    }
-
-    /**
      * Validate State from Session
      *
      * @return void
@@ -310,11 +262,9 @@ class DiscordService
 
         $credentials = $this->refreshToken($credentials);
         if (empty($credentials['access_token'])) {
-            $this->forgetToken();
             return [];
         }
 
-        $this->saveToken($credentials);
         return $credentials;
     }
 

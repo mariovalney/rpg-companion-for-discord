@@ -24,11 +24,10 @@ class User extends DiscordUser
     /**
      * Constructor
      */
-    public function __construct(array $data)
+    public function __construct(array $attributes = [])
     {
-        parent::__construct($data);
-
         $this->api = new DiscordApi();
+        parent::__construct($attributes);
     }
 
     /**

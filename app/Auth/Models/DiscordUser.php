@@ -4,16 +4,30 @@ namespace App\Auth\Models;
 
 use Auth;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class DiscordUser implements Authenticatable
+class DiscordUser extends Model implements Authenticatable
 {
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
     /**
      * Attributes we retrieve from Profile
      *
      * @var array
      */
     protected $fillable = [
-        'id',
         'email',
         'avatar',
         'username',
@@ -25,44 +39,9 @@ class DiscordUser implements Authenticatable
      *
      * @var array
      */
-    protected $attributes = [];
-
-    /**
-     * Constructor
-     *
-     * @param array $data Discord user info
-     */
-    public function __construct(array $data)
-    {
-        foreach ($data as $key => $value) {
-            if (in_array($key, $this->fillable)) {
-                $this->attributes[ $key ] = $value;
-            }
-        }
-
-        $this->id = $this->getKey();
-    }
-
-    /**
-     * Magic method to get attributes
-     *
-     * @param  string $name
-     * @return mixed
-     */
-    public function __get(string $name)
-    {
-        return $this->attributes[ $name ] ?? null;
-    }
-
-    /**
-     * Get the value of the model's primary key.
-     *
-     * @return mixed
-     */
-    public function getKey()
-    {
-        return $this->id;
-    }
+    protected $attributes = [
+        'email' => '',
+    ];
 
     /**
      * Get the name of the unique identifier for the user.
@@ -71,7 +50,7 @@ class DiscordUser implements Authenticatable
      */
     public function getAuthIdentifierName()
     {
-        return 'id';
+        return $this->getKeyName();
     }
 
     /**
@@ -81,7 +60,7 @@ class DiscordUser implements Authenticatable
      */
     public function getAuthIdentifier()
     {
-        return $this->id;
+        return $this->{$this->getAuthIdentifierName()};
     }
 
     /**

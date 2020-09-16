@@ -78,8 +78,7 @@ class DiscordApi
      */
     protected function getAccessToken()
     {
-        $token = DiscordAuth::retrieveValidToken();
-        return $token['access_token'] ?? '';
+        return '';
     }
 
     /**

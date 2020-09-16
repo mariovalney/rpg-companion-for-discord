@@ -21,7 +21,7 @@ class DiscordServiceProvider extends ServiceProvider
         // Discord Guard
         Auth::extend('discord', function ($app, $name, array $config) {
             $provider = Auth::createUserProvider($config['provider']);
-            return new DiscordGuard($provider, $app->request);
+            return new DiscordGuard($provider, $app->session->driver(), $app->request);
         });
 
         // Facades

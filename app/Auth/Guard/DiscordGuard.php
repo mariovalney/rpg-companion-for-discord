@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Session\Session;
 use RuntimeException;
 
 class DiscordGuard implements Guard
@@ -22,10 +23,12 @@ class DiscordGuard implements Guard
      *
      * @param Request $request
      */
-    public function __construct(UserProvider $provider, Request $request)
+    public function __construct(UserProvider $provider, Session $session, Request $request)
     {
         $this->provider = $provider;
         $this->request = $request;
+
+        $this->session = $session;
     }
 
     /**
@@ -55,22 +58,16 @@ class DiscordGuard implements Guard
      */
     public function user()
     {
-        if (empty($this->user)) {
-            $this->authenticate();
+        if (! is_null($this->user)) {
+            return $this->user;
+        }
+
+        $id = $this->session->get($this->getSessionName());
+        if (! empty($id)) {
+            $this->user = $this->provider->retrieveById($id);
         }
 
         return $this->user;
-    }
-
-    /**
-     * Set the current user.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @return void
-     */
-    public function setUser(?Authenticatable $user)
-    {
-        $this->user = $user;
     }
 
     /**
@@ -88,9 +85,6 @@ class DiscordGuard implements Guard
      * Validate a user's credentials.
      *
      * @param  array  $credentials
-     *
-     * @throws BadMethodCallException
-     *
      * @return bool
      */
     public function validate(array $credentials = [])
@@ -99,13 +93,37 @@ class DiscordGuard implements Guard
             return false;
         }
 
-        /**
-         * Store the section
-         */
-        $credentials['refresh_token'] = $credentials['refresh_token'] ?? '';
-        DiscordAuth::saveToken($credentials);
+        return true;
+    }
 
-        return $this->authenticate();
+    /**
+     * Set the current user.
+     *
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @return void
+     */
+    public function setUser(Authenticatable $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Attempt to authenticate a user using the given credentials.
+     *
+     * @param  array  $credentials
+     * @return bool
+     */
+    public function attempt(array $credentials = [])
+    {
+        $user = $this->provider->retrieveByCredentials($credentials);
+        if (! empty($user->id)) {
+            $this->user = $user;
+            $this->session->put($this->getSessionName(), $this->user->id);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -116,27 +134,36 @@ class DiscordGuard implements Guard
      */
     public function authenticate()
     {
+        \Log::error('authenticate >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.');
+        return false;
         // Get Credentials
-        $credentials = DiscordAuth::retrieveToken();
-        if (empty($credentials)) {
-            return false;
-        }
+        // $credentials = DiscordAuth::retrieveToken();
+        // if (empty($credentials)) {
+        // }
 
-        $user = DiscordAuth::getUserProfile($credentials);
-        if (empty($user)) {
-            DiscordAuth::forgetToken();
+        // $this->user = $this->provider->retrieveByCredentials($credentials);
+        // $this->session->put($this->getSessionName(), $this->user->id ?? null);
 
-            if (Config::get('app.debug', false)) {
-                throw new RuntimeException('User cannot be authenticated.');
-            }
+        // return ! empty($this->user->id);
+    }
 
-            return false;
-        }
+    /**
+     * Log the user out of the application.
+     *
+     * @return void
+     */
+    public function logout()
+    {
+        $this->session->remove($this->getSessionName());
+    }
 
-        // Provide User
-        $user = $this->provider->retrieveByCredentials($user);
-        $this->setUser($user);
-
-        return true;
+    /**
+     * Get a unique identifier for the auth session value.
+     *
+     * @return string
+     */
+    protected function getSessionName()
+    {
+        return 'login_session_discord_' . sha1(static::class);
     }
 }

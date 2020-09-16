@@ -30,10 +30,8 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        DiscordAuth::forgetToken();
-
-        $url = DiscordAuth::getLogoutUrl();
-        return redirect($url);
+        Auth::logout();
+        return redirect('/');
     }
 
     /**
@@ -56,9 +54,9 @@ class AuthController extends Controller
         // Change code for token
         $code = $request->input('code');
         if (! empty($code)) {
-            $token = DiscordAuth::exchangeCode($code);
+            $credentials = DiscordAuth::exchangeCode($code);
 
-            if (Auth::validate($token)) {
+            if ($credentials && Auth::attempt((array) $credentials)) {
                 return redirect()->intended('/');
             }
         }

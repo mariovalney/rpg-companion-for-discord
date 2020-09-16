@@ -2,8 +2,10 @@
 
 namespace App\Auth;
 
+use App\Auth\Facades\DiscordAuth;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Support\Facades\Date;
 
 class DiscordUserProvider implements UserProvider
 {
@@ -25,19 +27,6 @@ class DiscordUserProvider implements UserProvider
     }
 
     /**
-     * Retrieve a user by the given credentials.
-     *
-     * @param  array  $credentials
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
-     */
-    public function retrieveByCredentials(array $credentials)
-    {
-        $class = '\\'.ltrim($this->model, '\\');
-
-        return new $class($credentials);
-    }
-
-    /**
      * Retrieve a user by their unique identifier.
      *
      * @param  mixed  $identifier
@@ -45,7 +34,34 @@ class DiscordUserProvider implements UserProvider
      */
     public function retrieveById($identifier)
     {
-        throw new \BadMethodCallException('Unexpected method [retrieveById] call');
+        $model = $this->createModel();
+
+        return $this->newModelQuery($model)
+                    ->where($model->getAuthIdentifierName(), $identifier)
+                    ->first();
+    }
+
+    /**
+     * Retrieve a user by the given credentials.
+     *
+     * @param  array  $credentials
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    public function retrieveByCredentials(array $credentials)
+    {
+        $user = DiscordAuth::getUserProfile($credentials);
+        if (empty($user)) {
+            return false;
+        }
+
+        $model = $this->createModel()->findOrNew($user['id']);
+        $model->id = $user['id'];
+        $model->fill($user);
+        // $model->credentials = $credentials;
+        $model->last_login_at = Date::now();
+        $model->save();
+
+        return $model;
     }
 
     /**
@@ -82,5 +98,30 @@ class DiscordUserProvider implements UserProvider
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
         throw new \BadMethodCallException('Unexpected method [validateCredentials] call');
+    }
+
+    /**
+     * Get a new query builder for the model instance.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model|null  $model
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function newModelQuery($model = null)
+    {
+        return is_null($model)
+                ? $this->createModel()->newQuery()
+                : $model->newQuery();
+    }
+
+    /**
+     * Create a new instance of the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function createModel()
+    {
+        $class = '\\'.ltrim($this->model, '\\');
+
+        return new $class;
     }
 }
