@@ -127,27 +127,6 @@ class DiscordGuard implements Guard
     }
 
     /**
-     * Try to authenticate the user
-     *
-     * @throws RuntimeException
-     * @return boolean
-     */
-    public function authenticate()
-    {
-        \Log::error('authenticate >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.');
-        return false;
-        // Get Credentials
-        // $credentials = DiscordAuth::retrieveToken();
-        // if (empty($credentials)) {
-        // }
-
-        // $this->user = $this->provider->retrieveByCredentials($credentials);
-        // $this->session->put($this->getSessionName(), $this->user->id ?? null);
-
-        // return ! empty($this->user->id);
-    }
-
-    /**
      * Log the user out of the application.
      *
      * @return void

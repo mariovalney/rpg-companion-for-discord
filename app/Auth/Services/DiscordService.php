@@ -138,10 +138,7 @@ class DiscordService
             return false;
         }
 
-        $token = $response->json();
-        $token['expires_in_time'] = (time() - 60) + ($token['expires_in'] ?? 0);
-
-        return $token;
+        return $response->json();
     }
 
     /**
@@ -168,10 +165,7 @@ class DiscordService
             return false;
         }
 
-        $token = $response->json();
-        $token['expires_in_time'] = (time() - 60) + ($token['expires_in'] ?? 0);
-
-        return $token;
+        return $response->json();
     }
 
     /**
@@ -181,7 +175,6 @@ class DiscordService
      */
     public function getUserProfile($credentials)
     {
-        $credentials = $this->refreshTokenIfNeeded($credentials);
         $params = [
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
@@ -241,31 +234,6 @@ class DiscordService
     {
         $url = self::BASE_URL . '/' . ltrim($url, '/');
         return $url . '?' . Arr::query($params);
-    }
-
-    /**
-     * Check we need to refresh token and refresh if needed
-     *
-     * @param  array $credentials
-     * @return array
-     */
-    protected function refreshTokenIfNeeded($credentials)
-    {
-        if (! is_array($credentials) || empty($credentials['expires_in_time']) || empty($credentials['refresh_token'])) {
-            return $credentials;
-        }
-
-        $expire = $credentials['expires_in_time'];
-        if (time() <= $expire) {
-            return $credentials;
-        }
-
-        $credentials = $this->refreshToken($credentials);
-        if (empty($credentials['access_token'])) {
-            return [];
-        }
-
-        return $credentials;
     }
 
     /**

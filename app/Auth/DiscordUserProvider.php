@@ -57,9 +57,10 @@ class DiscordUserProvider implements UserProvider
         $model = $this->createModel()->findOrNew($user['id']);
         $model->id = $user['id'];
         $model->fill($user);
-        // $model->credentials = $credentials;
         $model->last_login_at = Date::now();
         $model->save();
+
+        $model->token()->create($credentials);
 
         return $model;
     }

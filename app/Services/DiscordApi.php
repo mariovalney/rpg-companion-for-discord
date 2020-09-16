@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Auth\Facades\DiscordAuth;
+use Auth;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -78,7 +78,11 @@ class DiscordApi
      */
     protected function getAccessToken()
     {
-        return '';
+        $user = Auth::user();
+        $token = $user ? $user->token : null;
+        $token = $token ? $token->getValidAccessToken() : null;
+
+        return $token;
     }
 
     /**
