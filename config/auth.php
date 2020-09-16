@@ -68,7 +68,7 @@ return [
     'providers' => [
         'discord-users' => [
             'driver' => 'discord',
-            'model' => App\Auth\Models\DiscordUser::class,
+            'model' => App\Models\User::class,
         ],
 
         // 'users' => [

@@ -1,3 +1,18 @@
-pre {
-    color: #FFFFFF;
+body {
+    background: $bg_dark;
+
+    pre {
+        color: #FFFFFF;
+    }
+}
+
+body.with-sidebar {
+    .sidebar-wrapper {
+        width: 200px;
+        z-index: 9999;
+    }
+
+    .main-wrapper {
+        margin-left: 250px;
+    }
 }

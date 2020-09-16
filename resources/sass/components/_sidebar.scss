@@ -1,0 +1,42 @@
+.sidebar-wrapper {
+    background: $bg_darker;
+
+    .sidebar-sticky {
+        background: $bg_darker;
+        top: 0;
+        height: 100vh;
+        z-index: 9;
+        padding-top: 0;
+
+        .guild-selector-wrapper {
+            border-bottom: 1px solid $bg_dark;
+            height: 54px;
+            display: block;
+        }
+
+        .nav {
+            padding: 1rem 0.5rem;
+
+            .nav-link {
+                color: #FFFFFF;
+                font-size: 0.9rem;
+                display: flex;
+                align-items: center;
+                border-radius: 3px$border_radius;
+
+                &:hover {
+                    background: $bg_dark_hover;
+                }
+
+                svg {
+                    color: $bg_dark !important;
+                    height: 1.1rem;
+                    width: 1.1rem;
+                    margin-right: 10px !important;
+                    position: relative;
+                    top: -1px;
+                }
+            }
+        }
+    }
+}

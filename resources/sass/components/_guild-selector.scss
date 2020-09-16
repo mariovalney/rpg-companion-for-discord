@@ -1,0 +1,24 @@
+.guild-selector {
+    width: 100%;
+    height: 100%;
+
+    .btn {
+        background: none;
+        height: 100%;
+        width: 100%;
+
+        &:hover {
+            background: $bg_dark_hover;
+            color: #FFFFFF;
+            bottom: 0;
+        }
+    }
+
+    .dropdown-toggle {
+        &::after {
+            top: 1px;
+            position: relative;
+            margin-left: 0.5rem;
+        }
+    }
+}

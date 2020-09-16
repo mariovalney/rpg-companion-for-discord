@@ -2,7 +2,6 @@
 
 namespace App\Auth;
 
-use App\Auth\Models\DiscordUser;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 
@@ -16,6 +15,16 @@ class DiscordUserProvider implements UserProvider
     protected $model;
 
     /**
+     * The Constructor
+     *
+     * @param string $model
+     */
+    public function __construct($model)
+    {
+        $this->model = $model;
+    }
+
+    /**
      * Retrieve a user by the given credentials.
      *
      * @param  array  $credentials
@@ -23,7 +32,9 @@ class DiscordUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        return new DiscordUser($credentials);
+        $class = '\\'.ltrim($this->model, '\\');
+
+        return new $class($credentials);
     }
 
     /**

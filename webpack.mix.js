@@ -18,7 +18,8 @@ mix.js('resources/js/browserSync.js', 'public/js');
 mix.sass('resources/sass/app.scss', 'public/css');
 
 mix.browserSync({
-    open: false
+    open: false,
+    notify: false
 });
 
 if (mix.inProduction()) {

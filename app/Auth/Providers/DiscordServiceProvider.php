@@ -40,8 +40,9 @@ class DiscordServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // User Provider
         Auth::provider('discord', function($app, array $config) {
-            return new DiscordUserProvider();
+            return new DiscordUserProvider($config['model']);
         });
     }
 

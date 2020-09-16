@@ -1,4 +1,11 @@
 @import "~bootstrap/scss/bootstrap";
+
+@import 'vendor/dashboard';
 @import 'vendor/cray';
 
+@import 'general/variables';
 @import 'general/base';
+
+@import 'components/navbar';
+@import 'components/sidebar';
+@import 'components/guild-selector';
