@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Models\Guild;
 use Illuminate\Routing\Controller;
 
 class GuildController extends Controller
@@ -12,15 +13,9 @@ class GuildController extends Controller
      *
      * @return view()
      */
-    public function index($guild_id)
+    public function index(Guild $guild)
     {
-        $user = Auth::user();
-
-        $guild = $user->getGuilds();
-        $guild = collect($guild);
-        $guild = $guild->where('id', $guild_id)->first();
-
-        if (empty($guild)) {
+        if (empty($guild) || ! $guild->belongsToUser()) {
             return abort(404);
         }
 

@@ -44,14 +44,6 @@ class DiscordUser extends Model implements Authenticatable
     ];
 
     /**
-     * Get the token associated with the user
-     */
-    public function token()
-    {
-        return $this->hasOne('App\Models\Token');
-    }
-
-    /**
      * Get the name of the unique identifier for the user.
      *
      * @return string

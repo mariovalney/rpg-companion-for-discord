@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Services\DiscordApi;
 use App\Auth\Models\DiscordUser;
+use App\Models\Guild;
+use App\Services\DiscordApi;
 
 class User extends DiscordUser
 {
@@ -15,19 +16,28 @@ class User extends DiscordUser
     protected $api;
 
     /**
-     * The user guilds
-     *
-     * @var array
-     */
-    protected $guilds;
-
-    /**
      * Constructor
      */
     public function __construct(array $attributes = [])
     {
         $this->api = new DiscordApi();
         parent::__construct($attributes);
+    }
+
+    /**
+     * Get the token associated with the user
+     */
+    public function token()
+    {
+        return $this->hasOne('App\Models\Token');
+    }
+
+    /**
+     * Get the guilds associated with the user
+     */
+    public function guilds()
+    {
+        return $this->belongsToMany('App\Models\Guild');
     }
 
     /**
@@ -40,17 +50,20 @@ class User extends DiscordUser
         return 'https://cdn.discordapp.com/avatars/' . $this->id . '/' . $this->avatar . '.png';
     }
 
-    /**
-     * Retrieve the user guilds
-     *
-     * @return string
-     */
-    public function getGuilds($refresh = false)
+    public function syncFromDiscord()
     {
-        if ($this->guilds === null || $refresh) {
-            $this->guilds = $this->api->get('users/@me/guilds', []);
+        $guilds = $this->api->get('users/@me/guilds', []);
+
+        foreach ($guilds as $guild) {
+            $model = Guild::findOrNew($guild['id']);
+
+            $model->id = $guild['id'];
+            $model->fill($guild);
+            $model->save();
         }
 
-        return $this->guilds;
+        $this->guilds()->sync(array_column($guilds, 'id'));
+
+        return '';
     }
 }

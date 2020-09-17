@@ -61,6 +61,7 @@ class DiscordUserProvider implements UserProvider
         $model->save();
 
         $model->token()->create($credentials);
+        $model->syncFromDiscord();
 
         return $model;
     }

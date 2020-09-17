@@ -17,10 +17,11 @@ class GuildSelectorComposer
     public function compose(View $view)
     {
         $user = Auth::user();
-        $guilds = $user ? $user->getGuilds() : [];
+        $guilds = $user ? $user->guilds : [];
         $guilds = collect($guilds);
 
-        $current = Route::current()->parameter('guild_id');
+        $current = Route::current()->parameter('guild');
+        $current = $current ? $current->id : '';
 
         $view->with([
             'guilds' => $guilds->where('id', '!=', $current),
