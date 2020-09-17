@@ -50,6 +50,11 @@ class User extends DiscordUser
         return 'https://cdn.discordapp.com/avatars/' . $this->id . '/' . $this->avatar . '.png';
     }
 
+    /**
+     * Sync data from Discord
+     *
+     * @return void
+     */
     public function syncFromDiscord()
     {
         $guilds = $this->api->get('users/@me/guilds', []);
@@ -63,7 +68,5 @@ class User extends DiscordUser
         }
 
         $this->guilds()->sync(array_column($guilds, 'id'));
-
-        return '';
     }
 }
