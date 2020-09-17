@@ -60,8 +60,8 @@ class DiscordUserProvider implements UserProvider
         $model->last_login_at = Date::now();
         $model->save();
 
+        $model->token()->delete();
         $model->token()->create($credentials);
-        $model->syncFromDiscord();
 
         return $model;
     }

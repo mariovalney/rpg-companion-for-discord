@@ -20,7 +20,7 @@ class User extends DiscordUser
      */
     public function __construct(array $attributes = [])
     {
-        $this->api = new DiscordApi();
+        $this->api = new DiscordApi($this);
         parent::__construct($attributes);
     }
 

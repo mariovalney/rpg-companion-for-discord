@@ -120,6 +120,8 @@ class DiscordGuard implements Guard
             $this->user = $user;
             $this->session->put($this->getSessionName(), $this->user->id);
 
+            $this->user->syncFromDiscord();
+
             return true;
         }
 

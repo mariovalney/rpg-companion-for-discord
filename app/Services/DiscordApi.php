@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Auth;
+use App\Models\User;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -35,10 +36,12 @@ class DiscordApi
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user = null)
     {
         $this->clientId = Config::get('discord.client_id');
         $this->clientSecret = Config::get('discord.client_secret');
+
+        $this->user = $user ?: Auth::user();
     }
 
     /**
@@ -78,8 +81,7 @@ class DiscordApi
      */
     protected function getAccessToken()
     {
-        $user = Auth::user();
-        $token = $user ? $user->token : null;
+        $token = $this->user ? $this->user->token : null;
         $token = $token ? $token->getValidAccessToken() : null;
 
         return $token;
