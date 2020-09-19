@@ -13,3 +13,9 @@ yarn-error.log
 
 ## Certs
 docker/certs
+
+## Build
+public/css
+public/js
+public/images
+public/craycss
