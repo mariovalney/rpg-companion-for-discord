@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -18,6 +19,10 @@ class Controller extends BaseController
      */
     public function index()
     {
+        if (Auth::user()) {
+            return redirect(route('guilds.index'));
+        }
+
         return view('screens.index');
     }
 }

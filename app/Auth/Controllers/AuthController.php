@@ -57,7 +57,7 @@ class AuthController extends Controller
             $credentials = DiscordAuth::exchangeCode($code);
 
             if ($credentials && Auth::attempt((array) $credentials)) {
-                return redirect()->intended('/');
+                return redirect()->intended(route('guilds.index'));
             }
         }
 

@@ -6,15 +6,15 @@
             </button>
             <div class="dropdown-menu">
                 @foreach($guilds as $guild)
-                    <a class="dropdown-item" href="{{ route('guild.index', $guild['id']) }}">{{ $guild['name'] }}</a>
+                    <a class="dropdown-item" href="{{ route('guilds.guild', $guild['id']) }}">{{ $guild['name'] }}</a>
                 @endforeach
             </div>
         </div>
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('index') }}">
-                <span data-feather="home"></span>
+            <a class="nav-link" href="{{ route('guilds.guild', $current) }}">
+                <i class="fas fa-home"></i>
                 <span>@lang('sidebar.home')</span>
             </a>
         </li>
