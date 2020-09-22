@@ -20,19 +20,19 @@ jobs:
         php -r "file_exists('.env') || copy('.env.production', '.env');"
 
         # Write Secrets
-        'echo "DB_HOST=$DB_HOST" >> .env'
-        'echo "DB_DATABASE=$DB_NAME" >> .env'
-        'echo "DB_PASSWORD=$DB_PASS" >> .env'
-        'echo "DB_USERNAME=$DB_USER" >> .env'
-        'echo "DISCORD_CLIENT_ID=$DISCORD_CLIENT_ID" >> .env'
-        'echo "DISCORD_CLIENT_SECRET=$DISCORD_CLIENT_SECRET" >> .env'
+        echo "DB_HOST=$DB_HOST" >> .env
+        echo "DB_DATABASE=$DB_NAME" >> .env
+        echo "DB_PASSWORD=$DB_PASS" >> .env
+        echo "DB_USERNAME=$DB_USER" >> .env
+        echo "DISCORD_CLIENT_ID=$DISCORD_CLIENT_ID" >> .env
+        echo "DISCORD_CLIENT_SECRET=$DISCORD_CLIENT_SECRET" >> .env
       env:
-        DB_HOST: ${{secrets.DB_HOST}}
-        DB_NAME: ${{secrets.DB_NAME}}
-        DB_PASS: ${{secrets.DB_PASS}}
-        DB_USER: ${{secrets.DB_USER}}
-        DISCORD_CLIENT_ID: ${{secrets.DISCORD_CLIENT_ID}}
-        DISCORD_CLIENT_SECRET: ${{secrets.DISCORD_CLIENT_SECRET}}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_PASS: ${{ secrets.DB_PASS }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+        DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
 
     - name: Cache for Composer Packages
       id: composer-cache
