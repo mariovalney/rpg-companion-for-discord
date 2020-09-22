@@ -28,6 +28,6 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.14.0",
-        "laravel-mix-imagemin": "git+ssh://git@github.com/mariovalney/laravel-mix-imagemin.git"
+        "laravel-mix-imagemin": "git+https://github.com/mariovalney/laravel-mix-imagemin.git"
     }
 }
