@@ -1,4 +1,4 @@
-name: Build Application
+name: CI/CD
 
 on:
   push:
@@ -8,14 +8,31 @@ on:
 
 jobs:
   build:
-
+    name: Build Application
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Prepare .env
-      run: php -r "file_exists('.env') || copy('.env.production', '.env');"
+      run: |
+        # Create ENV FILE
+        php -r "file_exists('.env') || copy('.env.production', '.env');"
+
+        # Write Secrets
+        'echo "DB_HOST=$DB_HOST" >> .env'
+        'echo "DB_DATABASE=$DB_NAME" >> .env'
+        'echo "DB_PASSWORD=$DB_PASS" >> .env'
+        'echo "DB_USERNAME=$DB_USER" >> .env'
+        'echo "DISCORD_CLIENT_ID=$DISCORD_CLIENT_ID" >> .env'
+        'echo "DISCORD_CLIENT_SECRET=$DISCORD_CLIENT_SECRET" >> .env'
+      env:
+        DB_HOST: ${{secrets.DB_HOST}}
+        DB_NAME: ${{secrets.DB_NAME}}
+        DB_PASS: ${{secrets.DB_PASS}}
+        DB_USER: ${{secrets.DB_USER}}
+        DISCORD_CLIENT_ID: ${{secrets.DISCORD_CLIENT_ID}}
+        DISCORD_CLIENT_SECRET: ${{secrets.DISCORD_CLIENT_SECRET}}
 
     - name: Cache for Composer Packages
       id: composer-cache
@@ -46,3 +63,52 @@ jobs:
 
     - name: Build Production
       run: npm run production
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: core-production
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        # Build a docker container and
+        # push it to ECR so that it can
+        # be deployed to ECS.
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: .aws/ecs/task-definition.json
+        container-name: apache
+        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: apache-service
+        cluster: core-cluster
+        wait-for-service-stability: true
