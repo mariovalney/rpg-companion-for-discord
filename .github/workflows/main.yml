@@ -69,7 +69,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: core-production
+        ECR_REPOSITORY: core-image
         IMAGE_TAG: ${{ github.sha }}
       run: |
         # Build a docker container and
