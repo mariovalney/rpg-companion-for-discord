@@ -8,7 +8,7 @@ phases:
     commands:
       - echo [Pre-Build] Logging in to Amazon ECR.
       - aws --version
-      - eval $(aws ecr get-login --region us-east-1 --no-include-email | sed 's|https://||')
+      - eval $(aws ecr get-login --region us-east-2 --no-include-email | sed 's|https://||')
       - REPOSITORY_URI=685293513802.dkr.ecr.us-east-2.amazonaws.com/rpg-companion/core-image
       - IMAGE_TAG=1.0
   build:
