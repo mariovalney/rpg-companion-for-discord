@@ -8,8 +8,8 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./docker/certs:/etc/nginx/certs
-      - ./docker/development/proxy.nginx.conf:/etc/nginx/conf.d/custom.conf
+      - ./ci/docker/certs:/etc/nginx/certs
+      - ./ci/docker/development/proxy.nginx.conf:/etc/nginx/conf.d/custom.conf
 
   database:
     image: mariadb:10.3.24
@@ -42,7 +42,7 @@ services:
       - nginx-proxy
 
   web:
-    build: docker/development
+    build: ci/docker/development
     depends_on:
       - database
       - mailhog
