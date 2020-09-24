@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php:7.3-apache
 
 ENV PATH $PATH:/var/www/html/vendor/bin
 ENV COMPOSER_VERSION 1.7.2
