@@ -8,7 +8,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 RUN apt-get update \
-    && apt-get install -y git libpq-dev unzip xsltproc zip libpng-dev mariadb-client \
+    && apt-get install -y git libpq-dev unzip xsltproc libzip-dev zip libpng-dev mariadb-client \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql zip opcache \
     && a2enmod rewrite \
     && usermod -u $USER_ID www-data \
