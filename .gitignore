@@ -12,7 +12,7 @@ npm-debug.log
 yarn-error.log
 
 ## Certs
-docker/certs
+ci/docker/certs
 
 ## Build
 public/css
