@@ -23,6 +23,6 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh \
     build-essential
 
 COPY --chown=www-data:www-data . /var/www/html
-COPY docker/production/vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY ci/docker/production/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 RUN npm ci && npm run production
