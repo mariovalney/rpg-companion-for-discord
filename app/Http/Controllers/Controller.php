@@ -25,4 +25,14 @@ class Controller extends BaseController
 
         return view('screens.index');
     }
+
+    /**
+     * The healthcheck
+     *
+     * @return
+     */
+    public function healthcheck()
+    {
+        return 'OK';
+    }
 }
