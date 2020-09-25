@@ -24,34 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->forceHostname();
         URL::forceScheme('https');
 
         // View Composers
         View::composer('components.sidebar', 'App\Http\View\Composers\GuildSelectorComposer');
-    }
-
-    /**
-     * Force the hostname configured on .env
-     *
-     * @return void
-     */
-    private function forceHostname()
-    {
-        $configured = config('app.url');
-        $configured = parse_url($configured);
-
-        $current = URL::current();
-        $current = parse_url($current);
-
-        if ($current['host'] === $configured['host'] || (($current['path'] ?? '') === '/healthcheck')) {
-            return;
-        }
-
-        $current['host'] = $configured['host'];
-        $current = http_build_url($current);
-
-        redirect($current)->send();
-        exit; // phpcs:ignore
     }
 }
