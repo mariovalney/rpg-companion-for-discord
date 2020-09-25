@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
         $current = URL::current();
         $current = parse_url($current);
 
-        if ($current['host'] === $configured['host'] || (($current['path'] ?? '') === 'healthcheck')) {
+        if ($current['host'] === $configured['host'] || (($current['path'] ?? '') === '/healthcheck')) {
             return;
         }
 
