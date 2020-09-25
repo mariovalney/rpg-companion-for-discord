@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Auth\Models\DiscordUser;
-use App\Models\Guild;
 use App\Services\DiscordApi;
 
 class User extends DiscordUser
@@ -25,6 +24,14 @@ class User extends DiscordUser
     }
 
     /**
+     * Get the guilds associated with the user
+     */
+    public function guilds()
+    {
+        return $this->belongsToMany('App\Models\Guild');
+    }
+
+    /**
      * Get the token associated with the user
      */
     public function token()
@@ -33,11 +40,11 @@ class User extends DiscordUser
     }
 
     /**
-     * Get the guilds associated with the user
+     * Get variables associated with the user
      */
-    public function guilds()
+    public function variables()
     {
-        return $this->belongsToMany('App\Models\Guild');
+        return Variable::where($this->myVariableArgs());
     }
 
     /**
@@ -68,5 +75,51 @@ class User extends DiscordUser
         }
 
         $this->guilds()->sync(array_column($guilds, 'id'));
+    }
+
+    /**
+     * Add or update a var
+     *
+     * @return void
+     */
+    public function updateVariable($name, $value)
+    {
+        $data = $this->myVariableArgs(['name' => $name]);
+
+        $variable = Variable::firstOrNew($data);
+        $variable->value = $value;
+
+        return $variable->save();
+    }
+
+    /**
+     * Retrieve a var
+     *
+     * @return void
+     */
+    public function getVariable($name, $default = null)
+    {
+        $data = $this->myVariableArgs(['name' => $name]);
+
+        $variable = Variable::where($data)->first();
+        if (! $variable) {
+            return $default;
+        }
+
+        return $variable->value;
+    }
+
+    /**
+     * Helper to keep variables in guild-user context
+     *
+     * @param  array  $attributes
+     * @return array
+     */
+    private function myVariableArgs($attributes = [])
+    {
+        return array_merge([
+            'user_id' => $this->id,
+            'guild_id' => Guild::current()
+        ], $attributes);
     }
 }

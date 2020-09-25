@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use Route;
 use Illuminate\Database\Eloquent\Model;
 
 class Guild extends Model
@@ -20,6 +21,13 @@ class Guild extends Model
      * @var string
      */
     protected $keyType = 'string';
+
+    /**
+     * The current Guild
+     *
+     * @var bool
+     */
+    private static $current;
 
     /**
      * Attributes
@@ -46,5 +54,20 @@ class Guild extends Model
     {
         $id = Auth::id();
         return ! empty($this->users()->find($id));
+    }
+
+    /**
+     * Get the current guild
+     *
+     * @return string
+     */
+    public static function current()
+    {
+        if (empty(self::$current)) {
+            $current = Route::current()->parameter('guild');
+            self::$current = $current ? $current->id : null;
+        }
+
+        return self::$current;
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\View\Composers;
 
 use Auth;
-use Route;
+use App\Models\Guild;
 use Illuminate\View\View;
 
 class GuildSelectorComposer
@@ -20,8 +20,7 @@ class GuildSelectorComposer
         $guilds = $user ? $user->guilds : [];
         $guilds = collect($guilds);
 
-        $current = Route::current()->parameter('guild');
-        $current = $current ? $current->id : '';
+        $current = Guild::current();
 
         $view->with([
             'guilds' => $guilds->where('id', '!=', $current),
