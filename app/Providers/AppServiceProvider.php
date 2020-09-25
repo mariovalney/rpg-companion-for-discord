@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        URL::forceScheme('https');
+        URL::forceScheme('http');
 
         // View Composers
         View::composer('components.sidebar', 'App\Http\View\Composers\GuildSelectorComposer');
