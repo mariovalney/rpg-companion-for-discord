@@ -2,14 +2,14 @@ FROM php:7.3-apache
 
 ENV PATH $PATH:/var/www/html/vendor/bin
 ENV COMPOSER_VERSION 1.7.2
-ENV XDEBUG_VERSION 2.6.1
+ENV XDEBUG_VERSION 2.9.7
 
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 RUN apt-get update \
     && apt-get install -y git libpq-dev unzip xsltproc libzip-dev zip libpng-dev mariadb-client \
-    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql zip\
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql zip \
     && pecl install xdebug-$XDEBUG_VERSION \
     && docker-php-ext-enable xdebug \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
