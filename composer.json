@@ -14,7 +14,8 @@
         "guzzlehttp/guzzle": "^7.0",
         "jakeasmith/http_build_url": "^1.0",
         "laravel/framework": "^7.24",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "livewire/livewire": "^2.2"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

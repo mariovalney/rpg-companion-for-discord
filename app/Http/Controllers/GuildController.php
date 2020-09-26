@@ -30,12 +30,32 @@ class GuildController extends Controller
      */
     public function guild(Guild $guild)
     {
+        return $this->render('screens.guilds.index', $guild);
+    }
+
+    /**
+     * The Guild Variables
+     *
+     * @return view()
+     */
+    public function variables(Guild $guild)
+    {
+        return $this->render('screens.guilds.variables', $guild);
+    }
+
+    /**
+     * Render the guild page checking guild belongs to user
+     *
+     * @return view()
+     */
+    public function render($view, Guild $guild, $data = [])
+    {
         if (empty($guild->id) || ! $guild->belongsToUser()) {
             return view('screens.guilds.notfound')->with('message', __('screens/guilds.notfound.content'));
         }
 
-        return view('screens.guilds.index')->with([
-            'guild' => $guild,
-        ]);
+        $data = array_merge($data, ['guild' => $guild ]);
+
+        return view($view)->with($data);
     }
 }

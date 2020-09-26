@@ -1,0 +1,35 @@
+.variables-crud-wrapper {
+    background: #FFFFFF;
+    padding: 1rem 1.5rem 0;
+
+    .form-row {
+        display: flex;
+        align-items: flex-end;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 0 5px;
+
+        .form-group {
+            padding-right: 1rem;
+
+            input {
+                text-transform: uppercase;
+            }
+        }
+
+        .form-submit-group {
+            text-align: right;
+            flex-grow: 9;
+            padding-right: 0;
+
+            button {
+                margin: 0;
+            }
+        }
+    }
+
+}
+
+.variables-crud-list {
+    margin-top: 3rem;
+}

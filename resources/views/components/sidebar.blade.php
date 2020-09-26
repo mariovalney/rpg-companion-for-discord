@@ -18,5 +18,11 @@
                 <span>@lang('sidebar.home')</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('guilds.variables', $current) }}">
+                <i class="fab fa-diaspora"></i>
+                <span>@lang('sidebar.variables')</span>
+            </a>
+        </li>
     </ul>
 </div>

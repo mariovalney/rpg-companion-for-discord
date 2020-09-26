@@ -82,9 +82,9 @@ class User extends DiscordUser
      *
      * @return void
      */
-    public function updateVariable($name, $value)
+    public function updateVariable($name, $value, $guild = null)
     {
-        $data = $this->myVariableArgs(['name' => $name]);
+        $data = $this->myVariableArgs(['name' => $name, 'guild_id' => $guild]);
 
         $variable = Variable::firstOrNew($data);
         $variable->value = $value;
@@ -120,6 +120,6 @@ class User extends DiscordUser
         return array_merge([
             'user_id' => $this->id,
             'guild_id' => Guild::current()
-        ], $attributes);
+        ], array_filter($attributes));
     }
 }

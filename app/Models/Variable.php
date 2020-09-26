@@ -20,14 +20,23 @@ class Variable extends Model
     ];
 
     /**
+     * Cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'value' => 'integer',
+    ];
+
+    /**
      * Get the value
      *
      * @param  string  $value
      * @return mixed
      */
-    public function getValueAttribute($value)
+    public function getNameAttribute($value)
     {
-        return json_decode($value);
+        return mb_strtoupper($value);
     }
 
     /**
@@ -36,8 +45,8 @@ class Variable extends Model
      * @param  string  $value
      * @return mixed
      */
-    public function setValueAttribute($value)
+    public function setNameAttribute($value)
     {
-        $this->attributes['value'] = json_encode($value);
+        $this->attributes['name'] = mb_strtoupper($value);
     }
 }
