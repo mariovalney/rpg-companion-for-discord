@@ -7,8 +7,10 @@
         @if(! count($data))
             <p>@lang('screens/rollings.addone')</p>
         @endif
-    </div>
-    <div class="rolling-form-modifiers">
+
+        <div class="rolling-actions">
+            <button wire:click.prevent="roll" class="btn btn-good btn-roll-trigger">OK</button>
+        </div>
     </div>
     <div class="rolling-form-shortcut">
         <div>

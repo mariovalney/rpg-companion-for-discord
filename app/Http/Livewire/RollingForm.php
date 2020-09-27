@@ -52,11 +52,22 @@ class RollingForm extends Component
      */
     public function addDice($sides)
     {
-        $dice = new Dice();
-        $dice->sides = $sides;
-
         $dices = (array) session()->get(self::SESSION_KEY);
-        $dices[] = $dice;
+
+        $added = false;
+        foreach ($dices as $dice) {
+            if ($dice->sides === $sides) {
+                $added = true;
+                $dice->count++;
+            }
+        }
+
+        if (! $added) {
+            $dice = new Dice();
+            $dice->sides = $sides;
+
+            $dices[] = $dice;
+        }
 
         session()->put(self::SESSION_KEY, $dices);
     }
@@ -106,6 +117,16 @@ class RollingForm extends Component
     }
 
     /**
+     * Roll to discord
+     *
+     * @return void
+     */
+    public function roll()
+    {
+
+    }
+
+    /**
      * Retrieve dices from session or at leat one
      *
      * @return array
@@ -119,8 +140,10 @@ class RollingForm extends Component
 
         $data = [];
         foreach ($dices as $dice) {
-            $data[] = $dice->toArray();
+            $data[ $dice->sides ] = $dice->toArray();
         }
+
+        ksort($data);
 
         return $data;
     }

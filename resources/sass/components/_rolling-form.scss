@@ -4,12 +4,17 @@
     display: flex;
 
     .rolling-form-dices {
-        width: 280px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 9;
         max-width: 100%;
 
         .dice {
+            margin-bottom: 10px;
+
             .dice-d {
                 font-size: 2rem;
+                width: 70px;
                 font-weight: bold;
                 margin: 0 0.5rem;
             }
@@ -33,10 +38,13 @@
                 }
             }
         }
-    }
 
-    .rolling-form-modifiers {
-        flex-grow: 9;
+        .rolling-actions {
+            display: flex;
+            flex-grow: 9;
+            flex-direction: column-reverse;
+            align-items: flex-start;
+        }
     }
 
     .rolling-form-shortcut {
