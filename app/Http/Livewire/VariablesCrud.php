@@ -24,7 +24,7 @@ class VariablesCrud extends Component
 
     /**
      * The current guild
-     * @var mixed
+     * @var integer
      */
     public $guild;
 
@@ -74,7 +74,7 @@ class VariablesCrud extends Component
             'guild_id' => $this->guild,
         ])->get();
 
-        return view('livewire.variables.index');
+        return view('livewire.variables-crud.index');
     }
 
     /**

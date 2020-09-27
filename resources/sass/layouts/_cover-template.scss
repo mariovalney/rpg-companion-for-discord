@@ -1,0 +1,50 @@
+body.cover-template {
+    text-align: center;
+    height: 100%;
+    background: url('/images/home-background.jpg') no-repeat center center;
+    background-size: cover;
+    text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, .5);
+
+    .cover-container {
+        .cover-content-container {
+            color: #FFFFFF;
+            width: 40rem;
+            max-width: 80%;
+        }
+
+        .lead {
+            font-weight: normal;
+        }
+
+        .btn {
+            padding-right: 2rem;
+            padding-left: 2rem;
+            text-shadow: none;
+
+            .fa-discord {
+                margin-right: 1rem;
+                font-size: 2rem;
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+            span {
+                line-height: 2rem;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+
+        footer {
+            background: $bg_dark;
+
+            p {
+                margin: 0;
+            }
+
+            a {
+                color: #FFFFFF;
+            }
+        }
+    }
+}

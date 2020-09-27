@@ -1,0 +1,13 @@
+body.with-sidebar {
+    .sidebar-wrapper {
+        width: 200px;
+        z-index: 9999;
+    }
+
+    .main-wrapper {
+        margin-left: 250px;
+        width: 100%;
+        display: block;
+        padding-right: 3.5rem!important;
+    }
+}

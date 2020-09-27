@@ -24,5 +24,11 @@
                 <span>@lang('sidebar.variables')</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('guilds.rollings', $current) }}">
+                <i class="fas fa-dice"></i>
+                <span>@lang('sidebar.rollings')</span>
+            </a>
+        </li>
     </ul>
 </div>

@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.14.0",
+        "jquery-mask-plugin": "^1.14.16",
         "laravel-mix-imagemin": "git+https://github.com/mariovalney/laravel-mix-imagemin.git"
     }
 }

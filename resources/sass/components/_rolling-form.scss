@@ -1,0 +1,57 @@
+.rolling-form-wrapper {
+    background: #FFFFFF;
+    padding: 1rem 1.5rem;
+    display: flex;
+
+    .rolling-form-dices {
+        width: 280px;
+        max-width: 100%;
+
+        .dice {
+            .dice-d {
+                font-size: 2rem;
+                font-weight: bold;
+                margin: 0 0.5rem;
+            }
+
+            .dice-input {
+                input {
+                    font-size: 1.1rem;
+                    width: 4rem;
+                    text-align: center;
+                }
+            }
+
+            .form-submit-group {
+                margin-left: 0.5rem;
+
+                button {
+                    height: calc(1.5em + 0.75rem + 2px);
+                    font-size: 1.1rem;
+                    line-height: 1.1rem;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    .rolling-form-modifiers {
+        flex-grow: 9;
+    }
+
+    .rolling-form-shortcut {
+        display: flex;
+        flex-direction: row;
+        width: 150px;
+        max-width: 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        button {
+            margin-bottom: 10px;
+            width: 70px;
+            padding: 5px 0;
+            text-align: center;
+        }
+    }
+}

@@ -24,7 +24,7 @@
                                 <td>{{$row->value}}</td>
                                 <td class="text-right">
                                     <button wire:click="edit({{$row->id}})"class="btn btn-sm btn-primary">@lang('forms.edit')</button>
-                                    <button wire:click="destroy({{$row->id}})" class="btn btn-sm btn-danger">@lang('forms.delete')</button>
+                                    <button wire:click="destroy({{$row->id}})" class="btn btn-sm btn-bad">@lang('forms.delete')</button>
                                 </td>
                             </tr>
                         @endforeach

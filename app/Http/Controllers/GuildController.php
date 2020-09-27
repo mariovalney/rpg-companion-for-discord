@@ -44,6 +44,16 @@ class GuildController extends Controller
     }
 
     /**
+     * The Guild Rollings
+     *
+     * @return view()
+     */
+    public function rollings(Guild $guild)
+    {
+        return $this->render('screens.guilds.rollings', $guild);
+    }
+
+    /**
      * Render the guild page checking guild belongs to user
      *
      * @return view()
