@@ -3,6 +3,7 @@
 namespace App\Auth;
 
 use App\Auth\Facades\DiscordAuth;
+use App\Models\Webhook;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Support\Facades\Date;
@@ -49,6 +50,11 @@ class DiscordUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
+        if (! empty($credentials['webhook'])) {
+            $webhook = new Webhook($credentials['webhook']);
+            $webhook->save();
+        }
+
         $user = DiscordAuth::getUserProfile($credentials);
         if (empty($user)) {
             return false;

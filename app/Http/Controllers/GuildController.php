@@ -30,8 +30,10 @@ class GuildController extends Controller
      */
     public function guild(Guild $guild)
     {
-        // Auth::user()->checkPermission('MANAGE_WEBHOOKS');
-        return $this->render('screens.guilds.index', $guild);
+        return $this->render('screens.guilds.index', $guild, [
+            'webhooks' => $guild->webhooks ?? [],
+            'canAddWebhook' => Auth::user()->checkPermission('MANAGE_WEBHOOKS'),
+        ]);
     }
 
     /**

@@ -94,8 +94,11 @@ class DiscordService
      */
     public function getLoginUrl()
     {
+        $scope = request()->input('scope');
+        $scope = $scope . ' identify email guilds';
+
         $params = [
-            'scope' => 'identify email guilds',
+            'scope' => trim($scope),
             'response_type' => 'code',
             'client_id' => $this->clientId,
             'redirect_uri' => $this->callbackUrl,
