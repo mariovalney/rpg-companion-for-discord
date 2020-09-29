@@ -4,15 +4,49 @@ namespace App\Models;
 
 use App\Auth\Models\DiscordUser;
 use App\Services\DiscordApi;
+use App\Support\Traits\HasGuildPermissions;
 
 class User extends DiscordUser
 {
+    use HasGuildPermissions;
+
     /**
      * The API
      *
      * @var DiscordApi
      */
     protected $api;
+
+    /**
+     * Attributes
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'email',
+        'avatar',
+        'username',
+        'discriminator',
+    ];
+
+    /**
+     * User attributes
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'email' => '',
+        'guild_permissions' => [],
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'guild_permissions' => 'array',
+    ];
 
     /**
      * Constructor
@@ -66,15 +100,24 @@ class User extends DiscordUser
     {
         $guilds = $this->api->get('users/@me/guilds', []);
 
+        $permissions = [];
         foreach ($guilds as $guild) {
             $model = Guild::findOrNew($guild['id']);
 
             $model->id = $guild['id'];
             $model->fill($guild);
             $model->save();
+
+            // Set guild permissions
+            $permissions[$model->id] = $guild['permissions'] ?? [];
         }
 
+        // Sync guilds
         $this->guilds()->sync(array_column($guilds, 'id'));
+
+        // Set permissions
+        $this->guild_permissions = $permissions;
+        $this->save();
     }
 
     /**
