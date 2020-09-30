@@ -15,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Facades
+        $this->app->bind('discord-api', function($app) {
+            return $app->make(\App\Services\DiscordApi::class);
+        });
     }
 
     /**

@@ -40,8 +40,6 @@ class DiscordApi
     {
         $this->clientId = Config::get('discord.client_id');
         $this->clientSecret = Config::get('discord.client_secret');
-
-        $this->user = $user ?: Auth::user();
     }
 
     /**
@@ -81,7 +79,7 @@ class DiscordApi
      */
     protected function getAccessToken()
     {
-        $token = $this->user ? $this->user->token : null;
+        $token = Auth::user() ? Auth::user()->token : null;
         $token = $token ? $token->getValidAccessToken() : null;
 
         return $token;

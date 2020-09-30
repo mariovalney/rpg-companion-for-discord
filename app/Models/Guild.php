@@ -48,6 +48,14 @@ class Guild extends Model
     }
 
     /**
+     * Get the users associated with the guild
+     */
+    public function webhooks()
+    {
+        return $this->hasMany('App\Models\Webhook');
+    }
+
+    /**
      * Check current user belongs to this guild
      */
     public function belongsToUser()
