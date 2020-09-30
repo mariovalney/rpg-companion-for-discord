@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Auth\Facades\DiscordAuth;
+use Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Model;
 
 class Webhook extends Model
@@ -22,4 +23,28 @@ class Webhook extends Model
         'channel_id',
         'guild_id',
     ];
+
+    public function sendMessage()
+    {
+        $data = [
+            'embeds' => [
+                [
+                    'title' => 'Nome da Rolagem',
+                    'description' => '1d20 + 5 => 12 + 5 => 17',
+                ]
+            ]
+        ];
+
+        if (! empty(Auth::user()->username)) {
+            $data['username'] = Auth::user()->username;
+        }
+
+        if (! empty(Auth::user()->getAvatarUrl())) {
+            $data['avatar_url'] = Auth::user()->getAvatarUrl();
+        }
+
+        $response = Http::post($this->url . '?wait=true', $data);
+
+        return $response->successful();
+    }
 }

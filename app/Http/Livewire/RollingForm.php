@@ -33,6 +33,18 @@ class RollingForm extends Component
     public $data = [];
 
     /**
+     * Message for error
+     * @var string
+     */
+    public $error_message = '';
+
+    /**
+     * Message for success_message
+     * @var string
+     */
+    public $success_message = '';
+
+    /**
      * Render the component
      *
      * @return view()
@@ -123,7 +135,19 @@ class RollingForm extends Component
      */
     public function roll()
     {
+        $guild = Guild::find($this->guild);
+        $webhook = $guild->webhooks()->first();
+        if (empty($webhook)) {
+            $this->error_message = 'Your guild is not configured.';
+            return;
+        }
 
+        if ($webhook->sendMessage()) {
+            $this->success_message = 'Success';
+            return;
+        }
+
+        $this->error_message = 'Error';
     }
 
     /**
