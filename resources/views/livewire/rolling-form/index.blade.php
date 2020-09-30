@@ -3,7 +3,7 @@
         <div class="alert alert-good">{{ $success_message }}</div>
     @endif
 
-    @if(! empty($success_message))
+    @if(! empty($error_message))
         <div class="alert alert-bad">{{ $error_message }}</div>
     @endif
 
