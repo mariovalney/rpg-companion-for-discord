@@ -7,7 +7,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <nav class="sidebar-wrapper sidebar d-none d-md-block">
+            <nav class="sidebar-wrapper sidebar">
                 @include('components.sidebar')
             </nav>
             <main role="main" class="main-wrapper pt-4">

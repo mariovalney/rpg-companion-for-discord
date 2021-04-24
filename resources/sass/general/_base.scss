@@ -1,5 +1,6 @@
 body {
     background: $bg_dark;
+    min-width: 800px;
 
     pre {
         color: #FFFFFF;
@@ -19,9 +20,4 @@ body {
 
 .user-select {
     user-select: all;
-}
-
-.form-control:focus {
-    border-color: initial;
-    box-shadow: none !important;
 }

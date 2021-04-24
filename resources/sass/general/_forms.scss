@@ -1,0 +1,8 @@
+select {
+    cursor: pointer;
+}
+
+.form-control:focus {
+    border-color: initial;
+    box-shadow: none !important;
+}

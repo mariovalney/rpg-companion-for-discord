@@ -58,7 +58,7 @@ class RollingForm extends Component
      */
     public function mount()
     {
-        $this->webhook = session()->get(self::SESSION_KEY_WEBHOOK . '-' . $this->guild->id);
+        // $this->webhook = session()->get(self::SESSION_KEY_WEBHOOK . '-' . $this->guild->id);
     }
 
     /**
@@ -72,18 +72,6 @@ class RollingForm extends Component
     }
 
     /**
-     * Updated data
-     *
-     * @return void
-     */
-    public function updated($name, $value)
-    {
-        if ($name === 'webhook') {
-            session()->put(self::SESSION_KEY_WEBHOOK . '-' . $this->guild->id, $value);
-        }
-    }
-
-    /**
      * Add a dice
      *
      * @param  string $id
@@ -91,7 +79,7 @@ class RollingForm extends Component
      */
     public function addDice($sides)
     {
-
+        // TODO
     }
 
     /**
@@ -102,7 +90,7 @@ class RollingForm extends Component
      */
     public function updateDice($id, $prop, $value)
     {
-
+        // TODO
     }
 
     /**
@@ -113,7 +101,7 @@ class RollingForm extends Component
      */
     public function removeDice($id)
     {
-
+        // TODO
     }
 
     /**
@@ -126,7 +114,9 @@ class RollingForm extends Component
         $this->error_message = '';
         $this->success_message = '';
 
+
         $webhook = $this->guild->webhooks()->find($this->webhook);
+        dd($webhook->channel->name);
 
         if (empty($this->webhook)) {
             $this->error_message = __('screens/rollings.webhook.not_configured');

@@ -1,4 +1,5 @@
 <div>
+
     @if(! empty($success_message))
         <div class="alert alert-good">{{ $success_message }}</div>
     @endif
@@ -7,13 +8,9 @@
         <div class="alert alert-bad">{{ $error_message }}</div>
     @endif
 
-    <select wire:model="webhook">
-        @foreach($this->guild->webhooks as $webhook)
-            <option value="{{ $webhook->id }}">{{ $webhook->channel->name }}</option>
-        @endforeach
-    </select>
+    <div class="rolling-form-wrapper has-overlay-loading">
+        @include('livewire.parts.overlay-loading')
 
-    <div class="rolling-form-wrapper">
         <div class="rolling-form-dices">
             @foreach($dices as $dice)
                 @include('livewire.rolling-form.dice', [ 'dice' => $dice->toArray() ])
@@ -24,7 +21,7 @@
             @endif
 
             <div class="rolling-actions">
-                <button wire:click.prevent="roll" class="btn btn-good btn-roll-trigger">OK</button>
+                <button wire:click.prevent="roll" class="btn btn-good btn-roll-trigger">ROLAR DADOS</button>
             </div>
         </div>
         <div class="rolling-form-shortcut">
