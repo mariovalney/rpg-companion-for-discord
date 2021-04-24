@@ -5,6 +5,7 @@ namespace App\Models;
 use Auth;
 use DiscordApi;
 use Route;
+use App\Models\Channel;
 use Illuminate\Database\Eloquent\Model;
 
 class Guild extends Model
@@ -49,7 +50,7 @@ class Guild extends Model
     }
 
     /**
-     * Get the users associated with the guild
+     * Get the webhooks associated with the guild
      */
     public function webhooks()
     {
@@ -63,6 +64,62 @@ class Guild extends Model
     {
         $id = Auth::id();
         return ! empty($this->users()->find($id));
+    }
+
+    /**
+     * Sync guild data from Discord
+     */
+    public function syncFromDiscord()
+    {
+        // Sync Guild
+        $guild = DiscordApi::bot()->get('guilds/' . $this->id);
+        if (empty($guild) || empty($guild['id'])) {
+            $this->has_bot = false;
+            $this->save();
+
+            return;
+        }
+
+        $this->fill($guild);
+        $this->has_bot = true;
+        $this->save();
+
+        // Sync Channels
+        $channels = (array) DiscordApi::bot()->get('guilds/' . $this->id . '/channels');
+        foreach ($channels as $channel) {
+            if (empty($channel['id']) || ($channel['type'] ?? '' ) !== Channel::CHANNEL_TYPE_TEXT) {
+                continue;
+            }
+
+            $model = Channel::findOrNew($channel['id']);
+
+            $model->id = $channel['id'];
+            $model->fill($channel);
+            $model->save();
+        }
+
+        // Sync Webhooks
+        $channelsWithWebhooks = [];
+        foreach ($this->webhooks as $webhook) {
+            $info = $webhook->getInfo();
+
+            if ( empty( $info['id'] ) || empty( $info['token'] ) ) {
+                $webhook->delete();
+                return;
+            }
+
+            if (in_array($webhook->channel_id, $channelsWithWebhooks)) {
+                $webhook->delete();
+                return;
+            }
+
+            $webhook->fill($info);
+            $webhook->save();
+
+            $channelsWithWebhooks[] = $webhook->channel_id;
+        }
+
+        $this->refresh();
     }
 
     /**

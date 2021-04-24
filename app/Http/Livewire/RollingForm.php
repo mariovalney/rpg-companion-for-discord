@@ -137,6 +137,7 @@ class RollingForm extends Component
     {
         $guild = Guild::find($this->guild);
         $webhook = $guild->webhooks()->first();
+
         if (empty($webhook)) {
             $this->error_message = __('screens/rollings.webhook.not_configured');
             return;

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Auth;
+use App\Models\Channel;
+use App\Models\Guild;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +25,59 @@ class Webhook extends Model
         'channel_id',
         'guild_id',
     ];
+
+    /**
+     * Get the guild associated
+     */
+    public function guild()
+    {
+        return $this->belongsTo('App\Models\Guild');
+    }
+
+    /**
+     * Get the channel associated
+     */
+    public function channel()
+    {
+        return $this->belongsTo('App\Models\Channel');
+    }
+
+    /**
+     * Delete the model from the database.
+     *
+     * @return bool|null
+     *
+     * @throws \Exception
+     */
+    public function delete()
+    {
+        if (! empty($this->url)) {
+            Http::delete($this->url);
+        }
+
+        return parent::delete();
+    }
+
+    /**
+     * Save the model to the database.
+     *
+     * @param  array  $options
+     * @return bool
+     */
+    public function save(array $options = [])
+    {
+        // Make sure we already have a channel
+        if (! empty($this->channel_id) && empty(Channel::find($this->channel_id))) {
+            $channel = new Channel();
+            $channel->id = $this->channel_id;
+            $channel->name = $this->channel_id;
+            $channel->guild_id = $this->guild_id;
+
+            $channel->save();
+        }
+
+        return parent::save($options);
+    }
 
     /**
      * Get info from Discord

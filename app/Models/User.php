@@ -29,7 +29,6 @@ class User extends DiscordUser
      */
     protected $attributes = [
         'email' => '',
-        'guild_permissions' => [],
     ];
 
     /**
@@ -82,7 +81,7 @@ class User extends DiscordUser
      */
     public function syncFromDiscord()
     {
-        $guilds = DiscordApi::get('users/@me/guilds', []);
+        $guilds = DiscordApi::user()->get('users/@me/guilds', []);
 
         $permissions = [];
         foreach ($guilds as $guild) {

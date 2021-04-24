@@ -2,8 +2,8 @@
 
 namespace App\Auth\Services;
 
-use App\Auth\AccessToken;
 use Exception;
+use App\Auth\AccessToken;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
@@ -97,9 +97,9 @@ class DiscordService
         $scope = request()->input('scope');
         $scope = $scope . ' identify email guilds';
 
-        $redirect_url = request()->input('redirect_url');
-        if (empty($redirect_url)) {
-            $redirect_url = route('guilds.index');
+        $redirectUrl = request()->input('redirect_url');
+        if (empty($redirectUrl)) {
+            $redirectUrl = route('guilds.index');
         }
 
         $params = [
@@ -107,8 +107,34 @@ class DiscordService
             'response_type' => 'code',
             'client_id' => $this->clientId,
             'redirect_uri' => $this->callbackUrl,
-            'state' => $this->state  . '.' . base64_encode($redirect_url),
+            'state' => $this->state  . '.' . base64_encode($redirectUrl),
         ];
+
+        $guildId = request()->input('guild_id');
+        if (! empty($guildId)) {
+            $params['guild_id'] = $guildId;
+            $params['disable_guild_select'] = 'true';
+        }
+
+        return $this->buildUrl(self::ENDPOINT_AUTHORIZE, $params);
+    }
+
+    /**
+     * Return the login URL
+     *
+     * @return string
+     */
+    public function getAddBotUrl($guildId)
+    {
+        $params = [
+            'scope' => 'bot',
+            'client_id' => $this->clientId,
+        ];
+
+        if (! empty($guildId)) {
+            $params['guild_id'] = $guildId;
+            $params['disable_guild_select'] = 'true';
+        }
 
         return $this->buildUrl(self::ENDPOINT_AUTHORIZE, $params);
     }

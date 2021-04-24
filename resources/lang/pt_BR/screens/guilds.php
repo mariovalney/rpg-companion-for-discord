@@ -1,10 +1,17 @@
 <?php
 
 return [
+    'bot' => [
+        'add' => 'Autorizar Bot',
+        'please_add' => 'Por favor, clique no botão abaixo para adicionar o bot ao seu servidor:',
+        'cant_add_bot' => 'Você não tem permissão para adicionar o bot a esse servidor. Por favor, peça para algum administrador ou dono configurar o jogo.',
+    ],
     'webhooks' => [
-        'empty' => 'Não encontramos nenhum webhook configurado para esse servidor.',
+        'add' => 'Adicionar Webhook',
+        'add_another' => 'Adicionar outro Webhook',
+        'empty' => 'Não encontramos nenhum webhook configurado para esse servidor. Eles são necessários para enviar as rolagens.',
         'found' => 'Encontramos os seguintes canais disponíveis:',
-        'please_add_webhook' => 'Por favor, clique no botão abaixo para adicionar um webhook aos canais que os usuários poderão usar.',
+        'please_add_webhook' => 'Por favor, clique no botão abaixo para adicionar um webhook aos canais que os usuários poderão usar:',
         'cant_add_webhook' => 'Você não tem permissão para adicionar webhooks a esse servidor. Por favor, peça para algum administrador ou dono configurar o jogo.',
     ],
     'notfound' => [

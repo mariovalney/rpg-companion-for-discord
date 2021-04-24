@@ -64,7 +64,7 @@ class AuthController extends Controller
                     $redirectUrl = route('guilds.index');
                 }
 
-                return redirect($redirectUrl);
+                return redirect()->intended(route('guilds.index'));
             }
         }
 

@@ -10,6 +10,13 @@ body {
     font-weight: bold;
 }
 
+.text-white {
+    a {
+        color: inherit;
+        text-decoration: underline;
+    }
+}
+
 .user-select {
     user-select: all;
 }

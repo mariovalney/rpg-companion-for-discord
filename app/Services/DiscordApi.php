@@ -15,7 +15,7 @@ class DiscordApi
     /**
      * Base URL for Oauth
      */
-    const BASE_URL = 'https://discord.com/api';
+    const BASE_URL = 'https://discord.com/api/v8';
 
     /**
      * The clientId
@@ -32,6 +32,13 @@ class DiscordApi
     protected $clientSecret;
 
     /**
+     * The next authorization value
+     *
+     * @var string
+     */
+    protected $authorization;
+
+    /**
      * The Constructor
      *
      * @return void
@@ -43,6 +50,30 @@ class DiscordApi
     }
 
     /**
+     * Request as User
+     *
+     * @return $this
+     */
+    public function user()
+    {
+        $this->authorization = 'Bearer ' . $this->getAccessToken();
+
+        return $this;
+    }
+
+    /**
+     * Request as Bot
+     *
+     * @return $this
+     */
+    public function bot()
+    {
+        $this->authorization = 'Bot ' . Config::get('discord.bot_token');
+
+        return $this;
+    }
+
+    /**
      * A simple get for API
      *
      * @return mixed
@@ -50,7 +81,7 @@ class DiscordApi
     public function get($path, $default = '')
     {
         $url = $this->buildUrl($path);
-        $response = HTTP::withToken($this->getAccessToken())->get($url);
+        $response = HTTP::withHeaders(['Authorization' => $this->authorization])->get($url);
         if (! $response->successful()) {
             $this->log($response);
             return $default;
