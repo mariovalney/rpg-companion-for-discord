@@ -20,11 +20,9 @@ class GuildSelectorComposer
         $guilds = $user ? $user->guilds : [];
         $guilds = collect($guilds);
 
-        $current = Guild::current();
-
         $view->with([
-            'guilds' => $guilds->where('id', '!=', $current),
-            'current' => $guilds->where('id', $current)->first(),
+            'guilds' => $guilds->where('id', '!=', Guild::currentId()),
+            'current' => Guild::current(),
         ]);
     }
 }

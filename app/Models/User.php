@@ -145,7 +145,7 @@ class User extends DiscordUser
     {
         return array_merge([
             'user_id' => $this->id,
-            'guild_id' => Guild::current()
+            'guild_id' => Guild::currentId()
         ], array_filter($attributes));
     }
 }

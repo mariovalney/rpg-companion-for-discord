@@ -127,7 +127,7 @@ class Guild extends Model
      *
      * @return string
      */
-    public static function current()
+    public static function currentId()
     {
         if (empty(self::$current)) {
             $current = Route::current()->parameter('guild');
@@ -135,5 +135,20 @@ class Guild extends Model
         }
 
         return self::$current;
+    }
+
+    /**
+     * Get the current guild
+     *
+     * @return string
+     */
+    public static function current()
+    {
+        $id = self::currentId();
+        if (empty($id)) {
+            return null;
+        }
+
+        return self::find($id);
     }
 }

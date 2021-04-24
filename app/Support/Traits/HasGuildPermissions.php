@@ -13,7 +13,7 @@ trait HasGuildPermissions
      */
     public function getPermissions($guild_id = '')
     {
-        $guild_id = $guild_id ?: Guild::current();
+        $guild_id = $guild_id ?: Guild::currentId();
         return $this->guild_permissions[$guild_id] ?? [];
     }
 

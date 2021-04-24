@@ -8,6 +8,7 @@ return [
         'added' => 'Rolagem adicionada.',
         'edited' => 'Rolagem alterada.',
         'error' => 'Ops... falha crítica.',
+        'empty' => 'Você precisa escolher pelo menos 1 dado ou uma rolagem.',
     ],
     'validation' => [
     ],

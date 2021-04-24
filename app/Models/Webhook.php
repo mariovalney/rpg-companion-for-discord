@@ -100,15 +100,10 @@ class Webhook extends Model
      *
      * @return boolean
      */
-    public function sendMessage()
+    public function sendMessage($message)
     {
         $data = [
-            'embeds' => [
-                [
-                    'title' => 'Nome da Rolagem',
-                    'description' => '1d20 + 5 => 12 + 5 => 17',
-                ]
-            ]
+            'embeds' => [ $message ]
         ];
 
         if (! empty(Auth::user()->username)) {

@@ -2,6 +2,14 @@
     text-decoration: none !important;
 }
 
+.btn:active {
+    filter: none !important;
+}
+
+.btn:focus {
+    box-shadow: none !important;
+}
+
 .btn-bad:hover,
 .btn-okay:hover,
 .btn-good:hover,

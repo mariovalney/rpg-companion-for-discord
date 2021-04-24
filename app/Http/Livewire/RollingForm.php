@@ -5,32 +5,39 @@ namespace App\Http\Livewire;
 use Auth;
 use App\Models\Dice;
 use App\Models\Guild;
+use App\Models\Webhook;
 use Livewire\Component;
 
 class RollingForm extends Component
 {
     /**
-     * The session key
+     * The session key for webhook
      */
-    const SESSION_KEY = 'rolling-form-current-dicesssssss';
+    const SESSION_KEY_WEBHOOK = 'rolling-form-current-webhook';
 
     /**
      * The current guild
-     * @var integer
+     * @var Guild
      */
     public $guild;
+
+    /**
+     * The current webhook
+     * @var Webhook
+     */
+    public $webhook;
+
+    /**
+     * Selected roll
+     * @var Rolling
+     */
+    public $rolling;
 
     /**
      * Dices to be rolled
      * @var array of Dice
      */
     public $dices = [];
-
-    /**
-     * The variables
-     * @var array
-     */
-    public $data = [];
 
     /**
      * Message for error
@@ -49,11 +56,31 @@ class RollingForm extends Component
      *
      * @return view()
      */
+    public function mount()
+    {
+        $this->webhook = session()->get(self::SESSION_KEY_WEBHOOK . '-' . $this->guild->id);
+    }
+
+    /**
+     * Render the component
+     *
+     * @return view()
+     */
     public function render()
     {
-        $this->data = $this->dicesFromSession();
-
         return view('livewire.rolling-form.index');
+    }
+
+    /**
+     * Updated data
+     *
+     * @return void
+     */
+    public function updated($name, $value)
+    {
+        if ($name === 'webhook') {
+            session()->put(self::SESSION_KEY_WEBHOOK . '-' . $this->guild->id, $value);
+        }
     }
 
     /**
@@ -64,24 +91,7 @@ class RollingForm extends Component
      */
     public function addDice($sides)
     {
-        $dices = (array) session()->get(self::SESSION_KEY);
 
-        $added = false;
-        foreach ($dices as $dice) {
-            if ($dice->sides === $sides) {
-                $added = true;
-                $dice->count++;
-            }
-        }
-
-        if (! $added) {
-            $dice = new Dice();
-            $dice->sides = $sides;
-
-            $dices[] = $dice;
-        }
-
-        session()->put(self::SESSION_KEY, $dices);
     }
 
     /**
@@ -92,18 +102,7 @@ class RollingForm extends Component
      */
     public function updateDice($id, $prop, $value)
     {
-        $data = (array) session()->get(self::SESSION_KEY);
 
-        $dices = [];
-        foreach ($data as $dice) {
-            if ($dice->id === $id) {
-                $dice->$prop = $value;
-            }
-
-            $dices[] = $dice;
-        }
-
-        session()->put(self::SESSION_KEY, $dices);
     }
 
     /**
@@ -114,18 +113,7 @@ class RollingForm extends Component
      */
     public function removeDice($id)
     {
-        $data = (array) session()->get(self::SESSION_KEY);
 
-        $dices = [];
-        foreach ($data as $dice) {
-            if ($dice->id === $id) {
-                continue;
-            }
-
-            $dices[] = $dice;
-        }
-
-        session()->put(self::SESSION_KEY, $dices);
     }
 
     /**
@@ -135,15 +123,23 @@ class RollingForm extends Component
      */
     public function roll()
     {
-        $guild = Guild::find($this->guild);
-        $webhook = $guild->webhooks()->first();
+        $this->error_message = '';
+        $this->success_message = '';
 
-        if (empty($webhook)) {
+        $webhook = $this->guild->webhooks()->find($this->webhook);
+
+        if (empty($this->webhook)) {
             $this->error_message = __('screens/rollings.webhook.not_configured');
             return;
         }
 
-        if ($webhook->sendMessage()) {
+        if (empty($this->dices)) {
+            $this->error_message = __('screens/rollings.form.empty');
+            return;
+        }
+
+        $message = $this->createMessage($this->dices);
+        if ($webhook->sendMessage($message)) {
             $this->success_message = __('screens/rollings.webhook.success');
             return;
         }
@@ -152,24 +148,31 @@ class RollingForm extends Component
     }
 
     /**
-     * Retrieve dices from session or at leat one
+     * Create a roll message
      *
      * @return array
      */
-    public function dicesFromSession()
+    public function createMessage()
     {
-        $dices = session()->get(self::SESSION_KEY);
-        if ( empty( $dices ) ) {
-            return [];
+        $rolling = '';
+        $result = 0;
+
+        foreach ($this->dices as $dice) {
+
         }
 
-        $data = [];
-        foreach ($dices as $dice) {
-            $data[ $dice->sides ] = $dice->toArray();
+        $message = [
+            'fields' => [
+                'name' => $rolling,
+                'value' => $result,
+            ],
+        ];
+
+        if (! empty($this->rolling)) {
+            $message['title'] = $this->rolling->title;
+            $message['description'] = $this->rolling->description;
         }
 
-        ksort($data);
-
-        return $data;
+        return $message;
     }
 }

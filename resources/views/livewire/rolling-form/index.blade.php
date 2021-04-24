@@ -7,13 +7,19 @@
         <div class="alert alert-bad">{{ $error_message }}</div>
     @endif
 
+    <select wire:model="webhook">
+        @foreach($this->guild->webhooks as $webhook)
+            <option value="{{ $webhook->id }}">{{ $webhook->channel->name }}</option>
+        @endforeach
+    </select>
+
     <div class="rolling-form-wrapper">
         <div class="rolling-form-dices">
-            @foreach($data as $dice)
-                @include('livewire.rolling-form.dice', [ 'dice' => $dice ])
+            @foreach($dices as $dice)
+                @include('livewire.rolling-form.dice', [ 'dice' => $dice->toArray() ])
             @endforeach
 
-            @if(! count($data))
+            @if(! count($dices))
                 <p>@lang('screens/rollings.addone')</p>
             @endif
 

@@ -20,3 +20,8 @@ body {
 .user-select {
     user-select: all;
 }
+
+.form-control:focus {
+    border-color: initial;
+    box-shadow: none !important;
+}

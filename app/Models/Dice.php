@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Support\SimpleModel as Model;
+use App\Support\SimpleModel;
 
-class Dice extends Model
+class Dice extends SimpleModel
 {
     /**
      * Attributes
@@ -41,5 +41,25 @@ class Dice extends Model
         if (empty($this->attributes['id'])) {
             $this->attributes['id'] = uniqid();
         }
+    }
+
+    /**
+     * Roll the dice
+     *
+     * @return int
+     */
+    public function roll()
+    {
+        return $this->sides / 2;
+    }
+
+    /**
+     * Dice to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%sd%s', $this->count, $this->sides);
     }
 }

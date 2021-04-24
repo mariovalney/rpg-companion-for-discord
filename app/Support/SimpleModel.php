@@ -82,6 +82,17 @@ class SimpleModel implements Arrayable, Jsonable
     }
 
     /**
+     * Magic method to isset attributes
+     *
+     * @param  string  $name
+     * @return void
+     */
+    public function __isset($name)
+    {
+        return isset($this->attributes[ $name ]);
+    }
+
+    /**
      * Convert the model instance to JSON.
      *
      * @param  int  $options
