@@ -97,12 +97,17 @@ class DiscordService
         $scope = request()->input('scope');
         $scope = $scope . ' identify email guilds';
 
+        $redirect_url = request()->input('redirect_url');
+        if (empty($redirect_url)) {
+            $redirect_url = route('guilds.index');
+        }
+
         $params = [
             'scope' => trim($scope),
             'response_type' => 'code',
             'client_id' => $this->clientId,
             'redirect_uri' => $this->callbackUrl,
-            'state' => $this->state,
+            'state' => $this->state  . '.' . base64_encode($redirect_url),
         ];
 
         return $this->buildUrl(self::ENDPOINT_AUTHORIZE, $params);
@@ -257,6 +262,6 @@ class DiscordService
      */
     protected function generateRandomState()
     {
-        return bin2hex(random_bytes(16));
+        return str_replace('.', '', bin2hex(random_bytes(16)));
     }
 }

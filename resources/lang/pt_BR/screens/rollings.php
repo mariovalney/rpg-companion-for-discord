@@ -10,5 +10,10 @@ return [
         'error' => 'Ops... falha crítica.',
     ],
     'validation' => [
-    ]
+    ],
+    'webhook' => [
+        'success' => 'A sorte está lançada.',
+        'error' => 'Ops... falha crítica: algum erro ocorreu.',
+        'not_configured' => 'Falha crítica: sua guilda não foi configurada.',
+    ],
 ];

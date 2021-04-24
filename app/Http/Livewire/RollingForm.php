@@ -138,16 +138,16 @@ class RollingForm extends Component
         $guild = Guild::find($this->guild);
         $webhook = $guild->webhooks()->first();
         if (empty($webhook)) {
-            $this->error_message = 'Your guild is not configured.';
+            $this->error_message = __('screens/rollings.webhook.not_configured');
             return;
         }
 
         if ($webhook->sendMessage()) {
-            $this->success_message = 'Success';
+            $this->success_message = __('screens/rollings.webhook.success');
             return;
         }
 
-        $this->error_message = 'Error';
+        $this->error_message = __('screens/rollings.webhook.error');
     }
 
     /**

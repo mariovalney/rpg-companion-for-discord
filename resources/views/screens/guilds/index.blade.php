@@ -14,7 +14,7 @@
 
             @if ($canAddWebhook)
                 <p class="lead">@lang('screens/guilds.webhooks.please_add_webhook')</p>
-                <a href="{{ route('discord.login', ['scope' => 'webhook.incoming']) }}" class="btn btn-lg btn-secondary">
+                <a href="{{ route('discord.login', ['scope' => 'webhook.incoming', 'redirect_url' => url()->current()]) }}" class="btn btn-lg btn-secondary">
                     <i class="fab fa-discord"></i>
                     <span>@lang('auth.login')</span>
                 </a>
@@ -28,7 +28,11 @@
 
             <ul>
                 @foreach($webhooks as $webhook)
-                    <li>{{ $webhook->channel_id }}</li>
+                    <li>
+                        <strong>Guilda:</strong> {{ $webhook->guild_id }}
+                        <br>
+                        <strong>Canal:</strong> {{ $webhook->channel_id }}
+                    </li>
                 @endforeach
             </ul>
         @endif

@@ -2,20 +2,13 @@
 
 namespace App\Models;
 
+use DiscordApi;
 use App\Auth\Models\DiscordUser;
-use App\Services\DiscordApi;
 use App\Support\Traits\HasGuildPermissions;
 
 class User extends DiscordUser
 {
     use HasGuildPermissions;
-
-    /**
-     * The API
-     *
-     * @var DiscordApi
-     */
-    protected $api;
 
     /**
      * Attributes
@@ -47,15 +40,6 @@ class User extends DiscordUser
     protected $casts = [
         'guild_permissions' => 'array',
     ];
-
-    /**
-     * Constructor
-     */
-    public function __construct(array $attributes = [])
-    {
-        $this->api = new DiscordApi($this);
-        parent::__construct($attributes);
-    }
 
     /**
      * Get the guilds associated with the user
@@ -98,7 +82,7 @@ class User extends DiscordUser
      */
     public function syncFromDiscord()
     {
-        $guilds = $this->api->get('users/@me/guilds', []);
+        $guilds = DiscordApi::get('users/@me/guilds', []);
 
         $permissions = [];
         foreach ($guilds as $guild) {

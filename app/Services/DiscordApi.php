@@ -36,7 +36,7 @@ class DiscordApi
      *
      * @return void
      */
-    public function __construct(User $user = null)
+    public function __construct()
     {
         $this->clientId = Config::get('discord.client_id');
         $this->clientSecret = Config::get('discord.client_secret');
@@ -69,7 +69,12 @@ class DiscordApi
     protected function buildUrl($url, $params = [])
     {
         $url = self::BASE_URL . '/' . ltrim($url, '/');
-        return $url . '?' . Arr::query($params);
+
+        if (! empty($params)) {
+            $url .= '?' . Arr::query($params);
+        }
+
+        return $url;
     }
 
     /**

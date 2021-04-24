@@ -44,7 +44,9 @@ class AuthController extends Controller
     public function callback(Request $request)
     {
         // Check given state to mitigate CSRF attack
-        $state = $request->input('state');
+        $input = explode('.', $request->input('state'), 2);
+        $state = $input[0];
+
         if (empty($state) || ! DiscordAuth::validateState($state)) {
             DiscordAuth::forgetState();
 
@@ -57,7 +59,12 @@ class AuthController extends Controller
             $credentials = DiscordAuth::exchangeCode($code);
 
             if ($credentials && Auth::attempt((array) $credentials)) {
-                return redirect()->intended(route('guilds.index'));
+                $redirectUrl = base64_decode($input[1] ?? '');
+                if (empty($redirectUrl)) {
+                    $redirectUrl = route('guilds.index');
+                }
+
+                return redirect($redirectUrl);
             }
         }
 

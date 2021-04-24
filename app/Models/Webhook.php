@@ -24,6 +24,27 @@ class Webhook extends Model
         'guild_id',
     ];
 
+    /**
+     * Get info from Discord
+     *
+     * @return array
+     */
+    public function getInfo()
+    {
+        $response = Http::get($this->url);
+
+        if (! $response->successful()) {
+            return [];
+        }
+
+        return $response->json();
+    }
+
+    /**
+     * Send a message to channel
+     *
+     * @return boolean
+     */
     public function sendMessage()
     {
         $data = [

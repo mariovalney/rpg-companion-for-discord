@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use DiscordApi;
 use Route;
 use Illuminate\Database\Eloquent\Model;
 
