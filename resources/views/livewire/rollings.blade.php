@@ -13,6 +13,12 @@
                 @endforeach
             </select>
         </div>
+
+        <div class="col-sm-12 text-white">
+            <p class="lead mt-3">
+                @lang('screens/rollings.description')
+            </p>
+        </div>
     </div>
 
     @livewire('rolling-form', ['guild' => $this->guild, 'webhook' => $this->webhook], key($this->webhook))
