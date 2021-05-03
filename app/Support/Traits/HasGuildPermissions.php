@@ -2,7 +2,7 @@
 
 namespace App\Support\Traits;
 
-use App\Models\Guild;
+use Guilds;
 
 trait HasGuildPermissions
 {
@@ -13,7 +13,7 @@ trait HasGuildPermissions
      */
     public function getPermissions($guild_id = '')
     {
-        $guild_id = $guild_id ?: Guild::currentId();
+        $guild_id = $guild_id ?: Guilds::currentId();
         return $this->guild_permissions[$guild_id] ?? [];
     }
 

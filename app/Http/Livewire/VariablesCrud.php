@@ -71,10 +71,39 @@ class VariablesCrud extends Component
     {
         $this->data = Variable::where([
             'user_id' => Auth::id(),
-            'guild_id' => $this->guild,
+            'guild_id' => $this->guild->id,
         ])->get();
 
         return view('livewire.variables-crud.index');
+    }
+
+    /**
+     * Updated the component
+     *
+     * @return void
+     */
+    public function updated($name, $value)
+    {
+        if ($name !== 'variable_name') {
+            return;
+        }
+
+        // Normalize variable name
+        $this->variable_name = mb_strtoupper($this->variable_name);
+
+        // Check is editing
+        $found = $this->data->firstWhere('name', $this->variable_name);
+
+        if (! empty($found)) {
+            $this->variable_value = $found->value;
+            $this->editing = $found->id;
+            return;
+        }
+
+        if ($this->editing) {
+            $this->variable_value = 0;
+            $this->editing = 0;
+        }
     }
 
     /**
@@ -99,7 +128,7 @@ class VariablesCrud extends Component
 
         $variable->name = $this->variable_name;
         $variable->value = $this->variable_value;
-        $variable->guild_id = $this->guild;
+        $variable->guild_id = $this->guild->id;
         $variable->user_id = Auth::id();
 
         if ($variable->save()) {
@@ -151,7 +180,7 @@ class VariablesCrud extends Component
      */
     public function empty()
     {
-        $this->editing = false;
+        $this->editing = 0;
         $this->variable_name = '';
         $this->variable_value = '';
     }

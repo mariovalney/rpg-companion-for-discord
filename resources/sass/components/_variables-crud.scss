@@ -1,6 +1,8 @@
 .variables-crud-wrapper {
-    background: #FFFFFF;
-    padding: 1rem 1.5rem 0;
+    & > div {
+        background: #FFFFFF;
+        padding: 1.5rem 1.5rem 0.5rem;
+    }
 
     .form-row {
         display: flex;
@@ -11,6 +13,7 @@
 
         .form-group {
             padding-right: 1rem;
+            flex-grow: 4;
 
             input {
                 text-transform: uppercase;
@@ -19,16 +22,26 @@
 
         .form-submit-group {
             text-align: right;
-            flex-grow: 9;
+            flex-grow: 2;
             padding-right: 0;
 
             button {
                 margin: 0;
+                padding-top: 0.45rem;
+                padding-bottom: 0.45rem;
             }
         }
     }
 }
 
 .variables-crud-list {
-    margin-top: 3rem;
+    margin-top: 2rem;
+    padding-bottom: .25rem !important;
+
+    .table-responsive {
+        th {
+            padding-top: 0;
+            border-top: 0;
+        }
+    }
 }

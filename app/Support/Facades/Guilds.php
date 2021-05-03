@@ -5,9 +5,9 @@ namespace App\Support\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see App\Services\DiscordApi
+ * @see App\Support\Guilds
  */
-class DiscordApi extends Facade
+class Guilds extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -16,6 +16,6 @@ class DiscordApi extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'discord-api';
+        return 'guilds';
     }
 }

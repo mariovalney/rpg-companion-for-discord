@@ -25,13 +25,6 @@ class Guild extends Model
     protected $keyType = 'string';
 
     /**
-     * The current Guild
-     *
-     * @var bool
-     */
-    private static $current;
-
-    /**
      * Attributes
      *
      * @var array
@@ -120,35 +113,5 @@ class Guild extends Model
         }
 
         $this->refresh();
-    }
-
-    /**
-     * Get the current guild
-     *
-     * @return string
-     */
-    public static function currentId()
-    {
-        if (empty(self::$current)) {
-            $current = Route::current()->parameter('guild');
-            self::$current = $current ? $current->id : null;
-        }
-
-        return self::$current;
-    }
-
-    /**
-     * Get the current guild
-     *
-     * @return string
-     */
-    public static function current()
-    {
-        $id = self::currentId();
-        if (empty($id)) {
-            return null;
-        }
-
-        return self::find($id);
     }
 }

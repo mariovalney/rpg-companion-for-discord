@@ -3,7 +3,7 @@
 namespace App\Http\View\Composers;
 
 use Auth;
-use App\Models\Guild;
+use Guilds;
 use Illuminate\View\View;
 
 class SidebarComposer
@@ -21,8 +21,8 @@ class SidebarComposer
         $guilds = collect($guilds);
 
         $view->with([
-            'guilds' => $guilds->where('id', '!=', Guild::currentId()),
-            'current' => Guild::current(),
+            'guilds' => $guilds->where('id', '!=', Guilds::currentId()),
+            'current' => Guilds::current(),
         ]);
     }
 }

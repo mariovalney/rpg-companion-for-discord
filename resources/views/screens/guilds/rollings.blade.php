@@ -3,5 +3,5 @@
 @section('title', __('screens/rollings.title'))
 
 @section('content')
-    @livewire('rollings', ['guild' => App\Models\Guild::current()])
+    @livewire('rollings', ['guild' => Guilds::current()])
 @endsection

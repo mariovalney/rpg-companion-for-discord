@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use DiscordApi;
+use Guilds;
 use App\Auth\Models\DiscordUser;
 use App\Support\Traits\HasGuildPermissions;
 
@@ -145,7 +146,7 @@ class User extends DiscordUser
     {
         return array_merge([
             'user_id' => $this->id,
-            'guild_id' => Guild::currentId()
+            'guild_id' => Guilds::currentId()
         ], array_filter($attributes));
     }
 }

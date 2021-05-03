@@ -15,6 +15,6 @@
     </div>
 
     <div class="mt-5">
-        @livewire('variables-crud', ['guild' => \App\Models\Guild::current()])
+        @livewire('variables-crud', ['guild' => Guilds::current()])
     </div>
 @endsection

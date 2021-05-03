@@ -229,6 +229,7 @@ return [
         // App Facades
         'DiscordApi' => App\Support\Facades\DiscordApi::class,
         'DiscordAuth' => App\Auth\Facades\DiscordAuth::class,
+        'Guilds' => App\Support\Facades\Guilds::class,
     ],
 
 ];

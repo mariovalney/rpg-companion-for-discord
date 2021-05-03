@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('discord-api', function($app) {
             return $app->make(\App\Services\DiscordApi::class);
         });
+
+        $this->app->bind('guilds', function($app) {
+            return $app->make(\App\Support\Guilds::class);
+        });
     }
 
     /**
