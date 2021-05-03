@@ -31,6 +31,6 @@ class AppServiceProvider extends ServiceProvider
         URL::forceScheme('https');
 
         // View Composers
-        View::composer('components.sidebar', 'App\Http\View\Composers\GuildSelectorComposer');
+        View::composer('components.sidebar', 'App\Http\View\Composers\SidebarComposer');
     }
 }

@@ -33,7 +33,7 @@ class GuildController extends Controller
         $guild->syncFromDiscord();
         $guild->refresh();
 
-        return $this->render('screens.guilds.index', $guild);
+        return $this->render('screens.guilds.index', $guild, [], true);
     }
 
     /**
@@ -61,10 +61,14 @@ class GuildController extends Controller
      *
      * @return view()
      */
-    public function render($view, Guild $guild, $data = [])
+    public function render($view, Guild $guild, $data = [], $allowWithoutBot = false)
     {
         if (empty($guild->id) || ! $guild->belongsToUser()) {
             return view('screens.guilds.notfound')->with('message', __('screens/guilds.notfound.content'));
+        }
+
+        if (! $allowWithoutBot && empty($guild->has_bot) ) {
+            return view('screens.guilds.notfound')->with('message', __('screens/guilds.notfound.notconfigured'));
         }
 
         $data = array_merge($data, ['guild' => $guild ]);

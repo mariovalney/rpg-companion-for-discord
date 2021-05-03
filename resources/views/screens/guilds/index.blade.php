@@ -47,14 +47,14 @@
         @if ($guild->has_bot && ! empty($guild->webhooks->all()))
             <p class="lead">@lang('screens/guilds.webhooks.found')</p>
 
-            <ul>
+            <ul class="list-unstyled lead">
                 @foreach($guild->webhooks as $webhook)
-                    <li>{{ $webhook->channel->name }}</li>
+                    <li class="text-bold">#{{ $webhook->channel->name }}</li>
                 @endforeach
             </ul>
 
             @if (Auth::user()->checkPermission('MANAGE_WEBHOOKS'))
-                <a href="{{ route('discord.login', ['scope' => 'webhook.incoming', 'guild_id' => $guild->id, 'redirect_url' => url()->current()]) }}" class="btn btn-lg btn-secondary mt-2">
+                <a href="{{ route('discord.login', ['scope' => 'webhook.incoming', 'guild_id' => $guild->id, 'redirect_url' => url()->current()]) }}" class="btn btn-lg btn-secondary mt-5">
                     <i class="fab fa-discord"></i>
                     <span>@lang('screens/guilds.webhooks.add_another')</span>
                 </a>

@@ -6,7 +6,7 @@ use Auth;
 use App\Models\Guild;
 use Illuminate\View\View;
 
-class GuildSelectorComposer
+class SidebarComposer
 {
     /**
      * Bind data to the view.
