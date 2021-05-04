@@ -61,4 +61,6 @@
             @endif
         @endif
     </div>
+
+    <div id="background-mark"></div>
 @endsection

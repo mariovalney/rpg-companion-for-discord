@@ -7,7 +7,7 @@
         <header class="masthead mb-auto p-3">
             <div class="inner">
                 <h3 class="masthead-brand">
-                    <i class="fas fa-dice-d20"></i>
+                    <img src="{{ url('images/logo.png') }}" height="60">
                 </h3>
             </div>
         </header>
