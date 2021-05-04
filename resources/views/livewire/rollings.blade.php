@@ -21,5 +21,5 @@
         </div>
     </div>
 
-    @livewire('rolling-form', ['guild' => $this->guild, 'webhook' => $this->webhook], key($this->webhook))
+    @livewire('rollings-crud', ['guild' => $this->guild, 'webhook' => $this->guild->webhooks->find($this->webhook)], key($this->webhook))
 </div>

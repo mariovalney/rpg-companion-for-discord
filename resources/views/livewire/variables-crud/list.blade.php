@@ -18,18 +18,18 @@
                     </thead>
 
                     <tbody>
-                        @foreach($data as $row)
+                        @foreach($variables as $variable)
                             <tr class="text-uppercase">
-                                <td>{{$row->name}}</td>
-                                <td>{{$row->value}}</td>
+                                <td>{{ $variable->name }}</td>
+                                <td>{{ $variable->value }}</td>
                                 <td class="text-right">
-                                    <button wire:click="edit({{$row->id}})"class="btn btn-sm py-1 btn-primary">@lang('forms.edit')</button>
-                                    <button wire:click="destroy({{$row->id}})" class="btn btn-sm py-1 btn-bad">@lang('forms.delete')</button>
+                                    <button wire:click="edit({{ $variable->id }})"class="btn btn-sm py-1 btn-primary">@lang('forms.edit')</button>
+                                    <button wire:click="destroy({{ $variable->id }})" class="btn btn-sm py-1 btn-bad">@lang('forms.delete')</button>
                                 </td>
                             </tr>
                         @endforeach
 
-                        @if(! count($data))
+                        @if(! count($variables))
                             <tr>
                                 <td colspan="4">@lang('screens/variables.empty')</td>
                             </tr>

@@ -38,7 +38,7 @@ class VariablesCrud extends Component
      * The variables
      * @var array
      */
-    public $data = [];
+    public $variables = [];
 
     /**
      * The editing state
@@ -52,6 +52,9 @@ class VariablesCrud extends Component
      */
     protected $messages = [];
 
+    /**
+     * The constructor
+     */
     public function __construct()
     {
         $this->messages = [
@@ -69,7 +72,7 @@ class VariablesCrud extends Component
      */
     public function render()
     {
-        $this->data = Variable::where([
+        $this->variables = Variable::where([
             'user_id' => Auth::id(),
             'guild_id' => $this->guild->id,
         ])->get();
@@ -92,7 +95,7 @@ class VariablesCrud extends Component
         $this->variable_name = mb_strtoupper($this->variable_name);
 
         // Check is editing
-        $found = $this->data->firstWhere('name', $this->variable_name);
+        $found = $this->variables->firstWhere('name', $this->variable_name);
 
         if (! empty($found)) {
             $this->variable_value = $found->value;

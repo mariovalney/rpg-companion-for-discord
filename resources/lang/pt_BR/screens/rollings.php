@@ -4,12 +4,12 @@ return [
     'title'       => 'Rolagens',
     'description' => 'Crie e realize rolagens de dados para cada canal disponível.',
     'empty'       => 'Nenhuma rolagem disponível.',
-    'addone'      => 'Escolha uma rolagem ou adicione um dado.',
+    'addone'      => 'Adicione um dado para começar a criar sua rolagem.',
     'form'        => [
         'added'  => 'Rolagem adicionada.',
         'edited' => 'Rolagem alterada.',
         'error'  => 'Ops... falha crítica.',
-        'empty'  => 'Você precisa escolher pelo menos 1 dado ou uma rolagem.',
+        'empty'  => 'Você precisa escolher pelo menos 1 dado.',
     ],
     'validation'  => [
     ],
