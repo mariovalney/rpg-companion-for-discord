@@ -46,7 +46,7 @@ class User extends DiscordUser
      */
     public function guilds()
     {
-        return $this->belongsToMany('App\Models\Guild');
+        return $this->belongsToMany('App\Models\Guild')->orderBy('has_bot', 'desc')->orderBy('name', 'asc');
     }
 
     /**
