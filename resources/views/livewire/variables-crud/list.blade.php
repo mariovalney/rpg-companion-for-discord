@@ -2,11 +2,11 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             @if (session()->has('message_success'))
-                <div class="alert alert-good">{{ session('message_success') }}</div>
+                @alert('{{ session("message_success") }}', 'good')
             @endif
 
             @if (session()->has('message_error'))
-                <div class="alert alert-bad">{{ session('message_error') }}</div>
+                @alert('{{ session("message_error") }}', 'bad')
             @endif
 
             <div class="table-responsive">

@@ -1,10 +1,10 @@
 <div>
     @if(! empty($success_message))
-        <div class="alert alert-good">{{ $success_message }}</div>
+        @alert('{{ $success_message }}', 'good')
     @endif
 
     @if(! empty($error_message))
-        <div class="alert alert-bad">{{ $error_message }}</div>
+        @alert('{{ $error_message }}', 'bad')
     @endif
 
     <div class="rolling-form-wrapper has-overlay-loading">
