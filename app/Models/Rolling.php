@@ -35,4 +35,42 @@ class Rolling extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    /**
+     * Print the rolling to hummans
+     */
+    public function describe()
+    {
+        return '1d20 + 20';
+    }
+
+    /**
+     * Create a roll message
+     *
+     * @return array
+     */
+    public function createMessage()
+    {
+        $rolling = '';
+        $result = 12;
+
+        $message = [
+            'fields' => [
+                [
+                    'name' => sprintf('%s: %s', __('screens/rollings.result'), $result),
+                    'value' => $rolling ?: '-',
+                ],
+            ],
+        ];
+
+        if (! empty($this->title)) {
+            $message['title'] = $this->title;
+        }
+
+        if (! empty($this->description)) {
+            $message['description'] = $this->description;
+        }
+
+        return $message;
+    }
 }

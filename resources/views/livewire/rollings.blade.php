@@ -7,8 +7,8 @@
         </div>
 
         <div class="col-sm-12 col-md-5 col-xl-3">
-            <select wire:model="webhook" class="form-control">
-                <option value="" disabled>{{ __('Escolha um canal') }}</option>
+            <select wire:model="webhookId" class="form-control">
+                <option value="" disabled>{{ __('screens/rollings.choose_a_channel') }}</option>
 
                 @foreach($this->guild->webhooks as $webhook)
                     <option value="{{ $webhook->id }}">{{ $webhook->channel->name }}</option>
@@ -23,5 +23,5 @@
         </div>
     </div>
 
-    @livewire('rollings-crud', ['webhook' => $this->guild->webhooks->find($this->webhook)], key($this->webhook))
+    @livewire('rollings-list', ['webhookId' => $this->webhookId], key($this->webhookId))
 </div>

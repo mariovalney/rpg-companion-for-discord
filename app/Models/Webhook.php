@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use Log;
 use App\Models\Channel;
 use App\Models\Guild;
 use Illuminate\Support\Facades\Http;
@@ -116,6 +117,13 @@ class Webhook extends Model
 
         $response = Http::post($this->url . '?wait=true', $data);
 
-        return $response->successful();
+        if ($response->successful()) {
+            return true;
+        }
+
+        // Log the error
+        Log::error('[Discord Webhook] ' . $response->status() . "\n" . print_r($response->body(), true));
+
+        return false;
     }
 }

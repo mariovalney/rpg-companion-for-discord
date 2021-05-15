@@ -25,7 +25,7 @@ class Rollings extends Component
      * The current webhook
      * @var Webhook
      */
-    public $webhook = '';
+    public $webhookId = '';
 
     /**
      * Render the component
@@ -34,7 +34,7 @@ class Rollings extends Component
      */
     public function mount()
     {
-        $this->webhook = session()->get($this->getWebhookSessionKey(), '');
+        $this->webhookId = session()->get($this->getWebhookSessionKey(), '');
     }
 
     /**
@@ -54,7 +54,7 @@ class Rollings extends Component
      */
     public function updated($name, $value)
     {
-        if ($name === 'webhook') {
+        if ($name === 'webhookId') {
             session()->put($this->getWebhookSessionKey(), $value);
         }
     }
