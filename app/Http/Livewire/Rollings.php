@@ -34,7 +34,7 @@ class Rollings extends Component
      */
     public function mount()
     {
-        $this->webhook = session()->get(self::SESSION_KEY_WEBHOOK . '-' . $this->guild->id, '');
+        $this->webhook = session()->get($this->getWebhookSessionKey(), '');
     }
 
     /**
@@ -55,7 +55,17 @@ class Rollings extends Component
     public function updated($name, $value)
     {
         if ($name === 'webhook') {
-            session()->put(self::SESSION_KEY_WEBHOOK . '-' . $this->guild->id, $value);
+            session()->put($this->getWebhookSessionKey(), $value);
         }
+    }
+
+    /**
+     * Get the Webhook session key
+     *
+     * @return string
+     */
+    private function getWebhookSessionKey()
+    {
+        return self::SESSION_KEY_WEBHOOK . '-' . $this->guild->id . '-' . Auth::id();
     }
 }

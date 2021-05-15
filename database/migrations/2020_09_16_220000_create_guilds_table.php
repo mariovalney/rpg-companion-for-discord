@@ -18,6 +18,7 @@ class CreateGuildsTable extends Migration
 
             $table->string('name');
             $table->string('icon')->nullable();
+            $table->boolean('has_bot')->nullable();
 
             $table->timestamps();
 

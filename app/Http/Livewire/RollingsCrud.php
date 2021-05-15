@@ -20,7 +20,7 @@ class RollingsCrud extends Component
      * The current webhook
      * @var Webhook
      */
-    public $webhook;
+    public $webhook = '';
 
     /**
      * Validation errors

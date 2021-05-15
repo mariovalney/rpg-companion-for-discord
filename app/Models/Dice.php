@@ -50,7 +50,8 @@ class Dice extends SimpleModel
      */
     public function roll()
     {
-        return $this->sides / 2;
+        // TODO: DEV
+        return floor( $this->sides / 2 );
     }
 
     /**
