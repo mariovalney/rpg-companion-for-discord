@@ -1,6 +1,5 @@
 .variables-crud-wrapper {
     & > div {
-        background: #FFFFFF;
         padding: 1.5rem 1.5rem 0.5rem;
     }
 
@@ -35,8 +34,12 @@
 }
 
 .variables-crud-list {
-    margin-top: 2rem;
+    padding-top: 1.5 !important;
     padding-bottom: .25rem !important;
+
+    .alert {
+        margin-bottom: 3rem !important;
+    }
 
     .table-responsive {
         th {

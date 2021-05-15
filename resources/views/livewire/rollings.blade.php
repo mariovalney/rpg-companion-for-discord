@@ -16,12 +16,12 @@
             </select>
         </div>
 
-        <div class="col-sm-12 text-white">
+        <div class="col-sm-12">
             <p class="lead mt-3">
                 @lang('screens/rollings.description')
             </p>
         </div>
     </div>
 
-    @livewire('rollings-crud', ['guild' => $this->guild, 'webhook' => $this->guild->webhooks->find($this->webhook)], key($this->webhook))
+    @livewire('rollings-crud', ['webhook' => $this->guild->webhooks->find($this->webhook)], key($this->webhook))
 </div>

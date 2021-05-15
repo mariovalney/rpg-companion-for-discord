@@ -11,7 +11,7 @@
             @error('variable_value') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
         <div class="form-group form-submit-group">
-            <button type="submit" wire:click.prevent="process" class="btn btn-primary">@lang($editing ? 'forms.edit' : 'forms.add')</button>
+            <button type="submit" wire:click.prevent="process" class="btn">@lang($editing ? 'forms.edit' : 'forms.add')</button>
         </div>
     </div>
 </div>

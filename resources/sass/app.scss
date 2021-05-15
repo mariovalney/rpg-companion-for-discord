@@ -1,9 +1,9 @@
+@import 'general/variables';
+
 @import "~bootstrap/scss/bootstrap";
 
 @import 'vendor/dashboard';
 @import 'vendor/cray';
-
-@import 'general/variables';
 
 @import 'general/alerts';
 @import 'general/base';
@@ -15,6 +15,7 @@
 @import 'layouts/with-sidebar';
 
 @import 'components/background-mark';
+@import 'components/cards';
 @import 'components/guild-selector';
 @import 'components/loading';
 @import 'components/navbar';

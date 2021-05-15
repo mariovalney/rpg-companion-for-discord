@@ -49,4 +49,12 @@ class Channel extends Model
     {
         return $this->hasMany('App\Models\Webhook');
     }
+
+    /**
+     * Get the user rollings associated to this channel
+     */
+    public function rollings()
+    {
+        return $this->hasMany('App\Models\Rolling')->where('user_id', Auth::id());
+    }
 }

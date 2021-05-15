@@ -11,16 +11,10 @@ use Livewire\Component;
 class RollingsCrud extends Component
 {
     /**
-     * The current guild
-     * @var string
-     */
-    public $guild;
-
-    /**
      * The current webhook
      * @var Webhook
      */
-    public $webhook = '';
+    public $webhook;
 
     /**
      * Validation errors
@@ -56,13 +50,26 @@ class RollingsCrud extends Component
     }
 
     /**
+     * Mount the component
+     *
+     * @return void
+     */
+    public function mount()
+    {
+        $this->rollings = collect([]);
+
+        if (! empty($this->webhook)) {
+            $this->rollings = $this->webhook->channel->rollings;
+        }
+    }
+
+    /**
      * Render the component
      *
      * @return view()
      */
     public function render()
     {
-        $this->rollings = [];
         return view('livewire.rollings-crud.index');
     }
 }

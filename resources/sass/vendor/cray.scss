@@ -8,21 +8,8 @@ html {
 
 body {
     background-color: #23272A;
-
-    > h1 {
-        color: #FFFFFF;
-    }
+    color: $color_white;
 }
-
-h2, h3, h4, h5, h6, strong {
-    color: #FFFFFF;
-}
-
-html > body {
-    color: #8f9093;
-}
-
-h1 {}
 
 .white {
     color: black;
