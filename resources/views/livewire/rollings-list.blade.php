@@ -1,6 +1,6 @@
 <div>
     @if(empty($webhookId) || empty($this->rollings))
-        @alert(__('screens/rollings.choose_to_start'))
+        @alert('{{ __("screens/rollings.choose_to_start") }}')
     @else
         @if(! empty($this->alert))
             <div class="mb-5">
@@ -16,9 +16,16 @@
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
                         <div class="card rolling-card">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $rolling->title ?: $rolling->id }}</h5>
-                                <p class="card-text">{{ $rolling->description ?? '' }}</p>
-                                <p class="card-text small">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>
+                                <a href="{{ route('rollings.edit', [ 'guild' => $this->guildId, 'rolling' => $rolling->id ]) }}" class="edit-overlay">
+                                    <span class="icon">
+                                        <i class="fas fa-pen-square"></i>
+                                    </span>
+
+                                    <h5 class="card-title">{{ $rolling->title ?: $rolling->id }}</h5>
+                                    <p class="card-text">{{ $rolling->description ?? '' }}</p>
+                                    <p class="card-text small">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>
+                                </a>
+
                                 <div class="card-buttons">
                                     <a wire:click.prevent="rollWithDisadvantage({{ $rolling->id }})" href="#" class="btn btn-bad d-block" title="{{ __('screens/rollings.roll.disadvantaged') }}">
                                         <div>

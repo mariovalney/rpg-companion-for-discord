@@ -43,6 +43,14 @@ class Channel extends Model
     ];
 
     /**
+     * Get the guild associated with the channel
+     */
+    public function guild()
+    {
+        return $this->belongsTo('App\Models\Guild');
+    }
+
+    /**
      * Get the webhooks associated with the channel
      */
     public function webhooks()

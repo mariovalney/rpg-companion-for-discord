@@ -23,5 +23,5 @@
         </div>
     </div>
 
-    @livewire('rollings-list', ['webhookId' => $this->webhookId], key($this->webhookId))
+    @livewire('rollings-list', ['guildId' => $this->guild->id, 'webhookId' => $this->webhookId], key($this->webhookId))
 </div>

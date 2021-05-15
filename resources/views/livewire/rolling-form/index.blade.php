@@ -1,21 +1,35 @@
 <div>
-    @if(! empty($success_message))
-        @alert('{{ $success_message }}', 'good')
+    <div class="row align-items-center mb-5">
+        <div class="col">
+            <h1 class="page-title mb-0">
+                @if(empty($this->rolling))
+                    {{ __('screens/rolling.title_empty') }}
+                @else
+                    {{ sprintf('%s: %s', __('screens/rolling.title'), $rolling->getTitle() ) }}
+                @endif
+            </h1>
+        </div>
+    </div>
+
+    @if(empty($this->rolling))
+        @alert('{{ __("screens/rolling.empty") }}')
+    @else
+        @if(! empty($this->alert))
+            <div class="mb-5">
+                @alert('{{ $this->alert["text"] }}', '{{ $this->alert["type"] }}')
+            </div>
+        @endif
     @endif
 
-    @if(! empty($error_message))
-        @alert('{{ $error_message }}', 'bad')
-    @endif
-
-    <div class="rolling-form-wrapper has-overlay-loading">
+    {{-- <div class="rolling-form-wrapper has-overlay-loading">
         @include('livewire.parts.overlay-loading')
 
         <div class="rolling-form-dices">
-            @foreach($dices as $dice)
+            @foreach($this->dices as $dice)
                 @include('livewire.rolling-form.dice', [ 'dice' => $dice->toArray() ])
             @endforeach
 
-            @if(! count($dices))
+            @if(! count($this->dices))
                 <p>@lang('screens/rollings.addone')</p>
             @endif
 
@@ -35,5 +49,5 @@
                 <button wire:click.prevent="addDice(100)" class="btn">1d100</button>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>

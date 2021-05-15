@@ -6,10 +6,19 @@ use Auth;
 use App\Models\Guild;
 use App\Models\Rolling;
 use App\Models\Webhook;
+use App\Support\Traits\HasAlert;
 use Livewire\Component;
 
 class RollingsList extends Component
 {
+    use HasAlert;
+
+    /**
+     * The current guild
+     * @var string
+     */
+    public $guildId = '';
+
     /**
      * The current webhook
      * @var string
@@ -27,12 +36,6 @@ class RollingsList extends Component
      * @var collection
      */
     public $rollings;
-
-    /**
-     * The alert
-     * @var array
-     */
-    public $alert;
 
     /**
      * The webhook object
@@ -130,25 +133,6 @@ class RollingsList extends Component
         }
 
         $this->setAlert(__('Rolagem inválida. Por favor, tente novamente.'), 'bad');
-    }
-
-    /**
-     * Set a alert to screen
-     *
-     * @param string $text
-     * @param string $type
-     */
-    protected function setAlert($text, $type = 'default')
-    {
-        if (empty($text)) {
-            $this->alert = null;
-            return;
-        }
-
-        $this->alert = [
-            'type' => $type,
-            'text' => $text,
-        ];
     }
 
     /**

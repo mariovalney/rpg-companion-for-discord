@@ -1,4 +1,40 @@
 .rolling-card {
+    .edit-overlay {
+        color: inherit;
+        display: block;
+        margin-bottom: 1rem;
+        position: relative;
+        min-height: 60px;
+        text-decoration: none;
+
+        .icon {
+            display: none;
+            opacity: 0;
+            transition-duration: 1s;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2.5rem;
+            margin: auto;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &:hover {
+            > * {
+                filter: blur(2px);
+            }
+
+            .icon {
+                opacity: 1;
+                display: flex;
+                filter: none;
+            }
+        }
+    }
+
     .card-buttons {
         display: flex;
         justify-content: space-between;

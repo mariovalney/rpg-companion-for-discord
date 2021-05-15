@@ -31,9 +31,23 @@ class Rolling extends Model
     /**
      * Get the user associated
      */
-    public function users()
+    public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    /**
+     * Get the title or a placeholder
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        if (empty($this->title)) {
+            return '#' . $this->id;
+        }
+
+        return $this->title;
     }
 
     /**
