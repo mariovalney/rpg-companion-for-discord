@@ -114,15 +114,17 @@ class Rolling extends Model
     /**
      * Create a roll message
      *
+     * @param  int $type
+     *
      * @return array
      */
-    public function createMessage()
+    public function createMessage($type = 0)
     {
         $rolling = [];
         $result = 0;
 
         foreach ($this->rolling as $part) {
-            $roll = $part->roll();
+            $roll = $part->roll($type);
 
 
             $rolling[] = $roll->description;

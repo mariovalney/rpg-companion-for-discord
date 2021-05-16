@@ -105,6 +105,8 @@ class RollingsList extends Component
      * Roll a normal rolling
      *
      * @param  int $rollingId
+     * @param  int $type
+     *
      * @return void
      */
     public function roll($rollingId, $type = 0)
@@ -115,7 +117,7 @@ class RollingsList extends Component
             return;
         }
 
-        $this->sendMessage($rolling);
+        $this->sendMessage($rolling, $type);
         $this->emit('RunDiscordMarkdown');
     }
 
@@ -139,16 +141,19 @@ class RollingsList extends Component
     /**
      * Send a message to webhook
      *
+     * @param  Rolling $rolling
+     * @param  int $type
+     *
      * @return void
      */
-    protected function sendMessage($rolling)
+    protected function sendMessage($rolling, $type = 0)
     {
         if (empty($this->webhook()) || empty($rolling)) {
             $this->setAlert(__('screens/rollings.webhook.error'), 'bad');
             return;
         }
 
-        $message = $rolling->createMessage();
+        $message = $rolling->createMessage($type);
         if ($this->webhook()->sendMessage($message)) {
             $this->setAlert(__('screens/rollings.webhook.success'), 'good');
             return;

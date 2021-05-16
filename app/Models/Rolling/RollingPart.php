@@ -93,13 +93,21 @@ class RollingPart extends SimpleModel
     /**
      * Roll the rolling part
      *
+     * @param  int $type
+     *
      * @return string
      */
-    public function roll()
+    public function roll($type = 0)
     {
-        $result = $this->makeRoll();
+        $results = [ $this->makeRoll() ];
 
-        $value = $result;
+        if ($type !== 0) {
+            $results[] = $this->makeRoll();
+        }
+
+        $value = $type >= 0 ? max($results) : min($results);
+        $usedValue = $value;
+
         if (! $this->isPositive()) {
             $value = -1 * $value;
         }
@@ -113,8 +121,19 @@ class RollingPart extends SimpleModel
 
         $description = $this->toText();
 
+        if ($this->isDice() && $type !== 0) {
+            foreach ($results as $key => $result) {
+                if ($usedValue !== $result) {
+                    continue;
+                }
+
+                $results[ $key ] = '**' . $value . '**';
+                break;
+            }
+        }
+
         if ($this->isVariable() || $this->isDice()) {
-            $description .= ' (' . $result . ')';
+            $description .= ' (' . implode(', ', $results) . ')';
         }
 
         return (object) [
