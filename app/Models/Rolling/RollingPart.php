@@ -189,7 +189,13 @@ class RollingPart extends SimpleModel
         }
 
         if ($this->isDice()) {
-            return random_int(1, $this->dice);
+            $rolls = [
+                random_int(1, $this->dice),
+                random_int(1, $this->dice),
+                random_int(1, $this->dice),
+            ];
+
+            return $rolls[ array_rand($rolls) ];
         }
 
         if (! empty($this->number)) {

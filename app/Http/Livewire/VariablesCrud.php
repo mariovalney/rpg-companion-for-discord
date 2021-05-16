@@ -72,10 +72,7 @@ class VariablesCrud extends Component
      */
     public function render()
     {
-        $this->variables = Variable::where([
-            'user_id' => Auth::id(),
-            'guild_id' => $this->guild->id,
-        ])->get();
+        $this->variables = Variable::findAll($this->guild->id)->get();
 
         return view('livewire.variables-crud.index');
     }
