@@ -58,14 +58,6 @@ class User extends DiscordUser
     }
 
     /**
-     * Get variables associated with the user
-     */
-    public function variables()
-    {
-        return Variable::where($this->myVariableArgs());
-    }
-
-    /**
      * Retrieve the user avatar URL
      *
      * @return string
@@ -102,51 +94,5 @@ class User extends DiscordUser
         // Set permissions
         $this->guild_permissions = $permissions;
         $this->save();
-    }
-
-    /**
-     * Add or update a var
-     *
-     * @return void
-     */
-    public function updateVariable($name, $value, $guild = null)
-    {
-        $data = $this->myVariableArgs(['name' => $name, 'guild_id' => $guild]);
-
-        $variable = Variable::firstOrNew($data);
-        $variable->value = $value;
-
-        return $variable->save();
-    }
-
-    /**
-     * Retrieve a var
-     *
-     * @return void
-     */
-    public function getVariable($name, $default = null)
-    {
-        $data = $this->myVariableArgs(['name' => $name]);
-
-        $variable = Variable::where($data)->first();
-        if (! $variable) {
-            return $default;
-        }
-
-        return $variable->value;
-    }
-
-    /**
-     * Helper to keep variables in guild-user context
-     *
-     * @param  array  $attributes
-     * @return array
-     */
-    private function myVariableArgs($attributes = [])
-    {
-        return array_merge([
-            'user_id' => $this->id,
-            'guild_id' => Guilds::currentId()
-        ], array_filter($attributes));
     }
 }

@@ -71,6 +71,26 @@ class RollingPart extends SimpleModel
     }
 
     /**
+     * Check if is empty
+     *
+     * @return boolean
+     */
+    public function isEmpty()
+    {
+        return ! $this->isDice() && ! $this->isVariable() && empty($this->number);
+    }
+
+    /**
+     * Get signal
+     *
+     * @return boolean
+     */
+    public function getSignal()
+    {
+        return $this->isPositive() ? '+' : '-';
+    }
+
+    /**
      * Roll the rolling part
      *
      * @return string
@@ -108,23 +128,31 @@ class RollingPart extends SimpleModel
      *
      * @return string
      */
-    public function toText()
+    public function toText($showSignal = true)
     {
-        $signal = $this->isPositive() ? '+' : '-';
+        $value = null;
 
-        if ($this->isVariable()) {
-            return $signal . ' ' . $this->variable;
+        if (is_null($value) && $this->isVariable()) {
+            $value = $this->variable;
         }
 
-        if ($this->isDice()) {
-            return $signal . ' ' . ($this->number ?: '1') . 'd' . $this->dice;
+        if (is_null($value) && $this->isDice()) {
+            $value = ($this->number ?: '1') . 'd' . $this->dice;
         }
 
-        if (! empty($this->number)) {
-            return $signal . ' ' . $this->number;
+        if (is_null($value) && ! empty($this->number)) {
+            $value = $this->number;
         }
 
-        return '';
+        if (empty($value)) {
+            return '';
+        }
+
+        if ($showSignal) {
+            $value = $this->getSignal() . ' ' . $value;
+        }
+
+        return $value;
     }
 
     /**

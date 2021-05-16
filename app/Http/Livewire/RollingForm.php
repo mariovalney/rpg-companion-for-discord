@@ -9,11 +9,13 @@ use App\Models\Guild;
 use App\Models\Rolling\RollingPart;
 use App\Models\Webhook;
 use App\Support\Traits\HasAlert;
+use App\Support\Traits\EditingRollingParts;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class RollingForm extends Component
 {
+    use EditingRollingParts;
     use HasAlert;
 
     /**
@@ -22,6 +24,27 @@ class RollingForm extends Component
      * @var Rolling
      */
     public $rolling;
+
+    /**
+     * Variables
+     *
+     * @var array
+     */
+    public $variables;
+
+    /**
+     * Variable Name
+     *
+     * @var string
+     */
+    public $selectedVariable = '';
+
+    /**
+     * Current rolling
+     *
+     * @var array
+     */
+    public $editingRolling = [];
 
     /**
      * Rolling Rules
@@ -54,6 +77,14 @@ class RollingForm extends Component
      */
     public function mount()
     {
+        if (! empty($this->editingRolling)) {
+            return;
+        }
+
+        $this->editingRolling = [];
+        foreach ($this->rolling->rolling as $rolling) {
+            $this->editingRolling[] = $rolling->toArray();
+        }
     }
 
     /**
@@ -83,6 +114,8 @@ class RollingForm extends Component
      */
     public function save()
     {
+        $this->rolling->rolling = $this->getEditingRolling();
+
         $this->validate();
         $this->emit('RunDiscordMarkdown');
 
@@ -104,54 +137,53 @@ class RollingForm extends Component
     }
 
     /**
-     * Rolling button action: Plus
+     * Get editingRolling as objects
      *
-     * @return void
+     * @return array
      */
-    public function rollingButtonPlus()
+    public function getEditingRolling()
     {
+        $parts = [];
+        foreach ($this->editingRolling as $key => $value) {
+            $parts[ $key ] = new RollingPart($value);
+        }
 
+        return $parts;
     }
 
     /**
-     * Rolling button action: Dice
+     * A variable was selected
      *
      * @return void
      */
-    public function rollingButtonDice()
+    public function updatedSelectedVariable($value)
     {
-
-    }
-
-    /**
-     * Rolling button action: Backspace
-     *
-     * @return void
-     */
-    public function rollingButtonBackspace()
-    {
-
-    }
-
-    /**
-     * Rolling button action: Minus
-     *
-     * @return void
-     */
-    public function rollingButtonMinus()
-    {
-
-    }
-
-    /**
-     * Rolling button numeric
-     *
-     * @return void
-     */
-    public function rollingButtonNumeric($number)
-    {
-        if (! is_numeric($number)) {
+        if (! $this->canPressButton('variable')) {
             return;
+        }
+
+        $this->rollingButtonVariable($value);
+        $this->selectedVariable = '';
+    }
+
+    /**
+     * Pressing the rolling button
+     *
+     * @return void
+     */
+    public function rollingButton($button)
+    {
+        if (! $this->canPressButton($button)) {
+            return;
+        }
+
+        if (is_numeric($button)) {
+            return $this->rollingButtonNumeric($button);
+        }
+
+        $method = 'rollingButton' . ucfirst($button);
+        if (method_exists($this, $method)) {
+            return $this->$method();
         }
     }
 
@@ -160,13 +192,8 @@ class RollingForm extends Component
      *
      * @return void
      */
-    public function rollingClass($number)
+    public function rollingClass($button)
     {
-        if (! is_numeric($number)) {
-            echo 'disabled';
-            return;
-        }
-
-        echo 'disabled';
+        echo $this->canPressButton($button) ? '' : 'disabled';
     }
 }

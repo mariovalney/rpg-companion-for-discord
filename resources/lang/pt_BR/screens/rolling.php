@@ -18,6 +18,9 @@ return [
         'rolling'     => [
             'label' => 'Rolagem',
         ],
+        'variables'     => [
+            'placeholder' => 'Escolha um modificador para adicionar',
+        ],
         'error'       => 'Ops... Não conseguimos atualizar a rolagem.',
         'success'     => 'Rolagem atualizada.',
     ],

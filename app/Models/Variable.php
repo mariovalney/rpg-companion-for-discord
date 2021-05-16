@@ -56,10 +56,8 @@ class Variable extends Model
      *
      * @return Variable
      */
-    public static function findByName($name, $guildId = '', $userId = '')
+    public static function findAll($guildId = '', $userId = '')
     {
-        $name = mb_strtoupper($name);
-
         if (empty($guildId)) {
             $guildId = Guilds::currentId();
         }
@@ -69,11 +67,22 @@ class Variable extends Model
         }
 
         $where = [
-            'name' => $name,
             'user_id' => $userId,
             'guild_id' => $guildId,
         ];
 
-        return static::where($where)->first();
+        return static::where($where)->orderBy('name');
+    }
+
+    /**
+     * Find a variable by name
+     *
+     * @return Variable
+     */
+    public static function findByName($name, $guildId = '', $userId = '')
+    {
+        $name = mb_strtoupper($name);
+
+        return static::findAll($guildId, $userId)->where('name', $name)->first();
     }
 }
