@@ -27,5 +27,10 @@ trait HasAlert
             'type' => $type,
             'text' => $text,
         ];
+
+        // Livewire event
+        if (method_exists($this, 'emit')) {
+            $this->emit('LivewireAlertShown');
+        }
     }
 }

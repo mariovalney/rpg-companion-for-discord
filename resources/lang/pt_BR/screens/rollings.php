@@ -2,10 +2,10 @@
 
 return [
     'title'            => 'Rolagens',
-    'description'      => 'Crie e realize rolagens de dados para cada canal disponível.',
+    'description'      => 'Faça suas jogadas mais rápido e aproveite o role play.',
     'result'           => 'Resultado',
     'describe'         => 'Rolagem',
-    'quick_rolls'      => 'Rolagens Rápidas',
+    'your_rools'       => 'Suas Rolagens',
     'choose_a_channel' => 'Escolha um canal',
     'choose_to_start'  => 'Por favor, escolha um canal para começar a criar rolagens.',
     'roll'             => [

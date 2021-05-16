@@ -70,7 +70,7 @@ class RollingForm extends Component
      *
      * @return void
      */
-    public function updatedRollingDescription()
+    public function updated()
     {
         $this->emit('RunDiscordMarkdown');
     }

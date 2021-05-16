@@ -116,6 +116,7 @@ class RollingsList extends Component
         }
 
         $this->sendMessage($rolling);
+        $this->emit('RunDiscordMarkdown');
     }
 
     /**

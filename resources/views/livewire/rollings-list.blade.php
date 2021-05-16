@@ -9,7 +9,7 @@
         @endif
 
         @if ($this->rollings->isNotEmpty())
-            <h5 class="mb-3">{{ __('screens/rollings.quick_rolls') }}</h5>
+            <h5 class="mb-3">{{ __('screens/rollings.your_rools') }}</h5>
 
             <div class="row">
                 @foreach($this->rollings as $rolling)
@@ -21,8 +21,8 @@
                                         <i class="fas fa-pen-square"></i>
                                     </span>
 
-                                    <h5 class="card-title">{{ $rolling->title ?: $rolling->id }}</h5>
-                                    <p class="card-text discord-markdown">{!! nl2br( $rolling->description ) !!}</p>
+                                    <h5 class="card-title">{{ $rolling->getTitle() }}</h5>
+                                    <p class="card-text discord-markdown">{!! nl2br( $rolling->getDescription() ) !!}</p>
                                     <p class="card-text small">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>
                                 </a>
                                 <div class="card-buttons">

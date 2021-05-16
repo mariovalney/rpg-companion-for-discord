@@ -19,5 +19,6 @@ window.__ = Translator.__;
 // Masks
 require('./masks');
 
+require('./components/alerts');
 require('./components/guilds');
 require('./components/rollings');

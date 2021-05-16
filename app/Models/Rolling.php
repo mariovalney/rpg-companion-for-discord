@@ -7,11 +7,14 @@ use DiscordApi;
 use Route;
 use Str;
 use App\Models\Channel;
+use App\Support\Traits\HasVariablesToParse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
 
 class Rolling extends Model
 {
+    use HasVariablesToParse;
+
     /**
      * Attributes
      *
@@ -49,7 +52,7 @@ class Rolling extends Model
             return '#' . $this->id;
         }
 
-        return $this->title;
+        return $this->parseVariables($this->title, $this->getGuildId());
     }
 
     /**
@@ -59,7 +62,8 @@ class Rolling extends Model
      */
     public function getDescription()
     {
-        return nl2br($this->description);
+        $description = $this->parseVariables($this->description, $this->getGuildId());
+        return nl2br($description);
     }
 
     /**
@@ -78,6 +82,20 @@ class Rolling extends Model
     public function validate()
     {
         // throw ValidationException::withMessages(['description' => '']);
+    }
+
+    /**
+     * Get the guild ID from channel
+     *
+     * @return string
+     */
+    public function getGuildId()
+    {
+        if (empty($this->channel) || empty($this->channel->guild)) {
+            return '';
+        }
+
+        return $this->channel->guild->id ?? '';
     }
 
     /**
@@ -100,11 +118,12 @@ class Rolling extends Model
         ];
 
         if (! empty($this->title)) {
-            $message['title'] = Str::limit($this->title, 250);
+            $message['title'] = Str::limit($this->getTitle(), 250);
         }
 
         if (! empty($this->description)) {
-            $message['description'] = Str::limit($this->description, 2000);
+            $message['description'] = $this->parseVariables($this->description, $this->getGuildId());
+            $message['description'] = Str::limit($message['description'], 2000);
         }
 
         // TODO: Image support

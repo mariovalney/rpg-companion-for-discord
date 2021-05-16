@@ -20,7 +20,7 @@
             </div>
         @endif
 
-        <div class="row">
+        <div class="row mb-5">
             <div class="col-sm-12 col-md-6">
                 <div class="row">
                     <div class="col-sm-12">
@@ -45,18 +45,18 @@
                     <div class="col-sm-12">
                         <p class="text-uppercase text-bold mb-2">{{ __('screens/rolling.preview') }}</p>
                         <div class="discord-preview">
-                            <h1 class="discord-title">{{ $this->rolling->title }}</h1>
+                            <h1 class="discord-title">{{ $this->rolling->getTitle() }}</h1>
 
                             @if(! empty($this->rolling->description))
-                                <p class="discord-markdown">{!! nl2br( $this->rolling->description ) !!}</p>
+                                <p class="discord-markdown">{!! nl2br( $this->rolling->getDescription() ) !!}</p>
                             @endif
 
                             <strong class="discord-field-name">{{ sprintf('%s: %s', __('screens/rollings.result'), 999) }}</strong>
                             <span class="discord-field-value">{{ $this->rolling->describe() }}</span>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <a href="#" class="btn mt-3" wire:click.prevent="save">{{ __('screens/rolling.submit') }}</a>
+                    <div class="col-sm-12 text-right">
+                        <a href="#" class="btn mt-3 d-block" wire:click.prevent="save">{{ __('screens/rolling.submit') }}</a>
                     </div>
                 </div>
             </div>
