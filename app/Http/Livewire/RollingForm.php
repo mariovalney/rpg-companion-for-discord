@@ -26,6 +26,13 @@ class RollingForm extends Component
     public $rolling;
 
     /**
+     * Channel
+     *
+     * @var Channel
+     */
+    public $channel;
+
+    /**
      * Variables
      *
      * @var array
@@ -120,8 +127,21 @@ class RollingForm extends Component
         $this->emit('RunDiscordMarkdown');
 
         try {
+            $creating = false;
+
+            if (empty($this->rolling->id)) {
+                $creating = true;
+                $this->rolling->user()->associate(Auth::user());
+                $this->rolling->channel()->associate($this->channel);
+            }
+
             $this->rolling->validate();
-            $this->rolling->save();
+
+            if ($creating && $this->rolling->save()) {
+                $route = route('rollings.edit', ['guild' => $this->channel->guild->id, 'channel' => $this->channel->id, 'rolling' => $this->rolling->id]);
+                redirect()->to($route);
+            }
+
         } catch (ValidationException $e) {
             $errors = [];
             foreach ($e->errors() as $key => $value) {

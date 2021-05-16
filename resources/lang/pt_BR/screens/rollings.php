@@ -8,6 +8,7 @@ return [
     'your_rools'       => 'Suas Rolagens',
     'choose_a_channel' => 'Escolha um canal',
     'choose_to_start'  => 'Por favor, escolha um canal para começar a criar rolagens.',
+    'create'           => 'Criar uma rolagem',
     'roll'             => [
         'disadvantaged' => 'Rolar com desvantagem',
         'normal'        => 'Rolar normal',

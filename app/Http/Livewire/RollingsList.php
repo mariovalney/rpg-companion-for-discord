@@ -80,6 +80,21 @@ class RollingsList extends Component
     }
 
     /**
+     * Get the channel from webhook
+     *
+     * @return string
+     */
+    public function getChannelId()
+    {
+        if (! empty($this->webhook())) {
+            return $this->webhook()->channel->id;
+        }
+
+        return '';
+    }
+
+
+    /**
      * Roll with disadvantage
      *
      * @param  int $rollingId

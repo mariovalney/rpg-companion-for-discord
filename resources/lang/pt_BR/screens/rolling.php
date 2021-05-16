@@ -3,9 +3,12 @@
 return [
     'title'       => 'Rolagem',
     'title_empty' => 'Rolagem Inválida',
+    'title_new'   => 'Nova Rolagem',
     'empty'       => 'Essa rolagem é inválida.',
     'preview'     => 'Veja como vai ficar:',
     'submit'      => 'Salvar',
+    'delete'      => 'Remover',
+    'back'        => 'Voltar',
     'form'        => [
         'title'       => [
             'label'       => 'Título',
@@ -18,7 +21,7 @@ return [
         'rolling'     => [
             'label' => 'Rolagem',
         ],
-        'variables'     => [
+        'variables'   => [
             'placeholder' => 'Escolha um modificador para adicionar',
         ],
         'error'       => 'Ops... Não conseguimos atualizar a rolagem.',
@@ -35,7 +38,7 @@ return [
             'max' => 'A descrição não pode passar de 2500 caracteres.',
         ],
     ],
-    'buttons' => [
-        'plus' => '+'
+    'buttons'     => [
+        'plus' => '+',
     ],
 ];

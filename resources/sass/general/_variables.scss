@@ -2,15 +2,19 @@ $bg_dark: #343a40;
 $bg_darker: #23272A;
 $bg_dark_hover: #2c3135;
 
-
 $border_radius: 3px;
 
 $color_white: #FFFFFF;
 $color_gray: #8f9093;
 $color_gray_dark: #212529;
 $color_red: #ff463c;
+$color_discord: #7289DA;
 
 // Bootstrap
 $border-radius: 3px;
 $input-border-color: $color_gray;
 
+// SWAL
+$swal2-confirm-button-background-color: $color_discord;
+$swal2-deny-button-background-color: $color_red;
+$swal2-cancel-button-background-color: $color_gray;

@@ -8,6 +8,9 @@ window.jQuery = require('jquery');
 // Lodash
 window._ = require('lodash');
 
+// SweetAlert2
+window.Swal = require('sweetalert2/src/sweetalert2').default;
+
 // Axios
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -20,5 +23,6 @@ window.__ = Translator.__;
 require('./masks');
 
 require('./components/alerts');
+require('./components/confirm');
 require('./components/guilds');
 require('./components/rollings');

@@ -8,21 +8,21 @@
             </div>
         @endif
 
-        @if ($this->rollings->isNotEmpty())
-            <h5 class="mb-3">{{ __('screens/rollings.your_rools') }}</h5>
+        <h5 class="mb-3">{{ __('screens/rollings.your_rools') }}</h5>
 
-            <div class="row">
+        <div class="row">
+            @if ($this->rollings->isNotEmpty())
                 @foreach($this->rollings as $rolling)
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
                         <div class="card rolling-card">
                             <div class="card-body">
-                                <a href="{{ route('rollings.edit', [ 'guild' => $this->guildId, 'rolling' => $rolling->id ]) }}" class="edit-overlay">
+                                <a href="{{ route('rollings.edit', ['guild' => $this->guildId, 'channel' => $this->getChannelId(), 'rolling' => $rolling->id]) }}" class="edit-overlay">
                                     <span class="icon">
                                         <i class="fas fa-pen-square"></i>
                                     </span>
 
                                     <h5 class="card-title">{{ $rolling->getTitle() }}</h5>
-                                    <p class="card-text discord-markdown">{!! nl2br( $rolling->getDescription() ) !!}</p>
+                                    <p class="card-text discord-markdown small">{!! nl2br( $rolling->getDescription() ) !!}</p>
 
                                     @if(! empty($rolling->rolling))
                                         <p class="card-text small">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>
@@ -49,7 +49,11 @@
                         </div>
                     </div>
                 @endforeach
+            @endif
+
+            <div class="col-sm-12">
+                <a href="{{ route('rollings.create', ['guild' => $this->guildId, 'channel' => $this->getChannelId()]) }}" class="btn mt-3">{{ __('screens/rollings.create') }}</a>
             </div>
-        @endif
+        </div>
     @endif
 </div>
