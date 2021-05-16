@@ -22,10 +22,9 @@
                                     </span>
 
                                     <h5 class="card-title">{{ $rolling->title ?: $rolling->id }}</h5>
-                                    <p class="card-text">{{ $rolling->description ?? '' }}</p>
+                                    <p class="card-text discord-markdown">{!! nl2br( $rolling->description ) !!}</p>
                                     <p class="card-text small">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>
                                 </a>
-
                                 <div class="card-buttons">
                                     <a wire:click.prevent="rollWithDisadvantage({{ $rolling->id }})" href="#" class="btn btn-bad d-block" title="{{ __('screens/rollings.roll.disadvantaged') }}">
                                         <div>

@@ -1,0 +1,28 @@
+.discord-preview {
+    background: $bg_dark_hover;
+    position: relative;
+    display: block;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    border-radius: 3px;
+    border-left: 4px solid $bg_darker;
+
+    .discord-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .discord-markdown {
+        font-size: 1rem;
+    }
+
+    .discord-field-name {
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+
+    .discord-field-value {
+        display: block;
+    }
+}

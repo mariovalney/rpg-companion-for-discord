@@ -12,6 +12,8 @@
         <link rel="shortcut icon" href="{{ url('images/logo.png') }}" />
 
         @livewireStyles
+
+        <script type="text/javascript">window.DiscordMarkdown = { run: function() {} }</script>
     </head>
     <body class="@yield('body_class')">
         @yield('body')

@@ -20,3 +20,4 @@ window.__ = Translator.__;
 require('./masks');
 
 require('./components/guilds');
+require('./components/rollings');

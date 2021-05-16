@@ -5,8 +5,10 @@ namespace App\Models;
 use Auth;
 use DiscordApi;
 use Route;
+use Str;
 use App\Models\Channel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\ValidationException;
 
 class Rolling extends Model
 {
@@ -51,11 +53,31 @@ class Rolling extends Model
     }
 
     /**
+     * Get the description with formatting parsed
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return nl2br($this->description);
+    }
+
+    /**
      * Print the rolling to hummans
      */
     public function describe()
     {
         return '1d20 + 20';
+    }
+
+     /**
+     * Validate the rolling
+     *
+     * @throws ValidationException
+     */
+    public function validate()
+    {
+        // throw ValidationException::withMessages(['description' => '']);
     }
 
     /**
@@ -71,20 +93,23 @@ class Rolling extends Model
         $message = [
             'fields' => [
                 [
-                    'name' => sprintf('%s: %s', __('screens/rollings.result'), $result),
-                    'value' => $rolling ?: '-',
+                    'name' => Str::limit(sprintf('%s: %s', __('screens/rollings.result'), $result), 250),
+                    'value' => Str::limit(($rolling ?: '-'), 1000),
                 ],
             ],
         ];
 
         if (! empty($this->title)) {
-            $message['title'] = $this->title;
+            $message['title'] = Str::limit($this->title, 250);
         }
 
         if (! empty($this->description)) {
-            $message['description'] = $this->description;
+            $message['description'] = Str::limit($this->description, 2000);
         }
 
-        return $message;
+        // TODO: Image support
+        // $message['image'] = [ 'url' => '' ];
+
+        return [ $message ];
     }
 }

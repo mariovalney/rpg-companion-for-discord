@@ -101,10 +101,10 @@ class Webhook extends Model
      *
      * @return boolean
      */
-    public function sendMessage($message)
+    public function sendMessage($content, $footer = '')
     {
         $data = [
-            'embeds' => [ $message ]
+            'embeds' => $content
         ];
 
         if (! empty(Auth::user()->username)) {
@@ -113,6 +113,10 @@ class Webhook extends Model
 
         if (! empty(Auth::user()->getAvatarUrl())) {
             $data['avatar_url'] = Auth::user()->getAvatarUrl();
+        }
+
+        if (! empty($footer)) {
+            $data['footer'] = $footer;
         }
 
         $response = Http::post($this->url . '?wait=true', $data);

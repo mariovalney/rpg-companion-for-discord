@@ -3,8 +3,6 @@
 return [
     'title'            => 'Rolagens',
     'description'      => 'Crie e realize rolagens de dados para cada canal disponível.',
-    'empty'            => 'Nenhuma rolagem disponível.',
-    'addone'           => 'Adicione um dado para começar a criar sua rolagem.',
     'result'           => 'Resultado',
     'describe'         => 'Rolagem',
     'quick_rolls'      => 'Rolagens Rápidas',
@@ -14,14 +12,6 @@ return [
         'disadvantaged' => 'Rolar com desvantagem',
         'normal'        => 'Rolar normal',
         'advantaged'    => 'Rolar com vantagem',
-    ],
-    'form'             => [
-        'added'  => 'Rolagem adicionada.',
-        'edited' => 'Rolagem alterada.',
-        'error'  => 'Ops... falha crítica.',
-        'empty'  => 'Você precisa escolher pelo menos 1 dado.',
-    ],
-    'validation'       => [
     ],
     'webhook'          => [
         'success' => 'A sorte está lançada.',
