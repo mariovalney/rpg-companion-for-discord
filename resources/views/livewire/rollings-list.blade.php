@@ -8,8 +8,6 @@
             </div>
         @endif
 
-        <h5 class="mb-3">{{ __('screens/rollings.your_rools') }}</h5>
-
         <div class="row">
             @if ($this->rollings->isNotEmpty())
                 @foreach($this->rollings as $rolling)
