@@ -136,12 +136,12 @@ class RollingForm extends Component
             }
 
             $this->rolling->validate();
+            $saved = $this->rolling->save();
 
-            if ($creating && $this->rolling->save()) {
+            if ($creating && $saved) {
                 $route = route('rollings.edit', ['guild' => $this->channel->guild->id, 'channel' => $this->channel->id, 'rolling' => $this->rolling->id]);
                 redirect()->to($route);
             }
-
         } catch (ValidationException $e) {
             $errors = [];
             foreach ($e->errors() as $key => $value) {

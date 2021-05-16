@@ -99,42 +99,64 @@ class RollingPart extends SimpleModel
      */
     public function roll($type = 0)
     {
-        $results = [ $this->makeRoll() ];
-
-        if ($type !== 0) {
-            $results[] = $this->makeRoll();
+        if ($this->isDice()) {
+            return $this->rollDice();
         }
 
-        $value = $type >= 0 ? max($results) : min($results);
-        $usedValue = $value;
+        $result = $this->makeRoll();
+        $value = $result;
 
         if (! $this->isPositive()) {
             $value = -1 * $value;
         }
 
-        if ($this->isDice()) {
-            $number = (int) $this->number;
-            $number = $number > 0 ? $number : 1;
-
-            $value = $number * $value;
-        }
-
         $description = $this->toText();
 
-        if ($this->isDice() && $type !== 0) {
-            foreach ($results as $key => $result) {
-                if ($usedValue !== $result) {
-                    continue;
-                }
+        if ($this->isVariable()) {
+            $description .= ' (' . $result . ')';
+        }
 
-                $results[ $key ] = '**' . $value . '**';
-                break;
+        return (object) [
+            'description' => $description,
+            'value' => $value,
+        ];
+    }
+
+    /**
+     * Roll for dice
+     *
+     * @param  int $type
+     *
+     * @return string
+     */
+    public function rollDice($type = 0)
+    {
+        $number = (int) $this->number;
+        $number = $number > 0 ? $number : 1;
+
+        $results = [];
+
+        for ($i = 0; $i < $number; $i++) {
+            $results[] = $this->makeRoll();
+        }
+
+        $value = array_sum($results);
+
+        if (! $this->isPositive()) {
+            $value = -1 * $value;
+        }
+
+        // Bold for critical (normal roll)
+        if ($this->isDice() && $type === 0) {
+            foreach ($results as $key => $result) {
+                if ($result === $this->dice || $result === 1) {
+                    $results[ $key ] = '**' . $value . '**';
+                }
             }
         }
 
-        if ($this->isVariable() || $this->isDice()) {
-            $description .= ' (' . implode(', ', $results) . ')';
-        }
+        $description = $this->toText();
+        $description .= ' (' . implode(', ', $results) . ')';
 
         return (object) [
             'description' => $description,
