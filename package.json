@@ -2,35 +2,39 @@
     "private": true,
     "scripts": {
         "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "npm run development -- --watch",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "mix --production",
+        "heroku-postbuild": "npm run prod"
+    },
+    "engines": {
+        "node": "14.x",
+        "npm": "7.x"
     },
     "devDependencies": {
+        "@fortawesome/fontawesome-free": "^5.14.0",
         "axios": "^0.21.1",
         "bootstrap": "^4.5.2",
         "browser-sync": "^2.26.12",
-        "browser-sync-webpack-plugin": "^2.2.2",
-        "copy-webpack-plugin": "^6.1.1",
-        "cross-env": "^7.0.2",
+        "browser-sync-webpack-plugin": "^2.3.0",
+        "copy-webpack-plugin": "^6.4.1",
+        "cross-env": "^7.0.3",
         "discord-markdown": "^2.4.2",
         "imagemin-webpack-plugin": "^2.4.2",
         "jquery": "^3.5.1",
-        "laravel-mix": "^5.0.9",
+        "jquery-mask-plugin": "^1.14.16",
+        "laravel-mix": "^6.0.6",
+        "laravel-mix-imagemin": "git://github.com/mariovalney/laravel-mix-imagemin.git#master",
         "lodash": "^4.17.19",
         "popper.js": "^1.16.1",
-        "resolve-url-loader": "^4.0.0",
-        "sass": "^1.26.11",
+        "postcss": "^8.1.14",
+        "resolve-url-loader": "^3.1.0",
+        "sass": "^1.32.0",
         "sass-loader": "^8.0.0",
         "sweetalert2": "^11.0.3",
         "vue-template-compiler": "^2.6.12"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.14.0",
-        "jquery-mask-plugin": "^1.14.16",
-        "laravel-mix-imagemin": "git+https://github.com/mariovalney/laravel-mix-imagemin.git"
     }
 }
