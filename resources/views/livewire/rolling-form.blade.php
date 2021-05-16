@@ -129,13 +129,13 @@
                         <a href="#" class="btn mt-3 d-block" wire:click.prevent="save">{{ __('screens/rolling.submit') }}</a>
 
                         @if(! empty($this->rolling->id))
-                            <a href="#" data-href="{{ route('rollings.delete', [ 'guild' => $this->rolling->getGuildId(), 'channel' => $this->rolling->channel, 'rolling' => $this->rolling->id ]) }}" class="btn mt-3 d-block btn-bad" data-confirm>
+                            <a href="#" data-href="{{ route('rollings.delete', [ 'guild' => $this->channel->guild->id, 'channel' => $this->rolling->channel, 'rolling' => $this->rolling->id ]) }}" class="btn mt-3 d-block btn-bad" data-confirm>
                                 {{ __('screens/rolling.delete') }}
                             </a>
                         @endif
 
                         <div class="mt-3 d-block">
-                            <a href="{{ route('guilds.rollings', $this->rolling->getGuildId()) }}" class="lead text-white">{{ __('screens/rolling.back') }}</a>
+                            <a href="{{ route('guilds.rollings', $this->channel->guild->id) }}" class="lead text-white">{{ __('screens/rolling.back') }}</a>
                         </div>
                     </div>
                 </div>
