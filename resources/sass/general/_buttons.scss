@@ -1,19 +1,35 @@
 .btn {
     text-decoration: none !important;
+
+    &:active {
+        filter: none !important;
+    }
+
+    &:focus {
+        box-shadow: none !important;
+    }
+
+    &:hover {
+        color: $color_white;
+
+        &.disabled {
+            bottom: 0;
+            cursor: not-allowed;
+        }
+    }
 }
 
-.btn:active {
-    filter: none !important;
-}
-
-.btn:focus {
-    box-shadow: none !important;
-}
-
-.btn:hover,
 .btn-bad:hover,
 .btn-okay:hover,
 .btn-good:hover,
 .btn-dark:hover {
-    color: #FFFFFF;
+    color: $color_white;
+}
+
+.btn-primary {
+    background: $primary;
+}
+
+.btn-secondary {
+    background: $secondary;
 }

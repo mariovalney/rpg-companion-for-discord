@@ -1,4 +1,6 @@
 .rolling-card {
+    margin-bottom: 1.5rem;
+
     .edit-overlay {
         color: inherit;
         display: block;
@@ -36,7 +38,7 @@
     }
 
     .discord-markdown {
-        display: box;
+        display: block;
         display: -webkit-box;
         line-clamp: 4;
         -webkit-line-clamp: 4;

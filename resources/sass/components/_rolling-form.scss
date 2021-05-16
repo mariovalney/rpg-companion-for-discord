@@ -1,0 +1,31 @@
+.rolling-form {
+    .rolling-wrapper {
+        .rolling-result {
+            @extend .form-control;
+        }
+
+        .rolling-buttons {
+            display: flex;
+            flex-direction: column;
+
+            .rolling-buttons-group {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                margin-left: -.5rem;
+                margin-right: -.5rem;
+
+                &.rolling-buttons-numeric {
+                    .btn {
+                        flex-basis: 15%;
+                    }
+                }
+            }
+
+            .btn {
+                flex-grow: 1;
+                margin: .5rem;
+            }
+        }
+    }
+}

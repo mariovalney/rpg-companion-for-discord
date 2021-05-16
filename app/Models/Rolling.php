@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Auth;
 use DiscordApi;
+use Guilds;
 use Route;
 use Str;
 use App\Models\Channel;
+use App\Models\Rolling\RollingPart;
+use App\Support\Traits\HasRollingParts;
 use App\Support\Traits\HasVariablesToParse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
@@ -14,6 +17,7 @@ use Illuminate\Validation\ValidationException;
 class Rolling extends Model
 {
     use HasVariablesToParse;
+    use HasRollingParts;
 
     /**
      * Attributes
@@ -68,10 +72,19 @@ class Rolling extends Model
 
     /**
      * Print the rolling to hummans
+     *
+     * @return string
      */
     public function describe()
     {
-        return '1d20 + 20';
+        $text = [];
+        foreach ($this->rolling as $part) {
+            $text[] = $part->toText();
+        }
+
+        $text = implode(' ', $text);
+
+        return trim($text, '+ ');
     }
 
      /**
@@ -105,14 +118,25 @@ class Rolling extends Model
      */
     public function createMessage()
     {
-        $rolling = '';
-        $result = 12;
+        $rolling = [];
+        $result = 0;
+
+        foreach ($this->rolling as $part) {
+            $roll = $part->roll();
+
+
+            $rolling[] = $roll->description;
+            $result += $roll->value;
+        }
+
+        $rolling = implode(' ', $rolling);
+        $rolling = trim($rolling, '+ ');
 
         $message = [
             'fields' => [
                 [
                     'name' => Str::limit(sprintf('%s: %s', __('screens/rollings.result'), $result), 250),
-                    'value' => Str::limit(($rolling ?: '-'), 1000),
+                    'value' => '*' . Str::limit(($rolling ?: '-'), 1000) . '*',
                 ],
             ],
         ];

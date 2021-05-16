@@ -34,10 +34,6 @@ class SimpleModel implements Arrayable, Jsonable
                 continue;
             }
 
-            if ($this->isGuarded($key)) {
-                continue;
-            }
-
             $this->attributes[ $key ] = $value;
         }
 

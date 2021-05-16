@@ -23,7 +23,10 @@
 
                                     <h5 class="card-title">{{ $rolling->getTitle() }}</h5>
                                     <p class="card-text discord-markdown">{!! nl2br( $rolling->getDescription() ) !!}</p>
-                                    <p class="card-text small">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>
+
+                                    @if(! empty($rolling->rolling))
+                                        <p class="card-text small">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>
+                                    @endif
                                 </a>
                                 <div class="card-buttons">
                                     <a wire:click.prevent="rollWithDisadvantage({{ $rolling->id }})" href="#" class="btn btn-bad d-block" title="{{ __('screens/rollings.roll.disadvantaged') }}">

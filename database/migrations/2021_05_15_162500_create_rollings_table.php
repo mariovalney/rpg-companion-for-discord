@@ -17,8 +17,7 @@ class CreateRollingsTable extends Migration
             $table->id();
 
             $table->text('title');
-            $table->text('description');
-
+            $table->text('description')->nullable();
             $table->json('rolling')->nullable();
 
             $table->string('user_id');

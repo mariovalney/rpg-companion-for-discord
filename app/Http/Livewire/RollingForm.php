@@ -6,6 +6,7 @@ use Auth;
 use Exception;
 use App\Models\Dice;
 use App\Models\Guild;
+use App\Models\Rolling\RollingPart;
 use App\Models\Webhook;
 use App\Support\Traits\HasAlert;
 use Illuminate\Validation\ValidationException;
@@ -66,11 +67,11 @@ class RollingForm extends Component
     }
 
     /**
-     * Trigger on update description
+     * Trigger on dehydrate
      *
      * @return void
      */
-    public function updated()
+    public function dehydrate()
     {
         $this->emit('RunDiscordMarkdown');
     }
@@ -103,35 +104,69 @@ class RollingForm extends Component
     }
 
     /**
-     * Add a dice
+     * Rolling button action: Plus
      *
-     * @param  string $id
      * @return void
      */
-    public function addDice($sides)
+    public function rollingButtonPlus()
     {
-        // TODO
+
     }
 
     /**
-     * Update a dice by ID
+     * Rolling button action: Dice
      *
-     * @param  string $id
      * @return void
      */
-    public function updateDice($id, $prop, $value)
+    public function rollingButtonDice()
     {
-        // TODO
+
     }
 
     /**
-     * Remove dice by ID
+     * Rolling button action: Backspace
      *
-     * @param  string $id
      * @return void
      */
-    public function removeDice($id)
+    public function rollingButtonBackspace()
     {
-        // TODO
+
+    }
+
+    /**
+     * Rolling button action: Minus
+     *
+     * @return void
+     */
+    public function rollingButtonMinus()
+    {
+
+    }
+
+    /**
+     * Rolling button numeric
+     *
+     * @return void
+     */
+    public function rollingButtonNumeric($number)
+    {
+        if (! is_numeric($number)) {
+            return;
+        }
+    }
+
+    /**
+     * Echo the disabled class if so
+     *
+     * @return void
+     */
+    public function rollingClass($number)
+    {
+        if (! is_numeric($number)) {
+            echo 'disabled';
+            return;
+        }
+
+        echo 'disabled';
     }
 }

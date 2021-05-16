@@ -15,6 +15,9 @@ return [
             'label'       => 'Descrição',
             'placeholder' => 'Então uma luz vermelha comaça a surgir da minha mão.' . "\n" . 'Eu olho para o pobre soldado que eu fiz de alvo e de repente uma bola de fogo cruza todo o espaço em menos de 1 segundo.',
         ],
+        'rolling'     => [
+            'label' => 'Rolagem',
+        ],
         'error'       => 'Ops... Não conseguimos atualizar a rolagem.',
         'success'     => 'Rolagem atualizada.',
     ],
@@ -28,5 +31,8 @@ return [
             'min' => 'A descrição precisa ter pelo menos 10 caracteres.',
             'max' => 'A descrição não pode passar de 2500 caracteres.',
         ],
+    ],
+    'buttons' => [
+        'plus' => '+'
     ],
 ];
