@@ -5,7 +5,7 @@
             <img class="avatar" src="{{ Auth::user()->getAvatarUrl() }}" height="40" />
         </li>
 
-        @if(Config::get('app.env') === 'local' || ! empty(Auth::user()) || ! empty(Auth::user()->token))
+        @if(Config::get('app.env') === 'local' && (! empty(Auth::user()) || ! empty(Auth::user()->token)))
             <li class="nav-item text-nowrap">
                 <span class="nav-link user-select">
                     {{ Auth::user()->token->getValidAccessToken() ?: __('debug.notoken') }}
