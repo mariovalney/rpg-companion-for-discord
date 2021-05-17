@@ -150,7 +150,7 @@ class RollingPart extends SimpleModel
         if ($this->isDice() && $type === 0) {
             foreach ($results as $key => $result) {
                 if ($result === $this->dice || $result === 1) {
-                    $results[ $key ] = '**' . $value . '**';
+                    $results[ $key ] = '**' . $result . '**';
                 }
             }
         }
