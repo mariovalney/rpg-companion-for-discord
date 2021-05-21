@@ -23,15 +23,16 @@ trait EditingRollingParts
             'variable',
             'number',
             'signal',
+            'dice',
         ],
         'plus' => [
             'variable',
             'number',
             'signal',
+            'dice',
         ],
         'dice' => [
             'number',
-            'dice',
         ],
         'variable' => [
             'signal',
@@ -52,17 +53,24 @@ trait EditingRollingParts
     public function canPressButton($button)
     {
         $last = $this->findLastEditing();
+        $part = $this->getLastPartModel();
 
+        // Is numeric
         if (is_numeric($button)) {
-            $part = $this->getLastPart();
-
-            if (empty($button) && ($last === 'signal' || ($this->isDice && ! empty($part) && empty($part['dice'])))) {
+            // Avoid starting with zero
+            if (empty($button) && ($last === 'signal' || ($this->isDice && ! empty($part) && empty($part->dice)))) {
                 return false;
             }
 
             $button = 'number';
         }
 
+        // Create a new part if editing a dice
+        if (($button === 'minus' || $button === 'plus') && $this->isDice && ! empty($part) && empty($part->dice)) {
+            return false;
+        }
+
+        // Can remove if is not the last
         if ($button === 'backspace') {
             return ! empty($this->editingRolling);
         }
@@ -126,8 +134,32 @@ trait EditingRollingParts
      */
     public function rollingButtonBackspace()
     {
+        $last = $this->getLastPartModel();
+        if (empty($last)) {
+            return;
+        }
+
+        // Remove dice faces if editing dice
+        if ($last->isDice()) {
+            $this->isDice = true;
+
+            $newDice = 0;
+            if (strlen($last->dice) > 1) {
+                $newDice = substr($last->dice, 0, -1);
+            }
+
+            $this->editLastPart(['dice' => $newDice]);
+            return;
+        }
+
+        // Remove dice editing
         if ($this->isDice) {
-            $this->editLastPart(['dice' => 0]);
+            $this->isDice = false;
+            return;
+        }
+
+        if ($last->isNumber() && strlen($last->number) > 1) {
+            $this->editLastPart(['number' => substr($last->number, 0, -1)]);
             return;
         }
 
@@ -201,24 +233,41 @@ trait EditingRollingParts
     }
 
     /**
+     * Get the last part as the model
+     *
+     * @return void
+     */
+    private function getLastPartModel($remove = false)
+    {
+        $last = $this->getLastPart($remove);
+        if (empty($last)) {
+            return false;
+        }
+
+        return new RollingPart($last);
+    }
+
+    /**
      * Find last editing
      *
      * @return string
      */
     private function findLastEditing()
     {
-        if (empty($this->editingRolling)) {
-            return 'start';
-        }
-
         if ($this->isDice) {
             return 'dice';
         }
 
-        $last = end($this->editingRolling);
-        $last = new RollingPart($last);
+        $last = $this->getLastPartModel();
+        if (empty($last)) {
+            return 'start';
+        }
 
-        if ($last->isEmpty()) {
+        if ($last->isDice()) {
+            return 'dice';
+        }
+
+        if ($last->isSignal()) {
             return 'signal';
         }
 

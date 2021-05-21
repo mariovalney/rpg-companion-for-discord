@@ -69,11 +69,11 @@ class RollingForm extends Component
     public function __construct()
     {
         $this->messages = [
-            'rolling.title.required'  => __('screens/rolling.validation.title.required'),
-            'rolling.title.min'       => __('screens/rolling.validation.title.min'),
-            'rolling.title.max'       => __('screens/rolling.validation.title.max'),
-            'rolling.description.min' => __('screens/rolling.validation.description.min'),
-            'rolling.description.max' => __('screens/rolling.validation.description.max'),
+            'rolling.title.required'   => __('screens/rolling.validation.title.required'),
+            'rolling.title.min'        => __('screens/rolling.validation.title.min'),
+            'rolling.title.max'        => __('screens/rolling.validation.title.max'),
+            'rolling.description.min'  => __('screens/rolling.validation.description.min'),
+            'rolling.description.max'  => __('screens/rolling.validation.description.max'),
         ];
     }
 
@@ -91,6 +91,11 @@ class RollingForm extends Component
         $this->editingRolling = [];
         foreach ($this->rolling->rolling as $rolling) {
             $this->editingRolling[] = $rolling->toArray();
+        }
+
+        $last = $this->getLastPartModel();
+        if ($last && $last->isDice() && ! $this->isDice) {
+            $this->isDice = true;
         }
     }
 
@@ -141,7 +146,10 @@ class RollingForm extends Component
             if ($creating && $saved) {
                 $route = route('rollings.edit', ['guild' => $this->channel->guild->id, 'channel' => $this->channel->id, 'rolling' => $this->rolling->id]);
                 redirect()->to($route);
+                return;
             }
+
+            $this->setAlert(__('screens/rolling.form.success'), 'good');
         } catch (ValidationException $e) {
             $errors = [];
             foreach ($e->errors() as $key => $value) {
@@ -149,11 +157,9 @@ class RollingForm extends Component
             }
 
             $this->setErrorBag($errors);
+        } catch (Exception $e) {
             $this->setAlert(__('screens/rolling.form.error'), 'bad');
-            return;
         }
-
-        $this->setAlert(__('screens/rolling.form.success'), 'good');
     }
 
     /**

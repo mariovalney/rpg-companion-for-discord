@@ -71,11 +71,21 @@ class RollingPart extends SimpleModel
     }
 
     /**
-     * Check if is empty
+     * Check is Number
      *
      * @return boolean
      */
-    public function isEmpty()
+    public function isNumber()
+    {
+        return ! $this->isDice() && ! $this->isVariable() && ! empty($this->number);
+    }
+
+    /**
+     * Check if is Signal
+     *
+     * @return boolean
+     */
+    public function isSignal()
     {
         return ! $this->isDice() && ! $this->isVariable() && empty($this->number);
     }

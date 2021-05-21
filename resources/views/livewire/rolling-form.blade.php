@@ -42,25 +42,28 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>{{ __('screens/rolling.form.rolling.label') }}</label>
-                            @error('rolling.rolling') <span class="text-danger">{{ $message }}</span> @enderror
 
                             <div class="rolling-wrapper">
-                                <p class="rolling-result">
-                                    @foreach($this->getEditingRolling() as $rolling)
-                                        @if(! $loop->first || $rolling->getSignal() !== '+')
-                                            <span class="signal-part">{{ $rolling->getSignal() }}</span>
-                                        @endif
-
-                                        <span class="text-part">
-                                            @if($loop->last && $this->isDice && empty($rolling->dice))
-                                                {{ $rolling->toText(false) . 'd' }}
-                                            @else
-                                                {{ $rolling->toText(false) }}
+                                <p>
+                                    <span class="rolling-result">
+                                        @foreach($this->getEditingRolling() as $rolling)
+                                            @if(! $loop->first || $rolling->getSignal() !== '+')
+                                                <span class="signal-part">{{ $rolling->getSignal() }}</span>
                                             @endif
-                                        </span>
-                                    @endforeach
 
-                                    <span class="editing-cursor"></span>
+                                            <span class="text-part">
+                                                @if($loop->last && $this->isDice && empty($rolling->dice))
+                                                    {{ $rolling->toText(false) . 'd' }}
+                                                @else
+                                                    {{ $rolling->toText(false) }}
+                                                @endif
+                                            </span>
+                                        @endforeach
+
+                                        <span class="editing-cursor"></span>
+                                    </span>
+
+                                    @error('rolling.rolling') <span class="text-danger">{{ $message }}</span> @enderror
                                 </p>
 
                                 <div class="rolling-buttons">
@@ -122,7 +125,19 @@
                             @endif
 
                             <strong class="discord-field-name">{{ sprintf('%s: %s', __('screens/rollings.result'), 999) }}</strong>
-                            <span class="discord-field-value">{{ $this->rolling->describe() }}</span>
+                            <span class="discord-field-value">
+                                @foreach($this->getEditingRolling() as $rolling)
+                                    @if(! $loop->first || $rolling->getSignal() !== '+')
+                                        {{ $rolling->getSignal() }}
+                                    @endif
+
+                                    @if($loop->last && $this->isDice && empty($rolling->dice))
+                                        {{ $rolling->toText(false) . 'd' }}
+                                    @else
+                                        {{ $rolling->toText(false) }}
+                                    @endif
+                                @endforeach
+                            </span>
                         </div>
                     </div>
                     <div class="col-sm-12 text-right">

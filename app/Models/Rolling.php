@@ -94,7 +94,16 @@ class Rolling extends Model
      */
     public function validate()
     {
-        // throw ValidationException::withMessages(['description' => '']);
+        if (empty($this->rolling)) {
+            throw ValidationException::withMessages(['rolling' => __('screens/rolling.validation.rolling.required')]);
+        }
+
+        $last = array_values($this->rolling);
+        $last = end($last);
+
+        if (empty($last)) {
+            throw ValidationException::withMessages(['rolling' => __('screens/rolling.validation.rolling.required')]);
+        }
     }
 
     /**
