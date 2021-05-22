@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts._html')
 
 @section('body_class', 'minimal')
 
