@@ -1,7 +1,9 @@
 <?php
 
 return [
-    'title'            => 'Suas Rolagens',
+    'title'            => 'Rolagens',
+    'title_fast'       => 'Rolagem Rápida',
+    'title_saved'      => 'Suas Rolagens',
     'description'      => 'Faça suas jogadas mais rápido e aproveite o role play.',
     'result'           => 'Resultado',
     'describe'         => 'Rolagem',

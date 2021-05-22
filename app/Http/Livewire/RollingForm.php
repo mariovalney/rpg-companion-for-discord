@@ -39,7 +39,7 @@ class RollingForm extends Component
      *
      * @var array
      */
-    public $webhookId = false;
+    public $webhookId;
 
     /**
      * Rolling Inputs
