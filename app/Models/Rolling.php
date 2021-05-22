@@ -123,6 +123,10 @@ class Rolling extends Model
         if (empty($last)) {
             throw ValidationException::withMessages(['rolling' => __('screens/rolling.validation.rolling.required')]);
         }
+
+        if ($last->isSignal()) {
+            throw ValidationException::withMessages(['rolling' => __('screens/rolling.validation.rolling.missing_last')]);
+        }
     }
 
     /**

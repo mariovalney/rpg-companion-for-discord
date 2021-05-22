@@ -4,18 +4,13 @@ namespace App\Http\Livewire;
 
 use Auth;
 use Exception;
-use App\Models\Dice;
-use App\Models\Guild;
 use App\Models\Rolling\RollingPart;
-use App\Models\Webhook;
 use App\Support\Traits\HasAlert;
-use App\Support\Traits\EditingRollingParts;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class RollingForm extends Component
 {
-    use EditingRollingParts;
     use HasAlert;
 
     /**
@@ -33,25 +28,29 @@ class RollingForm extends Component
     public $channel;
 
     /**
-     * Variables
+     * Variables to rolling input
      *
      * @var array
      */
     public $variables;
 
     /**
-     * Variable Name
-     *
-     * @var string
-     */
-    public $selectedVariable = '';
-
-    /**
-     * Current rolling
+     * Rolling Inputs
      *
      * @var array
      */
-    public $editingRolling = [];
+    public $rollingInputs = [
+        'rolling' => null,
+    ];
+
+    /**
+     * Event listenrs
+     *
+     * @var array
+     */
+    protected $listeners = [
+        'changeRollingInput' => 'changeRollingInputEvent'
+    ];
 
     /**
      * Rolling Rules
@@ -82,28 +81,6 @@ class RollingForm extends Component
      *
      * @return view()
      */
-    public function mount()
-    {
-        if (! empty($this->editingRolling)) {
-            return;
-        }
-
-        $this->editingRolling = [];
-        foreach ($this->rolling->rolling as $rolling) {
-            $this->editingRolling[] = $rolling->toArray();
-        }
-
-        $last = $this->getLastPartModel();
-        if ($last && $last->isDice() && ! $this->isDice) {
-            $this->isDice = true;
-        }
-    }
-
-    /**
-     * Render the component
-     *
-     * @return view()
-     */
     public function render()
     {
         return view('livewire.rolling-form');
@@ -120,13 +97,32 @@ class RollingForm extends Component
     }
 
     /**
+     * Event when a rolling input changed
+     *
+     * @param  array $value
+     * @param  string $field
+     * @return void
+     */
+    public function changeRollingInputEvent($field, $value)
+    {
+        $this->rollingInputs[ $field ] = $value;
+    }
+
+    /**
      * Save the rolling
      *
      * @return void
      */
     public function save()
     {
-        $this->rolling->rolling = $this->getEditingRolling();
+        // Update rolling inputs
+        foreach ($this->rollingInputs as $attribute => $value) {
+            if ($value === null) {
+                continue;
+            }
+
+            $this->rolling->$attribute = array_map([RollingPart::class, 'create'], $value);
+        }
 
         $this->validate();
         $this->emit('RunDiscordMarkdown');
@@ -152,74 +148,36 @@ class RollingForm extends Component
             $this->setAlert(__('screens/rolling.form.success'), 'good');
         } catch (ValidationException $e) {
             $errors = [];
+            $rollingErrors = [];
+
             foreach ($e->errors() as $key => $value) {
+                if (in_array($key, array_keys($this->rollingInputs))) {
+                    $rollingErrors = array_merge((array) $value, $rollingErrors);
+                    continue;
+                }
+
                 $errors['rolling.' . $key] = $value;
             }
 
-            $this->setErrorBag($errors);
+            $this->setAlert(implode('<br>', $rollingErrors), 'bad');
         } catch (Exception $e) {
             $this->setAlert(__('screens/rolling.form.error'), 'bad');
         }
     }
 
     /**
-     * Get editingRolling as objects
+     * Turn a list or rollings on array to allow livewire work
      *
+     * @param array $rollings
      * @return array
      */
-    public function getEditingRolling()
+    public function parseRollings($rollings)
     {
-        $parts = [];
-        foreach ($this->editingRolling as $key => $value) {
-            $parts[ $key ] = new RollingPart($value);
+        $parsed = [];
+        foreach ($rollings as $key => $rolling) {
+            $parsed[ $key ] = $rolling->toArray();
         }
 
-        return $parts;
-    }
-
-    /**
-     * A variable was selected
-     *
-     * @return void
-     */
-    public function updatedSelectedVariable($value)
-    {
-        if (! $this->canPressButton('variable')) {
-            return;
-        }
-
-        $this->rollingButtonVariable($value);
-        $this->selectedVariable = '';
-    }
-
-    /**
-     * Pressing the rolling button
-     *
-     * @return void
-     */
-    public function rollingButton($button)
-    {
-        if (! $this->canPressButton($button)) {
-            return;
-        }
-
-        if (is_numeric($button)) {
-            return $this->rollingButtonNumeric($button);
-        }
-
-        $method = 'rollingButton' . ucfirst($button);
-        if (method_exists($this, $method)) {
-            return $this->$method();
-        }
-    }
-
-    /**
-     * Echo the disabled class if so
-     *
-     * @return void
-     */
-    public function rollingClass($button)
-    {
-        echo $this->canPressButton($button) ? '' : 'disabled';
+        return $parsed;
     }
 }

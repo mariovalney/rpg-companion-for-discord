@@ -116,4 +116,14 @@ class SimpleModel implements Arrayable, Jsonable
     {
         return $this->attributes;
     }
+
+    /**
+     * Create instance from array
+     *
+     * @return array
+     */
+    public static function create(array $attributes = [])
+    {
+        return new static($attributes);
+    }
 }

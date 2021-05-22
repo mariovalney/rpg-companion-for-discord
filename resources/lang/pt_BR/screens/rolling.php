@@ -37,9 +37,10 @@ return [
             'min' => 'A descrição precisa ter pelo menos 10 caracteres.',
             'max' => 'A descrição não pode passar de 2500 caracteres.',
         ],
-        'rolling' => [
-            'required' => 'Sua rolagem não pode estar vazia.',
-        ]
+        'rolling'     => [
+            'required'     => 'Sua rolagem não pode estar vazia.',
+            'missing_last' => 'A rolagem não pode terminar em um sinal.',
+        ],
     ],
     'buttons'     => [
         'plus' => '+',

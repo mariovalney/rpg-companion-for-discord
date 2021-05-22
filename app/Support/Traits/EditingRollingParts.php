@@ -18,7 +18,7 @@ trait EditingRollingParts
      *
      * @var array
      */
-    private $availableButtons = [
+    protected $availableButtons = [
         'minus' => [
             'variable',
             'number',
@@ -72,7 +72,7 @@ trait EditingRollingParts
 
         // Can remove if is not the last
         if ($button === 'backspace') {
-            return ! empty($this->editingRolling);
+            return ! empty($this->rollings);
         }
 
         $actions = $this->availableButtons[ $button ] ?? [];
@@ -163,7 +163,7 @@ trait EditingRollingParts
             return;
         }
 
-        array_pop($this->editingRolling);
+        array_pop($this->rollings);
     }
 
     /**
@@ -200,7 +200,7 @@ trait EditingRollingParts
     private function addPart($data)
     {
         $part = new RollingPart($data);
-        $this->editingRolling[] = $part->toArray();
+        $this->rollings[] = $part->toArray();
     }
 
     /**
@@ -210,7 +210,7 @@ trait EditingRollingParts
      */
     private function editLastPart($data)
     {
-        $this->editingRolling[] = array_merge($this->getLastPart(true), $data);
+        $this->rollings[] = array_merge($this->getLastPart(true), $data);
     }
 
     /**
@@ -221,12 +221,12 @@ trait EditingRollingParts
     private function getLastPart($remove = false)
     {
         $part = [];
-        if (! empty($this->editingRolling)) {
-            $part = last($this->editingRolling);
+        if (! empty($this->rollings)) {
+            $part = last($this->rollings);
         }
 
         if ($remove) {
-            array_pop($this->editingRolling);
+            array_pop($this->rollings);
         }
 
         return $part;
