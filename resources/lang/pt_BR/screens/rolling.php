@@ -38,8 +38,11 @@ return [
             'max' => 'A descrição não pode passar de 2500 caracteres.',
         ],
         'rolling'     => [
-            'required'     => 'Sua rolagem não pode estar vazia.',
-            'missing_last' => 'A rolagem não pode terminar em um sinal.',
+            'required'       => 'Sua rolagem não pode estar vazia.',
+            'missing_last'   => 'A rolagem não pode terminar em um sinal.',
+            'dice_count_max' => 'Você não pode rolar mais do que %s dados ao mesmo tempo.',
+            'dice_side_max'  => 'Um dado não pode ter mais de %s lados.',
+            'number_max'     => 'Um valor não pode ser maior do que %s.',
         ],
     ],
     'buttons'     => [

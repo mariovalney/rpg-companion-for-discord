@@ -4,9 +4,31 @@ namespace App\Models\Rolling;
 
 use App\Models\Variable;
 use App\Support\SimpleModel;
+use Exception;
 
 class RollingPart extends SimpleModel
 {
+    /**
+     * The dice limit for sides
+     *
+     * @var int
+     */
+    const DICE_SIDE_MAX = 1000;
+
+    /**
+     * The count dice limit
+     *
+     * @var int
+     */
+    const DICE_COUNT_MAX = 1000;
+
+    /**
+     * The limit for numbers
+     *
+     * @var int
+     */
+    const NUMBER_MAX = 1000000000;
+
     /**
      * Attributes
      *
@@ -39,6 +61,27 @@ class RollingPart extends SimpleModel
     protected $guarded = [
         'guild'
     ];
+
+    /**
+     * Validate the rolling
+     *
+     * @throws ValidationException
+     */
+    public function validate()
+    {
+        if ($this->isDice() && $this->number > self::DICE_COUNT_MAX) {
+            throw new Exception(sprintf(__('screens/rolling.validation.rolling.dice_count_max'), $this->formatNumber(self::DICE_COUNT_MAX)));
+        }
+
+        if ($this->isDice() && $this->dice > self::DICE_SIDE_MAX) {
+            throw new Exception(sprintf(__('screens/rolling.validation.rolling.dice_side_max'), $this->formatNumber(self::DICE_SIDE_MAX)));
+        }
+
+        if ($this->isNumber() && $this->number > self::NUMBER_MAX) {
+            dd($this);
+            throw new Exception(sprintf(__('screens/rolling.validation.rolling.number_max'), $this->formatNumber(self::NUMBER_MAX)));
+        }
+    }
 
     /**
      * Check is Positive
@@ -191,8 +234,8 @@ class RollingPart extends SimpleModel
             $value = ($this->number ?: '1') . 'd' . $this->dice;
         }
 
-        if (is_null($value) && ! empty($this->number)) {
-            $value = $this->number;
+        if (is_null($value) && $this->isNumber()) {
+            $value = $this->formatNumber($this->number);
         }
 
         if (empty($value)) {
@@ -235,5 +278,16 @@ class RollingPart extends SimpleModel
         }
 
         return 0;
+    }
+
+    /**
+     * Format a number for exibition
+     *
+     * @param  int $number
+     * @return string
+     */
+    private function formatNumber($number)
+    {
+        return number_format($number, 0, ',', '.');
     }
 }

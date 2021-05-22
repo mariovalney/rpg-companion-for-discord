@@ -3,6 +3,10 @@
         @extend .form-control;
 
         cursor: pointer;
+        position: relative;
+        display: flex;
+        height: auto;
+        align-items: center;
 
         .editing-part {
             position: relative;
@@ -23,6 +27,11 @@
             .editing-cursor {
                 display: block;
             }
+        }
+
+        .rolling-parts {
+            padding-right: 0.75rem;
+            flex-grow: 9;
         }
     }
 

@@ -62,7 +62,24 @@ trait EditingRollingParts
                 return false;
             }
 
+            // Avoid rolling max validation
+            if (! empty($part)) {
+                $diceLimit = $this->isDice && $part->dice > RollingPart::DICE_COUNT_MAX;
+                $numberLimit = $part->isDice() ? RollingPart::DICE_SIDE_MAX : RollingPart::NUMBER_MAX;
+                $numberLimit = ! $this->isDice && $part->number > $numberLimit;
+
+                if ($diceLimit || $numberLimit) {
+                    return false;
+                }
+            }
+
+
             $button = 'number';
+        }
+
+        // Dice cannot have more than 1000 sides
+        if ($button === 'dice' && ! $this->isDice && ! empty($part) && $part->number > RollingPart::DICE_SIDE_MAX) {
+            return false;
         }
 
         // Create a new part if editing a dice
@@ -164,6 +181,12 @@ trait EditingRollingParts
         }
 
         array_pop($this->rollings);
+
+        // Check for dice after removing
+        $last = $this->getLastPartModel();
+        if (! empty($last) && $last->isDice()) {
+            $this->isDice = true;
+        }
     }
 
     /**

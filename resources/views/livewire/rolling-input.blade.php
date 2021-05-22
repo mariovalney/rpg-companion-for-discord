@@ -1,28 +1,30 @@
 <div>
     <div class="rolling-input-wrapper">
         <p class="rolling-result {{ $this->isKeyboardShown ? 'editing' : '' }}">
-            @foreach($this->getEditingRolling() as $rolling)
-                @if(! $loop->first || $rolling->getSignal() !== '+')
-                    <span class="signal-part">{{ $rolling->getSignal() }}</span>
-                @endif
+            <span class="rolling-parts">
+                @foreach($this->getEditingRolling() as $rolling)
+                    @if(! $loop->first || $rolling->getSignal() !== '+')
+                        <span class="signal-part">{{ $rolling->getSignal() }}</span>
+                    @endif
 
-                @if($loop->last)
-                    <span class="editing-part">
-                        @if($this->isDice && empty($rolling->dice))
-                            {{ $rolling->toText(false) . 'd' }}
-                        @else
+                    @if($loop->last)
+                        <span class="editing-part">
+                            @if($this->isDice && empty($rolling->dice))
+                                {{ $rolling->toText(false) . 'd' }}
+                            @else
+                                {{ $rolling->toText(false) }}
+                            @endif
+                            <span class="editing-cursor"></span>
+                        </span>
+                    @else
+                        <span class="text-part">
                             {{ $rolling->toText(false) }}
-                        @endif
-                        <span class="editing-cursor"></span>
-                    </span>
-                @else
-                    <span class="text-part">
-                        {{ $rolling->toText(false) }}
-                    </span>
-                @endif
+                        </span>
+                    @endif
+                @endforeach
+            </span>
 
-            @endforeach
-
+            <i class="fas fa-keyboard"></i>
         </p>
 
         <div class="rolling-keyboard collapse {{ $this->isKeyboardShown ? 'show' : '' }}">

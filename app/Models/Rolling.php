@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Auth;
 use DiscordApi;
+use Exception;
 use Guilds;
 use Route;
 use Str;
@@ -106,7 +107,7 @@ class Rolling extends Model
         return trim($text, '+ ');
     }
 
-     /**
+    /**
      * Validate the rolling
      *
      * @throws ValidationException
@@ -126,6 +127,14 @@ class Rolling extends Model
 
         if ($last->isSignal()) {
             throw ValidationException::withMessages(['rolling' => __('screens/rolling.validation.rolling.missing_last')]);
+        }
+
+        try {
+            foreach ($this->rolling as $rolling) {
+                $rolling->validate();
+            }
+        } catch (Exception $e) {
+            throw ValidationException::withMessages(['rolling' => $e->getMessage()]);
         }
     }
 
