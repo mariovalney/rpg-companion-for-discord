@@ -31,7 +31,11 @@ class Rollings extends Component
      */
     public function mount()
     {
-        $this->webhookId = session()->get($this->getWebhookSessionKey(), '');
+        $webhookId = session()->get($this->getWebhookSessionKey(), '');
+
+        if (! empty($this->guild->webhooks) && in_array($webhookId, $this->guild->webhooks->pluck('id')->all())) {
+            $this->webhookId = $webhookId;
+        }
     }
 
     /**

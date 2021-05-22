@@ -1,5 +1,5 @@
 <div>
-    @if(empty($webhookId) || empty($this->rollings))
+    @if(empty($this->webhookId) || empty($this->rollings))
         @alert('{{ __("screens/rollings.choose_to_start") }}')
     @else
         @if(! empty($this->alert))

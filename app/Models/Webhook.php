@@ -28,6 +28,13 @@ class Webhook extends Model
     ];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['guild', 'channel'];
+
+    /**
      * Get the guild associated
      */
     public function guild()

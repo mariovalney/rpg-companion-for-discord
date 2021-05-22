@@ -47,7 +47,7 @@
             <p class="lead">@lang('screens/guilds.webhooks.found')</p>
 
             <ul class="list-unstyled lead">
-                @foreach($guild->webhooks as $webhook)
+                @foreach($guild->webhooks->sortBy('channel.name') as $webhook)
                     <li class="text-bold">#{{ $webhook->channel->name }}</li>
                 @endforeach
             </ul>
