@@ -114,12 +114,11 @@ class Rolling extends Model
      */
     public function validate()
     {
-        if (empty($this->rolling)) {
+        if ($this->rolling->isEmpty()) {
             throw ValidationException::withMessages(['rolling' => __('screens/rolling.validation.rolling.required')]);
         }
 
-        $last = array_values($this->rolling);
-        $last = end($last);
+        $last = $this->rolling->last();
 
         if (empty($last)) {
             throw ValidationException::withMessages(['rolling' => __('screens/rolling.validation.rolling.required')]);
@@ -135,6 +134,10 @@ class Rolling extends Model
             }
         } catch (Exception $e) {
             throw ValidationException::withMessages(['rolling' => $e->getMessage()]);
+        }
+
+        if ($this->has_advantage && empty($this->rolling->firstWhere('dice', '>', 0))) {
+            throw ValidationException::withMessages(['has_advantage' => __('screens/rolling.validation.has_advantage.nodice')]);
         }
     }
 

@@ -11,14 +11,14 @@ trait HasRollingParts
      * Get rolling parts
      *
      * @param  string  $value
-     * @return string
+     * @return Collection
      */
     public function getRollingAttribute($parts)
     {
         $parts = json_decode($parts, true);
 
         if (empty($parts) || ! is_array($parts)) {
-            return [];
+            return collect();
         }
 
         $rolling = [];
@@ -27,7 +27,7 @@ trait HasRollingParts
             $rolling[ $key ]->guild = $this->getGuildId();
         }
 
-        return $rolling;
+        return collect($rolling);
     }
 
     /**

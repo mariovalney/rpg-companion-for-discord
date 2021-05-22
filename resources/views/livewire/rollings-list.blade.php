@@ -27,21 +27,27 @@
                                     @endif
                                 </a>
                                 <div class="card-buttons">
-                                    <a wire:click.prevent="rollWithDisadvantage({{ $rolling->id }})" href="#" class="btn btn-bad d-block" title="{{ __('screens/rollings.roll.disadvantaged') }}">
-                                        <div>
-                                            <i class="fas fa-dice"></i>
-                                            <i class="fas fa-arrow-down"></i>
-                                        </div>
-                                    </a>
+                                    @if($rolling->has_advantage)
+                                        <a wire:click.prevent="rollWithDisadvantage({{ $rolling->id }})" href="#" class="btn btn-bad d-block" title="{{ __('screens/rollings.roll.disadvantaged') }}">
+                                            <div>
+                                                <i class="fas fa-dice"></i>
+                                                <i class="fas fa-arrow-down"></i>
+                                            </div>
+                                        </a>
+                                    @endif
+
                                     <a wire:click.prevent="roll({{ $rolling->id }})" href="#" class="btn d-block" title="{{ __('screens/rollings.roll.normal') }}">
                                         <i class="fas fa-dice"></i>
                                     </a>
-                                    <a wire:click.prevent="rollWithAdvantage({{ $rolling->id }})" href="#" class="btn btn-good d-block" title="{{ __('screens/rollings.roll.advantaged') }}">
-                                        <div>
-                                            <i class="fas fa-dice"></i>
-                                            <i class="fas fa-arrow-up"></i>
-                                        </div>
-                                    </a>
+
+                                    @if($rolling->has_advantage)
+                                        <a wire:click.prevent="rollWithAdvantage({{ $rolling->id }})" href="#" class="btn btn-good d-block" title="{{ __('screens/rollings.roll.advantaged') }}">
+                                            <div>
+                                                <i class="fas fa-dice"></i>
+                                                <i class="fas fa-arrow-up"></i>
+                                            </div>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>

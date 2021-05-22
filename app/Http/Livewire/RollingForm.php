@@ -58,8 +58,9 @@ class RollingForm extends Component
      * @var Rolling
      */
     protected $rules = [
-        'rolling.title'       => 'required|string|min:3|max:250',
-        'rolling.description' => 'string|min:3|max:2500',
+        'rolling.title'         => 'required|string|min:3|max:250',
+        'rolling.description'   => 'string|min:3|max:2500',
+        'rolling.has_advantage' => 'boolean',
     ];
 
     /**
@@ -160,24 +161,9 @@ class RollingForm extends Component
             }
 
             $this->setAlert(implode('<br>', $rollingErrors), 'bad');
+            $this->setErrorBag($errors);
         } catch (Exception $e) {
             $this->setAlert(__('screens/rolling.form.error'), 'bad');
         }
-    }
-
-    /**
-     * Turn a list or rollings on array to allow livewire work
-     *
-     * @param array $rollings
-     * @return array
-     */
-    public function parseRollings($rollings)
-    {
-        $parsed = [];
-        foreach ($rollings as $key => $rolling) {
-            $parsed[ $key ] = $rolling->toArray();
-        }
-
-        return $parsed;
     }
 }
