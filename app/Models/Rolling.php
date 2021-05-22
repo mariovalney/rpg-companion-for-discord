@@ -27,6 +27,25 @@ class Rolling extends Model
     protected $fillable = [
         'title',
         'description',
+        'has_advantage',
+    ];
+
+    /**
+     * User attributes
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'has_advantage' => false,
+    ];
+
+    /**
+     * Cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'has_advantage' => 'boolean',
     ];
 
     /**
