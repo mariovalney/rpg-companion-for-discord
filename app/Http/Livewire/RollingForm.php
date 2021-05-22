@@ -35,6 +35,13 @@ class RollingForm extends Component
     public $variables;
 
     /**
+     * The webhook ID for rolling
+     *
+     * @var array
+     */
+    public $webhookId = false;
+
+    /**
      * Rolling Inputs
      *
      * @var array
@@ -75,6 +82,20 @@ class RollingForm extends Component
             'rolling.description.min'  => __('screens/rolling.validation.description.min'),
             'rolling.description.max'  => __('screens/rolling.validation.description.max'),
         ];
+    }
+
+    /**
+     * Mount the component
+     *
+     * @return void
+     */
+    public function mount()
+    {
+        if (empty($this->channel) || empty($this->channel->webhooks)) {
+            return null;
+        }
+
+        $this->webhookId = (string) $this->channel->webhooks[0]->id;
     }
 
     /**

@@ -85,6 +85,12 @@
                     <div class="col-sm-12 text-right">
                         <a href="#" class="btn mt-3 d-block" wire:click.prevent="save">{{ __('screens/rolling.submit') }}</a>
 
+                        @if($this->webhookId && $this->rolling->rolling->isNotEmpty())
+                            <div class="my-3">
+                                @livewire('rolling-actions', ['rolling' => $this->rolling, 'webhookId' => $this->webhookId])
+                            </div>
+                        @endif
+
                         @if(! empty($this->rolling->id))
                             <a href="#" data-href="{{ route('rollings.delete', [ 'guild' => $this->channel->guild->id, 'channel' => $this->rolling->channel, 'rolling' => $this->rolling->id ]) }}" class="btn mt-3 d-block btn-bad" data-confirm>
                                 {{ __('screens/rolling.delete') }}

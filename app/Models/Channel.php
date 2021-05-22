@@ -65,4 +65,18 @@ class Channel extends Model
     {
         return $this->hasMany('App\Models\Rolling')->where('user_id', Auth::id());
     }
+
+    /**
+     * Get the first webhook ID
+     *
+     * @return string
+     */
+    public function getWebhookId()
+    {
+        if (empty($this->webhooks)) {
+            return null;
+        }
+
+        return $this->webhooks[0]->id ?? null;
+    }
 }
