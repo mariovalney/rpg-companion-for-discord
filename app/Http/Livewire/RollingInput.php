@@ -53,6 +53,34 @@ class RollingInput extends Component
     protected $rules = [];
 
     /**
+     * If keyboard is already open
+     *
+     * @var string
+     */
+    public $isKeyboardShown = false;
+
+    /**
+     * Event listenrs
+     *
+     * @var array
+     */
+    protected $listeners = [
+        'keyboardShow' => 'keyboardShowEvent'
+    ];
+
+    /**
+     * Event when a rolling input changed
+     *
+     * @param  array $value
+     * @param  string $field
+     * @return void
+     */
+    public function keyboardShowEvent($show)
+    {
+        $this->isKeyboardShown = ! ((boolean) $show);
+    }
+
+    /**
      * Render the component
      *
      * @return view()

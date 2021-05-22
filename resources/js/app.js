@@ -25,4 +25,5 @@ require('./masks');
 require('./components/alerts');
 require('./components/confirm');
 require('./components/guilds');
+require('./components/rolling-input');
 require('./components/rollings');
