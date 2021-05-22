@@ -6,7 +6,7 @@ use Auth;
 use App\Models\Guild;
 use App\Models\Rolling;
 use App\Models\Webhook;
-use App\Support\Traits\HasAlert;
+use App\Support\Traits\Livewire\HasAlert;
 use Livewire\Component;
 
 class RollingsList extends Component
@@ -93,96 +93,12 @@ class RollingsList extends Component
         return '';
     }
 
-
-    /**
-     * Roll with disadvantage
-     *
-     * @param  int $rollingId
-     * @return void
-     */
-    public function rollWithDisadvantage($rollingId)
-    {
-        $this->roll($rollingId, -1);
-    }
-
-    /**
-     * Roll with Advantage
-     *
-     * @param  int $rollingId
-     * @return void
-     */
-    public function rollWithAdvantage($rollingId)
-    {
-        $this->roll($rollingId, 1);
-    }
-
-    /**
-     * Roll a normal rolling
-     *
-     * @param  int $rollingId
-     * @param  int $type
-     *
-     * @return void
-     */
-    public function roll($rollingId, $type = 0)
-    {
-        $rolling = $this->getRollingOrFail($rollingId);
-
-        if ( empty( $rolling->id ) ) {
-            return;
-        }
-
-        $this->sendMessage($rolling, $type);
-        $this->emit('RunDiscordMarkdown');
-    }
-
-    /**
-     * Get a rolling by ID
-     *
-     * @param  int $rollingId
-     * @return void
-     */
-    protected function getRollingOrFail($rollingId)
-    {
-        $rolling = $this->rollings->find($rollingId);
-
-        if (! empty($rolling->id)) {
-            return $rolling;
-        }
-
-        $this->setAlert(__('Rolagem inválida. Por favor, tente novamente.'), 'bad');
-    }
-
-    /**
-     * Send a message to webhook
-     *
-     * @param  Rolling $rolling
-     * @param  int $type
-     *
-     * @return void
-     */
-    protected function sendMessage($rolling, $type = 0)
-    {
-        if (empty($this->webhook()) || empty($rolling)) {
-            $this->setAlert(__('screens/rollings.webhook.error'), 'bad');
-            return;
-        }
-
-        $message = $rolling->createMessage($type);
-        if ($this->webhook()->sendMessage($message)) {
-            $this->setAlert(__('screens/rollings.webhook.success'), 'good');
-            return;
-        }
-
-        $this->setAlert(__('screens/rollings.webhook.error'), 'bad');
-    }
-
     /**
      * Get the webhook
      *
      * @return Webhook
      */
-    protected function webhook()
+    public function webhook()
     {
         if (empty($this->webhook)) {
             $this->webhook = Webhook::find($this->webhookId);

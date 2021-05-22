@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use Auth;
 use Exception;
 use App\Models\Rolling\RollingPart;
-use App\Support\Traits\HasAlert;
+use App\Support\Traits\Livewire\HasAlert;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 

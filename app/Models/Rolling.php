@@ -10,8 +10,8 @@ use Route;
 use Str;
 use App\Models\Channel;
 use App\Models\Rolling\RollingPart;
-use App\Support\Traits\HasRollingParts;
 use App\Support\Traits\HasVariablesToParse;
+use App\Support\Traits\Livewire\HasRollingParts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
 

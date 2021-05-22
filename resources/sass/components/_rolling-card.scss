@@ -48,26 +48,4 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-
-    .card-buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: stretch;
-        flex-wrap: nowrap;
-
-        .btn {
-            flex-grow: 1;
-            margin-left: 0.75rem;
-            flex-basis: 65px;
-            padding: .3rem .5rem;
-
-            &:first-child {
-                margin-left: 0;
-            }
-
-            > * {
-                height: 100%;
-            }
-        }
-    }
 }

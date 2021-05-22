@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Traits;
+namespace App\Support\Traits\Livewire;
 
 trait HasAlert
 {
