@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-4">
             @if ($this->rollings->isNotEmpty())
                 <div class="col-sm-12">
                     <h5>{{ __('screens/rollings.title_saved') }}</h5>
@@ -30,7 +30,7 @@
                                     </span>
 
                                     <h5 class="card-title" data-mh="rolling-card-title">{{ $rolling->getTitle() }}</h5>
-                                    <p class="card-text discord-markdown small" data-mh="rolling-card-description">{!! nl2br( $rolling->getDescription() ) !!}</p>
+                                    <p class="card-text discord-markdown small" data-mh="rolling-card-description">{!! $rolling->getDescription() !!}</p>
 
                                     @if(! empty($rolling->rolling))
                                         <p class="card-text small">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>

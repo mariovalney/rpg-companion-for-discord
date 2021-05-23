@@ -36,16 +36,4 @@
             }
         }
     }
-
-    .discord-markdown {
-        display: block;
-        display: -webkit-box;
-        line-clamp: 4;
-        -webkit-line-clamp: 4;
-        box-orient: vertical;
-        -webkit-box-orient: vertical;
-        -moz-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
 }

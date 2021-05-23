@@ -58,7 +58,7 @@
                             <h1 class="discord-title">{{ $this->rolling->getTitle() }}</h1>
 
                             @if(! empty($this->rolling->description))
-                                <p class="discord-markdown">{!! nl2br( $this->rolling->getDescription() ) !!}</p>
+                                <p class="discord-markdown">{!! $this->rolling->getDescription() !!}</p>
                             @endif
 
                             <strong class="discord-field-name">{{ sprintf('%s: %s', __('screens/rollings.result'), 999) }}</strong>

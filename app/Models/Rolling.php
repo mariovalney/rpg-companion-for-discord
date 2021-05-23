@@ -86,10 +86,10 @@ class Rolling extends Model
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescription($limit = 200)
     {
         $description = $this->parseVariables($this->description, $this->getGuildId());
-        return nl2br($description);
+        return Str::limit($description, $limit);
     }
 
     /**
@@ -191,6 +191,10 @@ class Rolling extends Model
 
         if (! empty($this->title)) {
             $message['title'] = Str::limit($this->getTitle(), 250);
+
+            if (! empty($result)) {
+                $message['title'] = ' (' . $result . ')';
+            }
         }
 
         if (! empty($this->description)) {
