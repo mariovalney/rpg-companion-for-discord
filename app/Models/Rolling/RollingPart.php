@@ -228,11 +228,6 @@ class RollingPart extends SimpleModel
 
         if (is_null($value) && $this->isVariable()) {
             $value = $this->variable;
-
-            $variable = Variable::findByName($this->variable, $this->guild);
-            if (! empty($variable->value)) {
-                $value .= ' (' . $variable->value . ')';
-            }
         }
 
         if (is_null($value) && $this->isDice()) {

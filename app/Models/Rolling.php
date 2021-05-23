@@ -101,7 +101,17 @@ class Rolling extends Model
     {
         $text = [];
         foreach ($this->rolling as $part) {
-            $text[] = $part->toText();
+            $value = $part->toText();
+
+            if ($part->isVariable()) {
+                $variable = Variable::findByName($part->variable, $this->getGuildId());
+
+                if (! empty($variable->value)) {
+                    $value .= ' (' . $variable->value . ')';
+                }
+            }
+
+            $text[] = $value;
         }
 
         $text = implode(' ', $text);
@@ -193,7 +203,7 @@ class Rolling extends Model
             $message['title'] = Str::limit($this->getTitle(), 250);
 
             if (! empty($result)) {
-                $message['title'] = ' (' . $result . ')';
+                $message['title'] .= ' (' . $result . ')';
             }
         }
 

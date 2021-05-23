@@ -29,5 +29,4 @@ require('./components/alerts');
 require('./components/confirm');
 require('./components/guilds');
 require('./components/rolling-input');
-require('./components/rolling-list');
 require('./components/rollings');
