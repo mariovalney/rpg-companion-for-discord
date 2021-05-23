@@ -16,8 +16,9 @@
 
         <div class="row mb-4">
             @if ($this->rollings->isNotEmpty())
-                <div class="col-sm-12">
+                <div class="col-sm-12 d-flex justify-content-between align-items-center mb-4">
                     <h5>{{ __('screens/rollings.title_saved') }}</h5>
+                    <a href="{{ route('rollings.create', ['guild' => $this->guildId, 'channel' => $this->getChannelId()]) }}" class="btn my-0">{{ __('screens/rollings.create') }}</a>
                 </div>
 
                 @foreach($this->rollings->sortBy(['position', 'title']) as $rolling)
@@ -45,9 +46,6 @@
                 @endforeach
             @endif
 
-            <div class="col-sm-12">
-                <a href="{{ route('rollings.create', ['guild' => $this->guildId, 'channel' => $this->getChannelId()]) }}" class="btn mt-3">{{ __('screens/rollings.create') }}</a>
-            </div>
         </div>
     @endif
 </div>
