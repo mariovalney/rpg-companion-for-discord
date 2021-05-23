@@ -33,7 +33,7 @@
                                     <p class="card-text discord-markdown small" data-mh="rolling-card-description">{!! $rolling->getDescription() !!}</p>
 
                                     @if(! empty($rolling->rolling))
-                                        <p class="card-text small" data-mh="rolling-card-description">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>
+                                        <p class="card-text small" data-mh="rolling-card-rolling">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>
                                     @endif
                                 </a>
                                 <div class="card-buttons">
