@@ -11,6 +11,9 @@ window._ = require('lodash');
 // SweetAlert2
 window.Swal = require('sweetalert2/src/sweetalert2').default;
 
+// jQuery Match Height
+require('jquery-match-height');
+
 // Axios
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -26,4 +29,5 @@ require('./components/alerts');
 require('./components/confirm');
 require('./components/guilds');
 require('./components/rolling-input');
+require('./components/rolling-list');
 require('./components/rollings');

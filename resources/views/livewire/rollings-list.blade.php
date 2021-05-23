@@ -20,7 +20,7 @@
                     <h5>{{ __('screens/rollings.title_saved') }}</h5>
                 </div>
 
-                @foreach($this->rollings as $rolling)
+                @foreach($this->rollings->sortBy(['position', 'title']) as $rolling)
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
                         <div class="card rolling-card">
                             <div class="card-body">
@@ -29,8 +29,8 @@
                                         <i class="fas fa-pen-square"></i>
                                     </span>
 
-                                    <h5 class="card-title">{{ $rolling->getTitle() }}</h5>
-                                    <p class="card-text discord-markdown small">{!! nl2br( $rolling->getDescription() ) !!}</p>
+                                    <h5 class="card-title" data-mh="rolling-card-title">{{ $rolling->getTitle() }}</h5>
+                                    <p class="card-text discord-markdown small" data-mh="rolling-card-description">{!! nl2br( $rolling->getDescription() ) !!}</p>
 
                                     @if(! empty($rolling->rolling))
                                         <p class="card-text small">{{ sprintf('%s: %s', __('screens/rollings.describe'), $rolling->describe()) }}</p>

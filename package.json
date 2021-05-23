@@ -26,6 +26,7 @@
         "imagemin-webpack-plugin": "^2.4.2",
         "jquery": "^3.5.1",
         "jquery-mask-plugin": "^1.14.16",
+        "jquery-match-height": "^0.7.2",
         "laravel-mix": "^6.0.6",
         "laravel-mix-imagemin": "git://github.com/mariovalney/laravel-mix-imagemin.git#master",
         "lodash": "^4.17.19",

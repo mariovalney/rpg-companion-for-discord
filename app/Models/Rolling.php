@@ -29,6 +29,7 @@ class Rolling extends Model
         'title',
         'description',
         'has_advantage',
+        'position',
     ];
 
     /**
@@ -38,6 +39,7 @@ class Rolling extends Model
      */
     protected $attributes = [
         'has_advantage' => false,
+        'position' => 0,
     ];
 
     /**
