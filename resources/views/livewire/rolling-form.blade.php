@@ -70,13 +70,15 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="rolling-has_advantage">{{ __('screens/rolling.form.has_advantage.label') }}</label>
-                            <select wire:model.lazy="rolling.has_advantage" class="form-control" id="rolling-has_advantage">
-                                <option value="0">{{ __('forms.no') }}</option>
-                                <option value="true">{{ __('forms.yes') }}</option>
+                            <label for="rolling-advantage">{{ __('screens/rolling.form.advantage.label') }}</label>
+                            <select wire:model.lazy="rollingAdvantage" class="form-control" id="rolling-advantage">
+                                <option value="0">{{ __('screens/rolling.form.advantage.no') }}</option>
+                                <option value="{{ App\Models\Rolling\Advantage::TYPE_D20 }}">{{ __('screens/rolling.form.advantage.d20') }}</option>
+                                <option value="{{ App\Models\Rolling\Advantage::TYPE_ALL }}">{{ __('screens/rolling.form.advantage.all') }}</option>
+                                <option value="{{ App\Models\Rolling\Advantage::TYPE_DOUBLE }}">{{ __('screens/rolling.form.advantage.double') }}</option>
                             </select>
 
-                            @error('rolling.has_advantage') <span class="text-danger">{{ $message }}</span> @enderror
+                            @error('rolling.advantage') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                 </div>

@@ -10,6 +10,7 @@ use Route;
 use Str;
 use App\Models\Channel;
 use App\Models\Rolling\RollingPart;
+use App\Support\Traits\HasAdvantage;
 use App\Support\Traits\HasVariablesToParse;
 use App\Support\Traits\Livewire\HasRollingParts;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +18,9 @@ use Illuminate\Validation\ValidationException;
 
 class Rolling extends Model
 {
-    use HasVariablesToParse;
+    use HasAdvantage;
     use HasRollingParts;
+    use HasVariablesToParse;
 
     /**
      * Attributes
@@ -28,7 +30,7 @@ class Rolling extends Model
     protected $fillable = [
         'title',
         'description',
-        'has_advantage',
+        'advantage',
         'position',
     ];
 
@@ -38,17 +40,8 @@ class Rolling extends Model
      * @var array
      */
     protected $attributes = [
-        'has_advantage' => false,
+        'advantage' => 0,
         'position' => 0,
-    ];
-
-    /**
-     * Cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'has_advantage' => 'boolean',
     ];
 
     /**
@@ -148,8 +141,8 @@ class Rolling extends Model
             throw ValidationException::withMessages(['rolling' => $e->getMessage()]);
         }
 
-        if ($this->has_advantage && empty($this->rolling->firstWhere('dice', '>', 0))) {
-            throw ValidationException::withMessages(['has_advantage' => __('screens/rolling.validation.has_advantage.nodice')]);
+        if ($this->advantage && empty($this->rolling->firstWhere('dice', '>', 0))) {
+            throw ValidationException::withMessages(['advantage' => __('screens/rolling.validation.advantage.nodice')]);
         }
     }
 

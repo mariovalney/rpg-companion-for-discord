@@ -42,6 +42,13 @@ class RollingForm extends Component
     public $webhookId;
 
     /**
+     * The current rolling advantage value
+     *
+     * @var array
+     */
+    public $rollingAdvantage = 0;
+
+    /**
      * Rolling Inputs
      *
      * @var array
@@ -65,9 +72,8 @@ class RollingForm extends Component
      * @var Rolling
      */
     protected $rules = [
-        'rolling.title'         => 'required|string|min:3|max:250',
-        'rolling.description'   => 'string|min:3|max:2500',
-        'rolling.has_advantage' => 'boolean',
+        'rolling.title'       => 'required|string|min:3|max:250',
+        'rolling.description' => 'string|min:3|max:2500',
     ];
 
     /**
@@ -96,6 +102,7 @@ class RollingForm extends Component
         }
 
         $this->webhookId = (string) $this->channel->webhooks[0]->id;
+        $this->rollingAdvantage = $this->rolling->advantage->type ?? 0;
     }
 
     /**
@@ -145,6 +152,9 @@ class RollingForm extends Component
 
             $this->rolling->$attribute = array_map([RollingPart::class, 'create'], $value);
         }
+
+        // Update advantage
+        $this->rolling->advantage = (int) $this->rollingAdvantage;
 
         $this->validate();
         $this->emit('RunDiscordMarkdown');

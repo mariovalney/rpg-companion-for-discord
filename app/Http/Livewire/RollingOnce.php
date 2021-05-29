@@ -51,7 +51,7 @@ class RollingOnce extends Component
     {
         if (empty($this->rolling)) {
             $this->rolling = new Rolling();
-            $this->rolling->has_advantage = true;
+            $this->rolling->advantage = 0;
         }
     }
 
