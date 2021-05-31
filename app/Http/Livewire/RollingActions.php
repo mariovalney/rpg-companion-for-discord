@@ -44,6 +44,10 @@ class RollingActions extends Component
      */
     public function rollWithDisadvantage()
     {
+        if (! $this->rolling->hasDisadvantage()) {
+            return;
+        }
+
         $this->roll(-1);
     }
 
@@ -54,6 +58,10 @@ class RollingActions extends Component
      */
     public function rollWithAdvantage()
     {
+        if (! $this->rolling->hasAdvantage()) {
+            return;
+        }
+
         $this->roll(1);
     }
 

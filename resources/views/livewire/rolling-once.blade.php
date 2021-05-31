@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="col-sm-12 col-md-8">
-                @livewire('rolling-input', ['attribute' => 'rolling', 'rollings' => []])
+                @livewire('rolling-input', ['attribute' => 'rolling', 'rollings' => [], 'variables' => []], key('rolling-once-rolling'))
             </div>
 
             <div class="col-sm-12 col-md-4">

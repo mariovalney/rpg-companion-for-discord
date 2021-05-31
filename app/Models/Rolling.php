@@ -86,6 +86,26 @@ class Rolling extends Model
     }
 
     /**
+     * Check we have advantage
+     *
+     * @return boolean
+     */
+    public function hasAdvantage()
+    {
+        return ! empty($this->advantage) && ! $this->advantage->isNone();
+    }
+
+    /**
+     * Check we have disadvantage
+     *
+     * @return boolean
+     */
+    public function hasDisadvantage()
+    {
+        return ! empty($this->advantage) && $this->advantage->isD20();
+    }
+
+    /**
      * Print the rolling to hummans
      *
      * @return string
@@ -119,6 +139,7 @@ class Rolling extends Model
      */
     public function validate()
     {
+        // Validate Rolling
         if ($this->rolling->isEmpty()) {
             throw ValidationException::withMessages(['rolling' => __('screens/rolling.validation.rolling.required')]);
         }
@@ -141,8 +162,17 @@ class Rolling extends Model
             throw ValidationException::withMessages(['rolling' => $e->getMessage()]);
         }
 
-        if ($this->advantage && empty($this->rolling->firstWhere('dice', '>', 0))) {
+        // Validate Advantages
+        if (! $this->hasAdvantage()) {
+            return;
+        }
+
+        if (empty($this->rolling->firstWhere('dice', '>', 0))) {
             throw ValidationException::withMessages(['advantage' => __('screens/rolling.validation.advantage.nodice')]);
+        }
+
+        if ($this->advantage->isD20() && empty($this->rolling->firstWhere('dice', '=', 20))) {
+            throw ValidationException::withMessages(['advantage' => __('screens/rolling.validation.advantage.nod20dice')]);
         }
     }
 

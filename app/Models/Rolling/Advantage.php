@@ -34,4 +34,40 @@ class Advantage extends SimpleModel
     protected $fillable = [
         'type',
     ];
+
+    /**
+     * Check is none of the advantage types
+     *
+     * @return boolean
+     */
+    public function isNone() {
+        return ! $this->isD20() && ! $this->isAll() && ! $this->isDouble();
+    }
+
+    /**
+     * Check is none of the advantage types
+     *
+     * @return boolean
+     */
+    public function isD20() {
+        return $this->type === self::TYPE_D20;
+    }
+
+    /**
+     * Check is none of the advantage types
+     *
+     * @return boolean
+     */
+    public function isAll() {
+        return $this->type === self::TYPE_ALL;
+    }
+
+    /**
+     * Check is none of the advantage types
+     *
+     * @return boolean
+     */
+    public function isDouble() {
+        return $this->type === self::TYPE_DOUBLE;
+    }
 }

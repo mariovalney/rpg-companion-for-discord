@@ -52,7 +52,8 @@ return [
             'number_max'     => 'Um valor não pode ser maior do que %s.',
         ],
         'advantage'   => [
-            'nodice' => 'Você não pode rolar com vantagem sem dados.',
+            'nodice'    => 'Você não pode rolar com vantagem sem dados.',
+            'nod20dice' => 'Você precisa adicionar um D20 para usar esse tipo de vantagem.',
         ],
     ],
     'buttons'     => [
