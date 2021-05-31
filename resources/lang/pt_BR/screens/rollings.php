@@ -10,6 +10,7 @@ return [
     'choose_a_channel' => 'Escolha um canal',
     'choose_to_start'  => 'Por favor, escolha um canal para começar a criar rolagens.',
     'create'           => 'Criar uma rolagem',
+    'empty'            => 'Você ainda não tem nenhuma rolagem criada.',
     'roll'             => [
         'disadvantaged' => 'Rolar com desvantagem',
         'normal'        => 'Rolar normal',

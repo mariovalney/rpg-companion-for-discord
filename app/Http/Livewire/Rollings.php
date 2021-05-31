@@ -49,6 +49,16 @@ class Rollings extends Component
     }
 
     /**
+     * Trigger on dehydrate
+     *
+     * @return void
+     */
+    public function dehydrate()
+    {
+        $this->emit('RunDiscordMarkdown');
+    }
+
+    /**
      * Updated data
      *
      * @return void

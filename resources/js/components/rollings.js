@@ -19,6 +19,9 @@ jQuery(document).ready(function($) {
 
     Livewire.on('RunDiscordMarkdown', () => {
         window.DiscordMarkdown.run();
+
+        // Update Match Height
         $.fn.matchHeight._update();
+        $.fn.matchHeight._applyDataApi();
     });
 });

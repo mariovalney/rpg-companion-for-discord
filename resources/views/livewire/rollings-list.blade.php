@@ -15,12 +15,16 @@
         </div>
 
         <div class="row mb-4">
-            @if ($this->rollings->isNotEmpty())
-                <div class="col-sm-12 d-flex justify-content-between align-items-center mb-4">
-                    <h5>{{ __('screens/rollings.title_saved') }}</h5>
-                    <a href="{{ route('rollings.create', ['guild' => $this->guildId, 'channel' => $this->getChannelId()]) }}" class="btn my-0">{{ __('screens/rollings.create') }}</a>
-                </div>
+            <div class="col-sm-12 d-flex justify-content-between align-items-center mb-4">
+                <h5>{{ __('screens/rollings.title_saved') }}</h5>
+                <a href="{{ route('rollings.create', ['guild' => $this->guildId, 'channel' => $this->getChannelId()]) }}" class="btn my-0">{{ __('screens/rollings.create') }}</a>
+            </div>
 
+            @if ($this->rollings->isEmpty())
+                <div class="col-sm-12">
+                    <p>{{ __('screens/rollings.empty') }}</p>
+                </div>
+            @else
                 @foreach($this->rollings->sortBy(['position', 'title']) as $rolling)
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
                         <div class="card rolling-card">
