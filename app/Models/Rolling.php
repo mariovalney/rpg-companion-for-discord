@@ -9,6 +9,7 @@ use Guilds;
 use Route;
 use Str;
 use App\Models\Channel;
+use App\Models\Rolling\Advantage;
 use App\Models\Rolling\RollingPart;
 use App\Support\Traits\HasAdvantage;
 use App\Support\Traits\HasVariablesToParse;
@@ -193,17 +194,17 @@ class Rolling extends Model
     /**
      * Create a roll message
      *
-     * @param  int $type
+     * @param  Advantage $advantage
      *
      * @return array
      */
-    public function createMessage($type = 0)
+    public function createMessage(Advantage $advantage = null)
     {
         $rolling = [];
         $result = 0;
 
         foreach ($this->rolling as $part) {
-            $roll = $part->roll($type);
+            $roll = $part->roll($advantage);
 
 
             $rolling[] = $roll->description;

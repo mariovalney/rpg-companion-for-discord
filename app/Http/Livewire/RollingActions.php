@@ -98,7 +98,13 @@ class RollingActions extends Component
             return;
         }
 
-        $message = $this->rolling->createMessage($type);
+        $advantage = null;
+        if ($type !== 0) {
+            $advantage = $this->rolling->advantage;
+            $advantage->disadvantage = ($type < 0);
+        }
+
+        $message = $this->rolling->createMessage($advantage);
         if ($webhook->sendMessage($message)) {
             $this->setAlert(__('screens/rollings.webhook.success'), 'good');
             return;

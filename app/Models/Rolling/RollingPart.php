@@ -146,14 +146,14 @@ class RollingPart extends SimpleModel
     /**
      * Roll the rolling part
      *
-     * @param  int $type
+     * @param  Advantage $advantage
      *
      * @return string
      */
-    public function roll($type = 0)
+    public function roll(Advantage $advantage = null)
     {
         if ($this->isDice()) {
-            return $this->rollDice();
+            return $this->rollDice($advantage);
         }
 
         $result = $this->makeRoll();
@@ -178,38 +178,61 @@ class RollingPart extends SimpleModel
     /**
      * Roll for dice
      *
-     * @param  int $type
+     * @param  Advantage $advantage
      *
      * @return string
      */
-    public function rollDice($type = 0)
+    public function rollDice(Advantage $advantage = null)
     {
         $number = (int) $this->number;
         $number = $number > 0 ? $number : 1;
 
-        $results = [];
-
+        // Normal rolls
+        $rolls = [];
+        $value = 0;
         for ($i = 0; $i < $number; $i++) {
-            $results[] = $this->makeRoll();
+            $rolls[] = $this->makeRoll();
         }
 
-        $value = array_sum($results);
+        $value = array_sum($rolls);
+
+        // Advantage rolls - D20 and ALL
+        if (! empty($advantage) && ($advantage->isD20() && $this->dice === 20) || $advantage->isAll()) {
+            for ($i = 0; $i < $number; $i++) {
+                $rolls[] = $this->makeRoll();
+            }
+
+            // From big to small
+            $results = $rolls;
+            rsort($results, SORT_NUMERIC);
+
+            if ($advantage->disadvantage) {
+                $results = array_reverse($results);
+            }
+
+            $value = array_sum(array_slice($results, 0, $number));
+        }
+
+        // Advantage rolls - DOUBLE
+        if (! empty($advantage) && $advantage->isDouble()) {
+            $value = 2 * $value;
+        }
 
         if (! $this->isPositive()) {
             $value = -1 * $value;
         }
 
         // Bold for critical (normal roll)
-        if ($this->isDice() && $type === 0) {
-            foreach ($results as $key => $result) {
-                if ($result === $this->dice || $result === 1) {
-                    $results[ $key ] = '**' . $result . '**';
-                }
-            }
-        }
+        // if (empty($advantage)) {
+        //     foreach ($results as $key => $result) {
+        //         if ($result === $this->dice || $result === 1) {
+        //             $results[ $key ] = '**' . $result . '**';
+        //         }
+        //     }
+        // }
 
         $description = $this->toText();
-        $description .= ' (' . implode(', ', $results) . ')';
+        $description .= ' (' . implode(', ', $rolls) . ')';
 
         return (object) [
             'description' => $description,

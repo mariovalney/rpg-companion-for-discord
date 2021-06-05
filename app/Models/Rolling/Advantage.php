@@ -33,6 +33,16 @@ class Advantage extends SimpleModel
      */
     protected $fillable = [
         'type',
+        'disadvantage'
+    ];
+
+    /**
+     * The defaults attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'disadvantage' => false,
     ];
 
     /**
