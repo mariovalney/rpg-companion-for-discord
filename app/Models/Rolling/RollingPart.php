@@ -146,11 +146,11 @@ class RollingPart extends SimpleModel
     /**
      * Roll the rolling part
      *
-     * @param  Advantage $advantage
+     * @param  $advantage
      *
      * @return string
      */
-    public function roll(Advantage $advantage = null)
+    public function roll($advantage = null)
     {
         if ($this->isDice()) {
             return $this->rollDice($advantage);
@@ -178,11 +178,11 @@ class RollingPart extends SimpleModel
     /**
      * Roll for dice
      *
-     * @param  Advantage $advantage
+     * @param  $advantage
      *
      * @return string
      */
-    public function rollDice(Advantage $advantage = null)
+    public function rollDice($advantage = null)
     {
         $number = (int) $this->number;
         $number = $number > 0 ? $number : 1;

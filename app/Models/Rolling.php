@@ -194,11 +194,11 @@ class Rolling extends Model
     /**
      * Create a roll message
      *
-     * @param  Advantage $advantage
+     * @param  $advantage
      *
      * @return array
      */
-    public function createMessage(Advantage $advantage = null)
+    public function createMessage($advantage = null)
     {
         $rolling = [];
         $result = 0;
