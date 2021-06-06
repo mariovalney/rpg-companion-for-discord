@@ -197,7 +197,7 @@ class RollingPart extends SimpleModel
         $value = array_sum($rolls);
 
         // Advantage rolls - D20 and ALL
-        if (! empty($advantage) && ($advantage->isD20() && $this->dice === 20) || $advantage->isAll()) {
+        if (! empty($advantage) && (($advantage->isD20() && $this->dice === 20) || $advantage->isAll())) {
             for ($i = 0; $i < $number; $i++) {
                 $rolls[] = $this->makeRoll();
             }
