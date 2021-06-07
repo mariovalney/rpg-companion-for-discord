@@ -203,30 +203,48 @@ class Rolling extends Model
         $rolling = [];
         $result = 0;
 
+        // Make rolls
         foreach ($this->rolling as $part) {
             $roll = $part->roll($advantage);
-
 
             $rolling[] = $roll->description;
             $result += $roll->value;
         }
 
+        // Result string
+        $string = __('screens/rollings.result');
+        if (! empty($advantage)) {
+            $string = __('screens/rollings.result_advantaged');
+
+            if ($advantage->isDouble()) {
+                $string = __('screens/rollings.result_doubled');
+            }
+
+            if ($advantage->disadvantage) {
+                $string = __('screens/rollings.result_disadvantaged');
+            }
+        }
+
+        // Prepating rolling
         $rolling = implode(' ', $rolling);
         $rolling = trim($rolling, '+ ');
 
-        $message = [
-            'fields' => [
-                [
-                    'name' => Str::limit(sprintf('%s: %s', __('screens/rollings.result'), $result), 250),
-                    'value' => '*' . Str::limit(($rolling ?: '-'), 1000) . '*',
+        if (! empty($rolling)) {
+            $message = [
+                'fields' => [
+                    [
+                        'name' => Str::limit(sprintf('%s: %s', $string, $result), 250),
+                        'value' => '*' . Str::limit($rolling, 1000) . '*',
+                    ],
                 ],
-            ],
-        ];
+            ];
+        }
 
+        // Title with results
         if (! empty($this->title)) {
             $message['title'] = Str::limit($this->getTitle(), 250);
 
-            if (! empty($result)) {
+            if (! empty($rolling)) {
                 $message['title'] .= ' (' . $result . ')';
             }
         }

@@ -204,13 +204,23 @@ class RollingPart extends SimpleModel
 
             // From big to small
             $results = $rolls;
-            rsort($results, SORT_NUMERIC);
+            arsort($results, SORT_NUMERIC);
 
             if ($advantage->disadvantage) {
-                $results = array_reverse($results);
+                $results = array_reverse($results, true);
             }
 
-            $value = array_sum(array_slice($results, 0, $number));
+            $value = 0;
+
+            $results = array_keys(array_slice($results, 0, $number, true));
+            foreach ($rolls as $key => $roll) {
+                if (in_array($key, $results)) {
+                    $value += $roll;
+                    continue;
+                }
+
+                $rolls[ $key ] = '~~' . $roll . '~~';
+            }
         }
 
         // Advantage rolls - DOUBLE
@@ -218,18 +228,17 @@ class RollingPart extends SimpleModel
             $value = 2 * $value;
         }
 
+        // Invert if not positive
         if (! $this->isPositive()) {
             $value = -1 * $value;
         }
 
-        // Bold for critical (normal roll)
-        // if (empty($advantage)) {
-        //     foreach ($results as $key => $result) {
-        //         if ($result === $this->dice || $result === 1) {
-        //             $results[ $key ] = '**' . $result . '**';
-        //         }
-        //     }
-        // }
+        // Bold for critical (min or max dice)
+        foreach ($rolls as $key => $roll) {
+            if ($roll === $this->dice || $roll === 1) {
+                $rolls[ $key ] = '**' . $roll . '**';
+            }
+        }
 
         $description = $this->toText();
         $description .= ' (' . implode(', ', $rolls) . ')';
