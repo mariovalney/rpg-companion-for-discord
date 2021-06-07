@@ -24,7 +24,8 @@ mix.imagemin('images');
 
 mix.browserSync({
     open: false,
-    notify: false
+    notify: false,
+    ghostMode: false
 });
 
 if (mix.inProduction()) {

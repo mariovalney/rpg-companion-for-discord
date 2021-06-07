@@ -59,6 +59,9 @@ class AuthController extends Controller
             $credentials = DiscordAuth::exchangeCode($code);
 
             if ($credentials && Auth::attempt((array) $credentials)) {
+                // Regenerate session
+                $request->session()->regenerate();
+
                 $redirectUrl = base64_decode($input[1] ?? '');
                 if (empty($redirectUrl)) {
                     $redirectUrl = route('guilds.index');
