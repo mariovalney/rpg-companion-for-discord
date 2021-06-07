@@ -29,6 +29,10 @@ trait HasAdvantage
             $advantage = (int) $advantage->type;
         }
 
+        if (is_array($advantage)) {
+            $advantage = (int) $advantage['type'];
+        }
+
         $this->attributes['advantage'] = (int) $advantage;
     }
 }

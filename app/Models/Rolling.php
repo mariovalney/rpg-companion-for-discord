@@ -31,6 +31,7 @@ class Rolling extends Model
     protected $fillable = [
         'title',
         'description',
+        'rolling',
         'advantage',
         'position',
     ];
@@ -41,6 +42,7 @@ class Rolling extends Model
      * @var array
      */
     protected $attributes = [
+        'rolling' => '',
         'advantage' => 0,
         'position' => 0,
     ];

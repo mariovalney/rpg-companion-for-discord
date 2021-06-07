@@ -15,7 +15,7 @@ class RollingOnce extends Component
     /**
      * The webhook ID for rolling
      *
-     * @var array
+     * @var string
      */
     public $webhookId;
 

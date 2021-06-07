@@ -44,11 +44,15 @@ trait HasRollingParts
 
         $rolling = [];
         foreach ($parts as $key => $part) {
-            if (! is_a($part, RollingPart::class)) {
+            if (! is_a($part, RollingPart::class) && is_array($part)) {
+                $part = new RollingPart($part);
+            }
+
+            if (is_a($part, RollingPart::class)) {
+                $rolling[ $key ] = $part->toArray();
                 continue;
             }
 
-            $rolling[ $key ] = $part->toArray();
         }
 
         $this->attributes['rolling'] = json_encode($rolling);

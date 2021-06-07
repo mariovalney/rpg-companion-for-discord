@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="col-sm-12">
-                {{-- @livewire('rolling-once', ['webhookId' => $this->webhookId]) --}}
+                @livewire('rolling-once', ['webhookId' => $this->webhookId])
             </div>
         </div>
 

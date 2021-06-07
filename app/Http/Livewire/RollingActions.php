@@ -16,9 +16,9 @@ class RollingActions extends Component
     /**
      * Rolling
      *
-     * @var Rolling
+     * @var Rolling|array
      */
-    public $rolling;
+    public $rolling = [];
 
     /**
      * Webhook ID
@@ -38,13 +38,31 @@ class RollingActions extends Component
     }
 
     /**
+     * Get the rolling
+     *
+     * @return Rolling
+     */
+    public function rolling()
+    {
+        if (is_a($this->rolling, Rolling::class)) {
+            return $this->rolling;
+        }
+
+        if (is_array($this->rolling)) {
+            return new Rolling($this->rolling);
+        }
+
+        return false;
+    }
+
+    /**
      * Roll with disadvantage
      *
      * @return void
      */
     public function rollWithDisadvantage()
     {
-        if (! $this->rolling->hasDisadvantage()) {
+        if (! $this->rolling()->hasDisadvantage()) {
             return;
         }
 
@@ -58,7 +76,7 @@ class RollingActions extends Component
      */
     public function rollWithAdvantage()
     {
-        if (! $this->rolling->hasAdvantage()) {
+        if (! $this->rolling()->hasAdvantage()) {
             return;
         }
 
@@ -74,7 +92,7 @@ class RollingActions extends Component
      */
     public function roll($type = 0)
     {
-        if ($this->rolling->rolling->isEmpty()) {
+        if ($this->rolling()->rolling->isEmpty()) {
             return;
         }
 
@@ -93,18 +111,18 @@ class RollingActions extends Component
     {
         $webhook = Webhook::find($this->webhookId);
 
-        if (empty($webhook) || empty($this->rolling)) {
+        if (empty($webhook) || empty($this->rolling())) {
             $this->setAlert(__('screens/rollings.webhook.error'), 'bad');
             return;
         }
 
         $advantage = null;
         if ($type !== 0) {
-            $advantage = $this->rolling->advantage;
+            $advantage = $this->rolling()->advantage;
             $advantage->disadvantage = ($type < 0);
         }
 
-        $message = $this->rolling->createMessage($advantage);
+        $message = $this->rolling()->createMessage($advantage);
         if ($webhook->sendMessage($message)) {
             $this->setAlert(__('screens/rollings.webhook.success'), 'good');
             return;
