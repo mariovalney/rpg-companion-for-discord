@@ -6,13 +6,10 @@ use Auth;
 use App\Models\Guild;
 use App\Models\Rolling;
 use App\Models\Webhook;
-use App\Support\Traits\Livewire\HasAlert;
 use Livewire\Component;
 
 class RollingsList extends Component
 {
-    use HasAlert;
-
     /**
      * The current guild
      * @var string

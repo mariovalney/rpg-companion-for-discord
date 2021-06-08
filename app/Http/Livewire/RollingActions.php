@@ -122,7 +122,7 @@ class RollingActions extends Component
         $webhook = Webhook::find($this->webhookId);
 
         if (empty($webhook) || empty($this->rolling())) {
-            $this->setAlert(__('screens/rollings.webhook.error'), 'bad');
+            $this->alert(__('screens/rollings.webhook.error'), 'error');
             return;
         }
 
@@ -134,10 +134,10 @@ class RollingActions extends Component
 
         $message = $this->rolling()->createMessage($advantage);
         if ($webhook->sendMessage($message)) {
-            $this->setAlert(__('screens/rollings.webhook.success'), 'good');
+            $this->alert(__('screens/rollings.webhook.success'), 'success');
             return;
         }
 
-        $this->setAlert(__('screens/rollings.webhook.error'), 'bad');
+        $this->alert(__('screens/rollings.webhook.error'), 'error');
     }
 }

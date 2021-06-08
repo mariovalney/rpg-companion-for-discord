@@ -7,7 +7,6 @@ use Exception;
 use App\Models\Rolling;
 use App\Models\Rolling\RollingPart;
 use App\Models\Webhook;
-use App\Support\Traits\Livewire\HasAlert;
 use Livewire\Component;
 
 class RollingOnce extends Component

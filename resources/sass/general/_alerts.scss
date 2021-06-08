@@ -4,3 +4,29 @@
         margin-right: 10px;
     }
 }
+
+.swal2-container {
+    .swal2-popup {
+        border-radius: 3px;
+    }
+
+    &.swal2-bottom-end {
+        position: fixed;
+        top: initial;
+        height: auto;
+    }
+
+    .swal2-toast {
+        box-shadow: none;
+
+        &:hover {
+            bottom: 2px;
+            position: relative;
+        }
+    }
+
+    body.swal2-toast-shown & {
+        width: 50%;
+    }
+}
+

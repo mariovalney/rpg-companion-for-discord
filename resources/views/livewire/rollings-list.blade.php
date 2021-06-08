@@ -2,12 +2,6 @@
     @if(empty($this->webhookId) || empty($this->rollings))
         @alert('{{ __("screens/rollings.choose_to_start") }}')
     @else
-        @if(! empty($this->alert))
-            <div class="mb-5">
-                @alert('{{ $this->alert["text"] }}', '{{ $this->alert["type"] }}')
-            </div>
-        @endif
-
         <div class="row">
             <div class="col-sm-12">
                 @livewire('rolling-once', ['webhookId' => $this->webhookId])

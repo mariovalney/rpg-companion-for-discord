@@ -8,7 +8,6 @@ use App\Models\Dice;
 use App\Models\Guild;
 use App\Models\Rolling\RollingPart;
 use App\Models\Webhook;
-use App\Support\Traits\Livewire\HasAlert;
 use App\Support\Traits\Livewire\EditingRollingParts;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;

@@ -16,12 +16,6 @@
     @if(empty($this->rolling))
         @alert('{{ __("screens/rolling.empty") }}')
     @else
-        @if(! empty($this->alert))
-            <div class="mb-5">
-                @alert('{{ $this->alert["text"] }}', '{{ $this->alert["type"] }}')
-            </div>
-        @endif
-
         <div class="row mb-5 rolling-form">
             <div class="col-sm-12 col-md-6">
                 <div class="row">

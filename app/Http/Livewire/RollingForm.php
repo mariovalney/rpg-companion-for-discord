@@ -177,7 +177,7 @@ class RollingForm extends Component
                 return;
             }
 
-            $this->setAlert(__('screens/rolling.form.success'), 'good');
+            $this->alert(__('screens/rolling.form.success'), 'success');
         } catch (ValidationException $e) {
             $errors = [];
             $rollingErrors = [];
@@ -191,10 +191,10 @@ class RollingForm extends Component
                 $errors['rolling.' . $key] = $value;
             }
 
-            $this->setAlert(implode('<br>', $rollingErrors), 'bad');
+            $this->alert(implode('<br>', $rollingErrors), 'error');
             $this->setErrorBag($errors);
         } catch (Exception $e) {
-            $this->setAlert(__('screens/rolling.form.error'), 'bad');
+            $this->alert(__('screens/rolling.form.error'), 'error');
         }
     }
 }
