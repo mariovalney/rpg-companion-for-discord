@@ -1,14 +1,6 @@
 <div class="variables-crud-list">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            @if (session()->has('message_success'))
-                @alert('{{ session("message_success") }}', 'good')
-            @endif
-
-            @if (session()->has('message_error'))
-                @alert('{{ session("message_error") }}', 'bad')
-            @endif
-
             <div class="table-responsive">
                 <table class="table">
                     <thead class="text-uppercase">

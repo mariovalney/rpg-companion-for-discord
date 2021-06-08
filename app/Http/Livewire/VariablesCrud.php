@@ -5,10 +5,12 @@ namespace App\Http\Livewire;
 use Auth;
 use App\Models\Guild;
 use App\Models\Variable;
+use App\Support\Traits\Livewire\HasAlert;
 use Livewire\Component;
 
 class VariablesCrud extends Component
 {
+    use HasAlert;
 
     /**
      * The variable name on form
@@ -133,11 +135,11 @@ class VariablesCrud extends Component
 
         if ($variable->save()) {
             $this->empty();
-            session()->flash('message_success', __($this->editing ? 'screens/variables.form.added' : 'screens/variables.form.edited'));
+            $this->alert(__($this->editing ? 'screens/variables.form.added' : 'screens/variables.form.edited'), 'success');
             return;
         }
 
-        session()->flash('message_error', __('screens/variables.form.error'));
+        $this->alert(__('screens/variables.form.error'), 'error');
     }
 
     /**
