@@ -8,6 +8,7 @@ return [
     'preview'     => 'Veja como vai ficar:',
     'submit'      => 'Salvar',
     'delete'      => 'Remover',
+    'clear'       => 'Limpar',
     'back'        => 'Voltar',
     'form'        => [
         'title'       => [

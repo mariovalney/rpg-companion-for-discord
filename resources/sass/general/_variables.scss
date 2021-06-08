@@ -4,10 +4,15 @@ $bg_dark_hover: #2c3135;
 
 $border_radius: 3px;
 
+$color_bad: #ff463c;
+$color_ok: #faa61a;
+$color_good: #0fa763;
+$color_dark: #36393e;
+
 $color_white: #FFFFFF;
 $color_gray: #8f9093;
 $color_gray_dark: #212529;
-$color_red: #ff463c;
+$color_red: $color_bad;
 $color_discord: #7289DA;
 
 // Bootstrap

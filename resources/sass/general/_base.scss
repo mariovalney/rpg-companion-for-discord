@@ -23,6 +23,33 @@ body {
     }
 }
 
+.text-good,
+a.text-good {
+    color: $color_good;
+
+    &:hover {
+        color: $color_good;
+    }
+}
+
+.text-bad,
+a.text-bad {
+    color: $color_bad;
+
+    &:hover {
+        color: $color_bad;
+    }
+}
+
+.text-ok,
+a.text-ok {
+    color: $color_ok;
+
+    &:hover {
+        color: $color_ok;
+    }
+}
+
 .user-select {
     user-select: all;
 }

@@ -1,5 +1,5 @@
-<div class="rolling-actions">
-    @if(! empty($this->webhookId) && ! empty($this->rolling()) && $this->rolling()->rolling->isNotEmpty())
+<div class="rolling-actions {{ $this->hasActions() ? '' : 'empty' }}">
+    @if($this->hasActions())
         @if($this->rolling()->hasDisadvantage())
             <a wire:click.prevent="rollWithDisadvantage" href="#" class="btn btn-bad d-block" title="{{ __('screens/rollings.roll.disadvantaged') }}">
                 <div>

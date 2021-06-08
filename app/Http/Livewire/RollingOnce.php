@@ -31,7 +31,21 @@ class RollingOnce extends Component
      *
      * @var Rolling
      */
-    public $refreshRollingParts = 0;
+    public $actionsKey = 0;
+
+    /**
+     * A non saved rolling
+     *
+     * @var Rolling
+     */
+    public $inputKey = 0;
+
+    /**
+     * If keyboard is already open
+     *
+     * @var string
+     */
+    public $isKeyboardShown = false;
 
     /**
      * Event listenrs
@@ -39,7 +53,8 @@ class RollingOnce extends Component
      * @var array
      */
     protected $listeners = [
-        'changeRollingInput' => 'changeRollingInputEvent'
+        'changeRollingInput' => 'changeRollingInputEvent',
+        'keyboardShow' => 'keyboardShowEvent',
     ];
 
     /**
@@ -49,10 +64,7 @@ class RollingOnce extends Component
      */
     public function mount()
     {
-        if (empty($this->rolling)) {
-            $this->rolling = new Rolling();
-            $this->rolling->advantage = 0;
-        }
+        $this->rolling = session()->get($this->getSessionKey(), new Rolling());
     }
 
     /**
@@ -79,6 +91,55 @@ class RollingOnce extends Component
         }
 
         $this->rolling->rolling = $parts;
-        $this->refreshRollingParts = uniqid();
+
+        $this->updateRolling();
+    }
+
+    /**
+     * Clear action
+     *
+     * @return void
+     */
+    public function clear()
+    {
+        $this->rolling = new Rolling();
+        $this->inputKey++;
+
+        $this->updateRolling();
+    }
+
+    /**
+     * Event when a rolling input changed
+     *
+     * @param  array $value
+     * @param  string $field
+     * @return void
+     */
+    public function keyboardShowEvent($show)
+    {
+        $this->isKeyboardShown = ! ((boolean) $show);
+    }
+
+    /**
+     * Update session
+     *
+     * @return void
+     */
+    protected function updateRolling()
+    {
+        $this->actionsKey = uniqid();
+
+        session()->put($this->getSessionKey(), $this->rolling);
+        session()->save();
+    }
+
+    /**
+     * Get the session key to store the rolling
+     *
+     * @return string
+     */
+    protected function getSessionKey()
+    {
+        return 'rolling-once-' . Auth::id() . '-' . $this->webhookId;
     }
 }

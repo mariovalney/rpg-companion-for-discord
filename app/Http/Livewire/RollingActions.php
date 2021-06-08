@@ -38,6 +38,16 @@ class RollingActions extends Component
     }
 
     /**
+     * Check we have actions to perform
+     *
+     * @return void
+     */
+    public function hasActions()
+    {
+        return ! empty($this->webhookId) && ! empty($this->rolling()) && $this->rolling()->rolling->isNotEmpty();
+    }
+
+    /**
      * Get the rolling
      *
      * @return Rolling
